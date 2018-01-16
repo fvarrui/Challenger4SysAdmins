@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<challenge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Creación de directorios" xsi:noNamespaceSchemaLocation="true">
+    <description>Creación de directorios (nivel 1</description>
+    <goals>
+        <goal name="Crear directorio ricardo">
+            <description>Crear directorio 'ricardo' en la raíz del sistema de ficheros</description>
+            <test xsi:type="commandTest" name="existe-directorio-choto">
+            	<description>Bla bla bla</description>
+                <command xsi:type="psCommand" command="Get-ChildItem /choto"/>
+            </test>
+        </goal>
+    </goals>
+</challenge>
