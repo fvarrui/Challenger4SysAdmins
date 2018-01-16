@@ -1,20 +1,11 @@
 package fvarrui.sysadmin;
 
-import java.io.File;
-
-import org.apache.commons.lang.SystemUtils;
-
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
 import fvarrui.sysadmin.challenger.command.Command;
-import fvarrui.sysadmin.challenger.command.DOSCommand;
 import fvarrui.sysadmin.challenger.command.PSCommand;
-import fvarrui.sysadmin.challenger.test.AndTest;
 import fvarrui.sysadmin.challenger.test.CommandTest;
-import fvarrui.sysadmin.challenger.test.NotTest;
-import fvarrui.sysadmin.challenger.test.OrTest;
 import fvarrui.sysadmin.challenger.test.Test;
-import fvarrui.sysadmin.challenger.test.os.OSUtils;
 
 public class Main {
 	
