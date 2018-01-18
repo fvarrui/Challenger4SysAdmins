@@ -1,4 +1,4 @@
-# **Challenger4SysAdmins** ![TestLogo](D:\Desktop\Challenger4SysAdmin\TestLogo.png) 
+# **Challenger4SysAdmins**
 
 ### **Analisis**
 
