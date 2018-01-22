@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane fx:id="view" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tests" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox>
+         <children>
+            <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </content>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+   <graphic>
+      <HBox spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" text="Add">
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../resources/addGoalsIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Add Test" />
+               </tooltip></Button>
+            <Button mnemonicParsing="false" text="Delete">
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../resources/minusGoalsIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Delete Test" />
+               </tooltip></Button>
+            <Button mnemonicParsing="false" text="Edit">
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../resources/editChallengeIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Edit Test" />
+               </tooltip></Button>
+         </children>
+      </HBox>
+   </graphic>
+</TitledPane>

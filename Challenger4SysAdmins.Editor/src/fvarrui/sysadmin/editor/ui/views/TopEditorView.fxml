@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane fx:id="view" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <GridPane maxWidth="1.7976931348623157E308">
+        <columnConstraints>
+          <ColumnConstraints hgrow="NEVER" />
+          <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="126.0" minHeight="10.0" prefHeight="52.0" />
+          <RowConstraints maxHeight="188.0" minHeight="10.0" prefHeight="81.0" />
+        </rowConstraints>
+         <children>
+            <Label text="Name:" GridPane.halignment="CENTER" />
+            <Label text="Description:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <TextField fx:id="nameChallengeText" maxWidth="1.7976931348623157E308" promptText="Challenger Name" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+            <TextArea fx:id="descriptionChallengeText" maxWidth="1.7976931348623157E308" promptText="Challenger Description" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.vgrow="ALWAYS" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" right="5.0" />
+         </padding>
+      </GridPane>
+   </center>
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar HBox.hgrow="ALWAYS">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="New Challenge">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@../resources/newChallengeIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></MenuItem>
+                        <MenuItem mnemonicParsing="false" text="Edit Challenge">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@../resources/editChallengeIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <Menu mnemonicParsing="false" text="Load/Save">
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Load">
+                                 <graphic>
+                                    <ImageView>
+                                       <image>
+                                          <Image url="@../resources/loadChallengeIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                            <MenuItem mnemonicParsing="false" text="Save">
+                                 <graphic>
+                                    <ImageView>
+                                       <image>
+                                          <Image url="@../resources/saveChallengeIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                          </items>
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@../resources/loadsaveIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" text="Exit">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@../resources/exitAppIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </MenuItem>
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@../resources/aboutIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></MenuItem>
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>
