@@ -1,11 +1,11 @@
 package fvarrui.sysadmin;
 
-import fvarrui.sysadmin.challenger.Challenge;
-import fvarrui.sysadmin.challenger.Goal;
-import fvarrui.sysadmin.challenger.command.Command;
-import fvarrui.sysadmin.challenger.command.PSCommand;
-import fvarrui.sysadmin.challenger.test.CommandTest;
-import fvarrui.sysadmin.challenger.test.Test;
+
+//import fvarrui.sysadmin.challenger.Goal;
+//import fvarrui.sysadmin.challenger.command.Command;
+//import fvarrui.sysadmin.challenger.command.PSCommand;
+//import fvarrui.sysadmin.challenger.test.CommandTest;
+//import fvarrui.sysadmin.challenger.test.Test;
 
 //public class Main {
 //
