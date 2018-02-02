@@ -19,8 +19,6 @@ En la parte superior tenemos un menú con algunas de las acciones
 que podemos realizar en la aplicación, además tenemos algunos de los campos de
 texto que nos permiten definir un reto.
 
-![TopEditorView](C:\Sys4Admin\Challenger4SysAdmins\docs\DesingSnapshots\TopEditorView.png)
-
 
 
 #### Central
@@ -28,8 +26,6 @@ texto que nos permiten definir un reto.
 En la parte central podemos encontrar una tabla sobre la que
 podemos realizar diferentes operaciones como son crear nuevo objetivos, editar
 un objetivo, o eliminarlo permitiéndonos así ajustar el **reto** a nuestras necesidades.
-
-![CenterEditorView](C:\Sys4Admin\Challenger4SysAdmins\docs\DesingSnapshots\CenterEditorView.png)
 
 
 
@@ -39,23 +35,10 @@ En la parte derecha podemos encontrar una lista sobre la que
 podemos realizar varias **operaciones** como son la de añadir un **Test**, editar un **Test**
 o eliminarlo.
 
-![RightEditorView](C:\Sys4Admin\Challenger4SysAdmins\docs\DesingSnapshots\RightEditorView.png)
 
 #### Inferior
 
 En la parte inferior podemos encontrar una serie de botones
 que nos permiten realizar varias **operaciones** como son la de editar un **Reto** o
 crearlo a si como un botón para salir de la aplicación.
-
-![BottomEditorView](C:\Sys4Admin\Challenger4SysAdmins\docs\DesingSnapshots\BottomEditorView.png)
-
-
-
-#### Aspecto Completo
-
-Finalmente la aplicación tiene el siguiente
-aspecto.
-
-![CompleteAssembly](C:\Sys4Admin\Challenger4SysAdmins\docs\DesingSnapshots\CompleteAssembly.png)
-
 
