@@ -1,36 +1,37 @@
 package fvarrui.sysadmin.editor.aplication;
 
-import fvarrui.sysadmin.editor.controller.RootEditorController;
+import fvarrui.sysadmin.editor.controller.RootController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- * @author Ricardo Vargas
- */
-
 public class App extends Application {
 
-	
-	private static Stage primaryStage;
-	private RootEditorController rootEditorController;
+	private Stage stage;
+	private Scene escena;
+	private RootController rootController;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		App.primaryStage = primaryStage;
-		rootEditorController=new RootEditorController();
+		stage = primaryStage;
+		stage.setTitle("Challenger");
+		rootController=new RootController();
+		stage.getIcons().add(new Image(getClass().getResource("/fvarrui/sysadmin/editor/ui/resources/cmd.png").toExternalForm()));
+		escena=new Scene(rootController.getView());
+		stage.setScene(escena);
+		stage.show();
 		
-		App.primaryStage.setTitle("Challenger Editor");
-		App.primaryStage.setScene(new Scene(rootEditorController.getRootPane()));
-		App.primaryStage.getIcons().add(new Image(getClass().getResource("/fvarrui/sysadmin/editor/ui/resources/appIcon.png").toExternalForm()));
-		App.primaryStage.show();
+		
+		
+		
 		
 	}
-
+	
 	public static void main(String[] args) {
 		
 		launch(args);
 	}
+
 }
