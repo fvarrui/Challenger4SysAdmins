@@ -41,13 +41,13 @@ public class Main {
 //		Command newDirectory = new PSCommand("Get-ChildItem D:\\pepe\\ejemplo\\ejemplo2");
 		
 		Command serviceRunning = new PSCommand("if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }");
-		serviceRunning.execute("wuauserv");
-		System.out.println(serviceRunning.getLastExecutedCommand());
-		System.out.println(serviceRunning.getReturnValue());
+		serviceRunning.lastExecutionTimeProperty().addListener((o, ov, nv) -> {
+			System.out.println("Se ha ejecutado el comando: " + serviceRunning.getLastExecutedCommand());
+		});
 
 		Test test = new CommandTest("¿Windows Update iniciado?", serviceRunning, "wuauserv");
 		
-		Goal goal1 = new Goal("Iniciar el servicio Windows Update", "El servicio wuauserv está iniciado");
+		Goal goal1 = new Goal("Iniciar Windows Update", "El servicio Windows Update (wuauserv) ha sido iniciado");
 		goal1.setTest(test);
 
 		Challenge challenge = new Challenge("Servicios");
