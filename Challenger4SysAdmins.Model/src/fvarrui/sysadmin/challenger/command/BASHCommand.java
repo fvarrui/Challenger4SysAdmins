@@ -3,35 +3,50 @@ package fvarrui.sysadmin.challenger.command;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+
 @XmlType
 public class BASHCommand extends Command {
 	private static final String BASH = "/bin/bash -c ";
-	
-	private String bashCommand;
-	
+
+	private StringProperty bashCommand;
+
 	public BASHCommand() {
-		super();
+		this(null);
 	}
 
 	public BASHCommand(String command) {
-		this();
-		setCommand(command);
+		super(command);
+		bashCommand = new SimpleStringProperty(this, "bashCommand", command);
+		commandProperty().bind(Bindings.concat(BASH).concat(bashCommand));
 	}
-	
+
+	public StringProperty bashCommandProperty() {
+		return this.bashCommand;
+	}
+
 	@XmlAttribute
-	public String getBASHCommand() {
-		return bashCommand;
+	public String getBashCommand() {
+		return this.bashCommandProperty().get();
+	}
+
+	public void setBashCommand(final String bashCommand) {
+		this.bashCommandProperty().set(bashCommand);
 	}
 	
-	@Override
-	public void setCommand(String command) {
-		super.setCommand(BASH + command);
-		this.bashCommand = command;		
+	public StringProperty commandProperty() {
+		return this.bashCommand;
 	}
-	
-	@Override
+	@XmlAttribute
 	public String getCommand() {
-		return bashCommand;
+		return this.bashCommandProperty().get();
 	}
-	
+
+	public void setCommand(final String bashCommand) {
+		this.bashCommandProperty().set(bashCommand);
+	}
+
 }

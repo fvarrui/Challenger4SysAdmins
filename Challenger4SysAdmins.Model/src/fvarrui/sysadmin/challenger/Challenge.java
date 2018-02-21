@@ -1,8 +1,6 @@
 package fvarrui.sysadmin.challenger;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
@@ -15,48 +13,72 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 @XmlRootElement
 @XmlType
 public class Challenge {
 
-	private String name;
+	private StringProperty name;
 
-	private String description;
+	private StringProperty description;
 
-	private List<Goal> goals;
+	private ListProperty<Goal> goals;
 
 	public Challenge() {
 		this(null);
 	}
-	
+
 	public Challenge(String name) {
-		this.name = name;
-		this.goals = new ArrayList<>();
+		this.name = new SimpleStringProperty(this, "name", name);
+		this.description = new SimpleStringProperty(this, "description");
+		this.goals = new SimpleListProperty<>(this, "goals", FXCollections.observableArrayList());
+	}
+
+	public final StringProperty nameProperty() {
+		return this.name;
 	}
 
 	@XmlID
 	@XmlAttribute	
-	public String getName() {
-		return name;
+	public final String getName() {
+		return this.nameProperty().get();
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public final void setName(final String name) {
+		this.nameProperty().set(name);
+	}
+
+	public final StringProperty descriptionProperty() {
+		return this.description;
 	}
 
 	@XmlElement
-	public String getDescription() {
-		return description;
+	public final String getDescription() {
+		return this.descriptionProperty().get();
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public final void setDescription(final String description) {
+		this.descriptionProperty().set(description);
+	}
+
+	public final ListProperty<Goal> goalsProperty() {
+		return this.goals;
 	}
 
 	@XmlElement(name = "goal")
 	@XmlElementWrapper(name = "goals")
-	public List<Goal> getGoals() {
-		return goals;
+	public final ObservableList<Goal> getGoals() {
+		return this.goalsProperty().get();
+	}
+
+	public final void setGoals(final ObservableList<Goal> goals) {
+		this.goalsProperty().set(goals);
 	}
 
 	public boolean isAchieved() {
@@ -85,11 +107,10 @@ public class Challenge {
 		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 		marshaller.marshal(this, file);
 	}
-	
+
 	public static Challenge load(File file) throws Exception {
 		JAXBContext context = JAXBContext.newInstance(Challenge.class);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		return (Challenge) unmarshaller.unmarshal(file);
 	}
-	
 }

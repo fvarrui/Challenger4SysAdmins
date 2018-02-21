@@ -1,11 +1,12 @@
 package fvarrui.sysadmin;
 
 
-//import fvarrui.sysadmin.challenger.Goal;
-//import fvarrui.sysadmin.challenger.command.Command;
-//import fvarrui.sysadmin.challenger.command.PSCommand;
-//import fvarrui.sysadmin.challenger.test.CommandTest;
-//import fvarrui.sysadmin.challenger.test.Test;
+import fvarrui.sysadmin.challenger.Challenge;
+import fvarrui.sysadmin.challenger.Goal;
+import fvarrui.sysadmin.challenger.command.Command;
+import fvarrui.sysadmin.challenger.command.PSCommand;
+import fvarrui.sysadmin.challenger.test.CommandTest;
+import fvarrui.sysadmin.challenger.test.Test;
 
 public class Main {
 
@@ -39,13 +40,15 @@ public class Main {
 		// Command c = new PSCommand("Get-ChildItem %s");
 //		Command newDirectory = new PSCommand("Get-ChildItem D:\\pepe\\ejemplo\\ejemplo2");
 		
-		Command services = new PSCommand("Get-service D:\\ %s");
+		Command serviceRunning = new PSCommand("if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }");
+		serviceRunning.execute("wuauserv");
+		System.out.println(serviceRunning.getLastExecutedCommand());
+		System.out.println(serviceRunning.getReturnValue());
 
-		Test test2 = new CommandTest("servicio listado?", services,"wuauserv");
+		Test test = new CommandTest("¿Windows Update iniciado?", serviceRunning, "wuauserv");
 		
-		Goal goal1 = new Goal("Listar el servicio","Listar el servicio de Windows Update");
-				
-		goal1.setTest(test2);
+		Goal goal1 = new Goal("Iniciar el servicio Windows Update", "El servicio wuauserv está iniciado");
+		goal1.setTest(test);
 
 		Challenge challenge = new Challenge("Servicios");
 		challenge.setDescription("Listar Servicios");
