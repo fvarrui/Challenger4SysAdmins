@@ -34,7 +34,7 @@ public class CommandTest extends Test {
 
 	@Override
 	public Boolean verify() {
-		verified.set(getCommand().execute(getParams()) == SUCCESS_EXIT_CODE);
+		verified.set(getCommand().execute(getParams()).getReturnValue() == SUCCESS_EXIT_CODE);
 		return isVerified();
 	}
 

@@ -6,6 +6,7 @@ import java.io.File;
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
 import fvarrui.sysadmin.challenger.command.Command;
+import fvarrui.sysadmin.challenger.command.DOSCommand;
 import fvarrui.sysadmin.challenger.command.PSCommand;
 import fvarrui.sysadmin.challenger.test.CommandTest;
 import fvarrui.sysadmin.challenger.test.NotTest;
@@ -18,17 +19,12 @@ public class Main {
 
 		// Command c = new Command("cmd /c if exist %s ( exit 0 ) else ( exit 1 )");
 		// Command c = new DOSCommand("if exist %s ( exit 0 ) else ( exit 1 )");
-		// Command c = new DOSCommand("dir %s");
 		// Command c = new DOSCommand("echo hola");
 		// Command c = new PSCommand("Get-Process -Id 12345");
-		// c.execute("c:\\windows");
-		// System.out.println(c.getOutput());
-		// System.err.println(c.getError());
-		// System.out.println(c.getReturnValue());
 
-		// System.out.println("returnValue : " + c.getReturnValue());
-		// System.out.println("output : " + c.getOutput());
-		// System.out.println("error : " + c.getError());
+//		Command c = new DOSCommand("dir %s");
+//		System.out.println(c.execute("c:\\windows"));
+
 
 		// Test test1 = new AndTest(
 		// "Crear arbol /hola/donpepito",
@@ -44,9 +40,6 @@ public class Main {
 //		Command newDirectory = new PSCommand("Get-ChildItem D:\\pepe\\ejemplo\\ejemplo2");
 		
 		Command serviceRunning = new PSCommand("if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }");
-//		serviceRunning.lastExecutionTimeProperty().addListener((o, ov, nv) -> {
-//			System.out.println("Se ha ejecutado el comando: " + serviceRunning.getLastExecutedCommand());
-//		});
 
 		Test test1 = new CommandTest("¿Windows Update iniciado?", serviceRunning, "wuauserv");
 		Goal goal1 = new Goal("Iniciar Windows Update", "El servicio Windows Update (wuauserv) ha sido iniciado");

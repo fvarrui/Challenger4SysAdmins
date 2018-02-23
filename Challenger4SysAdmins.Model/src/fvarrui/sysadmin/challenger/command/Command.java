@@ -11,32 +11,21 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.io.IOUtils;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 @XmlType
-@XmlSeeAlso(value = { BASHCommand.class, DOSCommand.class, PSCommand.class })
+@XmlSeeAlso(value = { ShellCommand.class })
 public class Command {
 
 	private StringProperty command;
-	private IntegerProperty returnValue;
-	private StringProperty output;
-	private StringProperty error;
-	private StringProperty lastExecutedCommand;
-	private ObjectProperty<LocalDateTime> lastExecutionTime;
+	private ReadOnlyObjectWrapper<ExecutionResult> result;
 
 	public Command(String command) {
 		this.command = new SimpleStringProperty(this, "command", command);
-		this.returnValue = new SimpleIntegerProperty(this, "returnValue");
-		this.output = new SimpleStringProperty(this, "output");
-		this.error = new SimpleStringProperty(this, "error");
-		this.lastExecutedCommand = new SimpleStringProperty(this, "lastExecutedCommand");
-		this.lastExecutionTime = new SimpleObjectProperty<>(this, "lastExecutionTime");
-
+		this.result = new ReadOnlyObjectWrapper<>(this, "result");
 	}
 
 	public Command() {
@@ -55,92 +44,50 @@ public class Command {
 	public void setCommand(final String command) {
 		this.commandProperty().set(command);
 	}
-
-	public IntegerProperty returnValueProperty() {
-		return this.returnValue;
+	
+	public final ReadOnlyObjectProperty<ExecutionResult> resultProperty() {
+		return this.result.getReadOnlyProperty();
 	}
-
+	
 	@XmlTransient
-	public int getReturnValue() {
-		return this.returnValueProperty().get();
+	public final ExecutionResult getResult() {
+		return this.resultProperty().get();
 	}
 
-	public void setReturnValue(final int returnValue) {
-		this.returnValueProperty().set(returnValue);
-	}
-
-	public StringProperty outputProperty() {
-		return this.output;
-	}
-
-	@XmlTransient
-	public String getOutput() {
-		return this.outputProperty().get();
-	}
-
-	public void setOutput(final String output) {
-		this.outputProperty().set(output);
-	}
-
-	public StringProperty errorProperty() {
-		return this.error;
-	}
-
-	@XmlTransient
-	public String getError() {
-		return this.errorProperty().get();
-	}
-
-	public void setError(final String error) {
-		this.errorProperty().set(error);
-	}
-
-	public StringProperty lastExecutedCommandProperty() {
-		return this.lastExecutedCommand;
-	}
-
-	@XmlTransient
-	public String getLastExecutedCommand() {
-		return this.lastExecutedCommandProperty().get();
-	}
-
-	public void setLastExecutedCommand(final String lastExecutedCommand) {
-		this.lastExecutedCommandProperty().set(lastExecutedCommand);
-	}
-
-	public ObjectProperty<LocalDateTime> lastExecutionTimeProperty() {
-		return this.lastExecutionTime;
-	}
-
-	@XmlTransient
-	public LocalDateTime getLastExecutionTime() {
-		return this.lastExecutionTimeProperty().get();
-	}
-
-	public void setLastExecutionTime(final LocalDateTime lastExecutionTime) {
-		this.lastExecutionTimeProperty().set(lastExecutionTime);
-	}
-
-	public int execute(List<String> params) {
+	public ExecutionResult execute(List<String> params) {
 		return execute(params.toArray(new String[params.size()]));
 	}
+	
+	protected String prepareCommand(String ... params) {
+		return String.format(getCommand(), (Object[]) params);
+	}
 
-	public int execute(String ... params) {
+	public ExecutionResult execute(String ... params) {
+		 ExecutionResult result = new ExecutionResult();
 		 try {
-			 setLastExecutionTime(LocalDateTime.now());
-			 setLastExecutedCommand(String.format(getCommand(), (Object[]) params));
-			 String [] splittedCommand = lastExecutedCommand.get().split("[ ]+");
+			 
+			 result.setExecutionTime(LocalDateTime.now());
+			 result.setExecutedCommand(prepareCommand(params));
+			 
+			 String [] splittedCommand = result.getExecutedCommand().split("[ ]+");
 			 ProcessBuilder pb = new ProcessBuilder(splittedCommand);
 			 Process p = pb.start();
 			 p.getOutputStream().close();
-			 setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()));
-			 setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()));
-			 setReturnValue(p.exitValue());
+			 
+			 result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()));
+			 result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()));
+			 result.setReturnValue(p.exitValue());
 		 } catch (Exception e) {
-			 setReturnValue(-1);
+			 result.setError(e.getMessage());
+			 result.setReturnValue(-1);
 			 e.printStackTrace();
 		 }
-		 return getReturnValue();
+		 this.result.set(result);
+		 return result;
 	 }
+
+	
+	
+	
 
 }
