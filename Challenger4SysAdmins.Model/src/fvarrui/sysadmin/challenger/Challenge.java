@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -25,10 +27,9 @@ import javafx.collections.ObservableList;
 public class Challenge {
 
 	private StringProperty name;
-
 	private StringProperty description;
-
 	private ListProperty<Goal> goals;
+	private ReadOnlyBooleanWrapper achieved;
 
 	public Challenge() {
 		this(null);
@@ -38,6 +39,7 @@ public class Challenge {
 		this.name = new SimpleStringProperty(this, "name", name);
 		this.description = new SimpleStringProperty(this, "description");
 		this.goals = new SimpleListProperty<>(this, "goals", FXCollections.observableArrayList());
+		this.achieved = new ReadOnlyBooleanWrapper(this, "achieved", false);
 	}
 
 	public final StringProperty nameProperty() {
@@ -80,17 +82,26 @@ public class Challenge {
 	public final void setGoals(final ObservableList<Goal> goals) {
 		this.goalsProperty().set(goals);
 	}
+	
+	public final ReadOnlyBooleanProperty achievedProperty() {
+		return this.achieved.getReadOnlyProperty();
+	}
 
-	public boolean isAchieved() {
-		return goals.stream().allMatch(g -> g.isAchieved());
+	public final boolean isAchieved() {
+		return this.achievedProperty().get();
+	}
+
+	private boolean verify() {
+		this.achieved.set(goals.stream().allMatch(g -> g.verify()));
+		return isAchieved();
 	}
 
 	public void start() throws InterruptedException {
 		System.out.println("Iniciando reto '" + getName() + "'");
-		while (!isAchieved()) {
+		do {
 			System.out.println(this);
 			Thread.sleep(2000L);
-		}
+		} while (!verify());		
 		System.out.println("Reto alcanzado");
 		System.out.println(this);
 	}
@@ -113,4 +124,6 @@ public class Challenge {
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		return (Challenge) unmarshaller.unmarshal(file);
 	}
+
+	
 }

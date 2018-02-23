@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<challenge name="Servicios">
+    <description>Gestión de servicios</description>
+    <goals>
+        <goal name="Iniciar Windows Update">
+            <description>El servicio Windows Update (wuauserv) ha sido iniciado</description>
+            <test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="commandTest" name="¿Windows Update iniciado?">
+                <command xsi:type="psCommand" psCommand="if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }" command="PowerShell.exe if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }"/>
+                <params>wuauserv</params>
+            </test>
+        </goal>
+        <goal name="Detener el servicio Temas">
+            <description>El servicio Temas (Themes) ha sido detenido</description>
+            <test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="notTest" name="Negación">
+                <tests>
+                    <test xsi:type="commandTest" name="¿Servicio Themes iniciado?">
+                        <command xsi:type="psCommand" psCommand="if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }" command="PowerShell.exe if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }"/>
+                        <params>themes</params>
+                    </test>
+                </tests>
+            </test>
+        </goal>
+    </goals>
+</challenge>

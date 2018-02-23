@@ -32,11 +32,10 @@ public class CommandTest extends Test {
 		this.params = new SimpleListProperty<>(this, "params", FXCollections.observableList(Arrays.asList(params)));
 	}
 
-	// TODO propiedad observable de sólo lectura o no ???
 	@Override
 	public Boolean verify() {
 		verified.set(getCommand().execute(getParams()) == SUCCESS_EXIT_CODE);
-		return verified.get();
+		return isVerified();
 	}
 
 	public final ObjectProperty<Command> commandProperty() {

@@ -48,7 +48,6 @@ public class Command {
 	}
 
 	@XmlAttribute
-	@XmlTransient
 	public String getCommand() {
 		return this.commandProperty().get();
 	}

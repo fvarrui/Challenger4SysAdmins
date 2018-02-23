@@ -11,20 +11,20 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.StringUtils;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 @XmlType
-@XmlSeeAlso(value = { CommandTest.class, CompoundTest.class, PlatformDependentTest.class })
+@XmlSeeAlso(value = { CommandTest.class, CompoundTest.class })
 public abstract class Test {
 
 	private StringProperty name;
 	private StringProperty description;
 
 	@XmlTransient
-	protected BooleanProperty verified;
+	protected ReadOnlyBooleanWrapper verified;
 
 	public Test() {
 		this(null);
@@ -32,7 +32,8 @@ public abstract class Test {
 
 	public Test(String name) {
 		this.name = new SimpleStringProperty(this, "name", name);
-		this.verified = new SimpleBooleanProperty(this, "verified", false);
+		this.description = new SimpleStringProperty(this, "descripcion");
+		this.verified = new ReadOnlyBooleanWrapper(this, "verified", false);
 	}
 
 	public StringProperty nameProperty() {
@@ -61,17 +62,13 @@ public abstract class Test {
 	public void setDescription(final String description) {
 		this.descriptionProperty().set(description);
 	}
-
-	public BooleanProperty verifiedProperty() {
-		return this.verified;
+	
+	public final ReadOnlyBooleanProperty verifiedProperty() {
+		return this.verified.getReadOnlyProperty();
 	}
-
-	public boolean isVerified() {
+	
+	public final boolean isVerified() {
 		return this.verifiedProperty().get();
-	}
-
-	public void setVerified(final boolean verified) {
-		this.verifiedProperty().set(verified);
 	}
 
 	public String toString(int spaces) {
@@ -84,4 +81,5 @@ public abstract class Test {
 	}
 	
 	public abstract Boolean verify();
+	
 }

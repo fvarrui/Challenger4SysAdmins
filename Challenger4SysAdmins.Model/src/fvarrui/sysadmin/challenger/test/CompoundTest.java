@@ -24,12 +24,11 @@ public abstract class CompoundTest extends Test {
 
 	public CompoundTest(String name, Test... tests) {
 		 super(name);
-		 this.tests = new SimpleListProperty<>(this, "tests", FXCollections.observableArrayList());
+		 this.tests = new SimpleListProperty<>(this, "tests", FXCollections.observableArrayList(tests));
 	}
 
 	public String toString(int spaces) {
-		return super.toString(spaces) + "\n"
-				+ tests.stream().map(g -> g.toString(spaces + 4)).collect(Collectors.joining("\n"));
+		return super.toString(spaces) + "\n" + tests.stream().map(g -> g.toString(spaces + 4)).collect(Collectors.joining("\n"));
 	}
 
 	@Override
