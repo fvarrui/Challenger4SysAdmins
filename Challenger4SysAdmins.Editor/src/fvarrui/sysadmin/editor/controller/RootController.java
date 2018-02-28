@@ -47,6 +47,10 @@ public class RootController implements Initializable {
 		
 		view.setLeft(treeViewController.getView());
 		
+		view.setCenter(goalController.getView());
+		
+		//listener en el selected property para cambiar el pane en funcion de el objeto que este selecionado
+		
 		challenge.addListener((o, ov, nv) -> onChallengeChanged(o, ov, nv));
 		challenge.set(new Challenge());
 		goalController.challengeProperty().bind(challenge);
