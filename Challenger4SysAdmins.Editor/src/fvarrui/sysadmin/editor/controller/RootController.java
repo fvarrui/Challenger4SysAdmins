@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fvarrui.sysadmin.challenger.Challenge;
+import fvarrui.sysadmin.challenger.Goal;
+import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,47 +19,51 @@ public class RootController implements Initializable {
 
 	@FXML
 	private BorderPane view;
+	
+	private TreeViewController treeViewController;
+	private GoalController goalController;
+	
+     private ObjectProperty<Challenge> challenge=new SimpleObjectProperty<>(this,"challenge");
 
+	// ------------------------------//
 
-	private EditorTreeViewController editorTreeViewController;
-	private TestViewController testViewController;
-	private GoalsViewController goalsViewController; 
-
+	
 
 	public RootController() throws IOException {
 
+		treeViewController=new TreeViewController();
+		goalController=new GoalController();
 
-		editorTreeViewController=new EditorTreeViewController(this);
-		testViewController=new TestViewController();
-		goalsViewController=new GoalsViewController();
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/RootView.fxml"));
 		loader.setController(this);
 		loader.load();
+
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		view.setLeft(editorTreeViewController.getView());
-//		view.setCenter(testViewController.getView());
-//		view.setCenter(goalsViewController.getView());
 		
+		view.setLeft(treeViewController.getView());
+		
+		challenge.addListener((o, ov, nv) -> onChallengeChanged(o, ov, nv));
+		challenge.set(new Challenge());
+		goalController.challengeProperty().bind(challenge);
+		
+
+	}
+
+
+
+
+	private void onChallengeChanged(Observable o, Challenge ov, Challenge nv) {
+		
+		//BindingsMenu
 	}
 
 	public BorderPane getView() {
 		return view;
 	}
 
-	public EditorTreeViewController getEditorTreeViewController() {
-		return editorTreeViewController;
-	}
-
-	public TestViewController getTestViewController() {
-		return testViewController;
-	}
-
-	public GoalsViewController getGoalsViewController() {
-		return goalsViewController;
-	}
 }

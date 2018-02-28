@@ -4,8 +4,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -34,11 +32,4 @@
          </children>
       </HBox>
    </top>
-   <center>
-      <ImageView fx:id="img" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="@../resources/hand.png" />
-         </image>
-      </ImageView>
-   </center>
 </BorderPane>

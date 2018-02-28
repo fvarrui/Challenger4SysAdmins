@@ -8,30 +8,30 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-	private Stage stage;
+	private static Stage primaryStage;
 	private Scene escena;
 	private RootController rootController;
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
-		stage = primaryStage;
-		stage.setTitle("Challenger");
-		rootController=new RootController();
-		stage.getIcons().add(new Image(getClass().getResource("/fvarrui/sysadmin/editor/ui/resources/cmd.png").toExternalForm()));
-		escena=new Scene(rootController.getView());
-		stage.setScene(escena);
-		stage.show();
-		
-		
-		
-		
-		
+
+		App.primaryStage = primaryStage;
+		primaryStage.setTitle("Challenger");
+		rootController = new RootController();
+		primaryStage.getIcons().add(new Image(
+				getClass().getResource("/fvarrui/sysadmin/editor/ui/resources/mainx128.png").toExternalForm()));
+		escena = new Scene(rootController.getView());
+		primaryStage.setScene(escena);
+		primaryStage.show();
+
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		launch(args);
 	}
 
+	public static Stage getPrimaryStage() {
+		return primaryStage;
+	}
 }
