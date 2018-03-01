@@ -1,5 +1,6 @@
 package fvarrui.sysadmin.challenger.command;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import javafx.beans.property.IntegerProperty;
@@ -15,13 +16,15 @@ public class ExecutionResult {
 	private StringProperty error;
 	private StringProperty executedCommand;
 	private ObjectProperty<LocalDateTime> executionTime;
+	private ObjectProperty<Duration> duration;
 
 	public ExecutionResult() {
-		this.returnValue = new SimpleIntegerProperty(this, "returnValue");
-		this.output = new SimpleStringProperty(this, "output");
-		this.error = new SimpleStringProperty(this, "error");
+		this.returnValue = new SimpleIntegerProperty(this, "returnValue", 0);
+		this.output = new SimpleStringProperty(this, "output", "");
+		this.error = new SimpleStringProperty(this, "error", "");
 		this.executedCommand = new SimpleStringProperty(this, "executedCommand");
 		this.executionTime = new SimpleObjectProperty<>(this, "executionTime");
+		this.duration = new SimpleObjectProperty<>(this, "duration");
 	}
 
 	public final IntegerProperty returnValueProperty() {
@@ -83,12 +86,25 @@ public class ExecutionResult {
 	public final void setExecutionTime(final LocalDateTime executionTime) {
 		this.executionTimeProperty().set(executionTime);
 	}
-	
+
+	public final ObjectProperty<Duration> durationProperty() {
+		return this.duration;
+	}
+
+	public final Duration getDuration() {
+		return this.durationProperty().get();
+	}
+
+	public final void setDuration(final Duration duration) {
+		this.durationProperty().set(duration);
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("ExecutionTime   : " + getExecutionTime() + "\n");
 		buffer.append("ExecutedCommand : " + getExecutedCommand() + "\n");
+		buffer.append("ExecutionTime   : " + getExecutionTime() + "\n");
+		buffer.append("Duration        : " + getDuration().toMillis() + "ms\n");
 		buffer.append("ReturnValue     : " + getReturnValue() + "\n");
 		buffer.append("Output          : " + getOutput() + "\n");
 		buffer.append("Error           : " + getError());

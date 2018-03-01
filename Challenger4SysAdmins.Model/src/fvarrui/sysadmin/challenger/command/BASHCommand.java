@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class BASHCommand extends ShellCommand {
 	
-	private static final String BASH = "bash -c";
+	private static final String BASH = "bash -c %s";
 
 	public BASHCommand() {
 		this(null);

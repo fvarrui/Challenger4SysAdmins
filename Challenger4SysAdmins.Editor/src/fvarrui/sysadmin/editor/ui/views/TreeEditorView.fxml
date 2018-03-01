@@ -11,7 +11,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<TitledPane fx:id="view" collapsible="false" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Challenge" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane fx:id="view" collapsible="false" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Challenge tree" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <TreeView fx:id="treeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <contextMenu>
@@ -21,7 +21,7 @@
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="@../resources/+x16.png" />
+                              <Image url="@../resources/mas-16x16.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -30,7 +30,7 @@
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="@../resources/ex16.png" />
+                              <Image url="@../resources/editar-16x16.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -39,7 +39,7 @@
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="@../resources/-x16.png" />
+                              <Image url="@../resources/menos-16x16.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -49,27 +49,27 @@
          </contextMenu></TreeView>
    </content>
    <graphic>
-      <HBox spacing="5.0">
+      <HBox alignment="BASELINE_RIGHT" fillHeight="false" spacing="5.0">
          <children>
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonAction" text="Add">
+            <Button fx:id="addButton" alignment="CENTER_RIGHT" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#addButtonAction" text="Add">
                <tooltip>
                   <Tooltip text="Add" />
                </tooltip>
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@../resources/+x32.png" />
+                        <Image url="@../resources/mas-16x16.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonAction" text="Delete">
+            <Button fx:id="deleteButton" alignment="CENTER_RIGHT" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#deleteButtonAction" text="Delete">
                <tooltip>
                   <Tooltip text="Delete" />
                </tooltip>
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@../resources/-x32.png" />
+                        <Image url="@../resources/menos-16x16.png" />
                      </image>
                   </ImageView>
                </graphic></Button>

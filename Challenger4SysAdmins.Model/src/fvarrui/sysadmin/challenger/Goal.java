@@ -99,7 +99,7 @@ public class Goal {
 	
 	@Override
 	public String toString() {
-		return StringUtils.repeat("-", 7) + " (" + (achieved.get() ? "+" : "-") + ") [goal] " + getDescription() + "\n" + getTest().toString(11);
+		return StringUtils.repeat("-", 7) + " (" + (achieved.get() ? "+" : "-") + ") [goal] " + getDescription() + ((getTest() != null ) ? "\n" + getTest().toString(11) : "");
 	}
 
 }

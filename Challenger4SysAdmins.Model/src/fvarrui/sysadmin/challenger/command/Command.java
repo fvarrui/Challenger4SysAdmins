@@ -1,6 +1,8 @@
 package fvarrui.sysadmin.challenger.command;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -66,17 +68,26 @@ public class Command {
 		 ExecutionResult result = new ExecutionResult();
 		 try {
 			 
-			 result.setExecutionTime(LocalDateTime.now());
+			 LocalDateTime before = LocalDateTime.now();
+			 
+			 result.setExecutionTime(before);
 			 result.setExecutedCommand(prepareCommand(params));
 			 
 			 String [] splittedCommand = result.getExecutedCommand().split("[ ]+");
 			 ProcessBuilder pb = new ProcessBuilder(splittedCommand);
 			 Process p = pb.start();
 			 p.getOutputStream().close();
-			 
+
+			 LocalDateTime after = LocalDateTime.now();
+
+			 result.setDuration(Duration.between(before, after));
 			 result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()));
 			 result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()));
 			 result.setReturnValue(p.exitValue());
+		 } catch (IOException e) {
+			 result.setError(e.getMessage());
+			 result.setReturnValue(-1);
+			 e.printStackTrace();	 
 		 } catch (Exception e) {
 			 result.setError(e.getMessage());
 			 result.setReturnValue(-1);
