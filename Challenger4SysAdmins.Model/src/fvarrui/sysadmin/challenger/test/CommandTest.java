@@ -13,6 +13,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
+/**
+ * Clase modelo representa un test de tipo 'CommandTest'.
+ * 
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
 @XmlType
 public class CommandTest extends Test {
 
@@ -22,10 +30,21 @@ public class CommandTest extends Test {
 
 	private ListProperty<String> params;
 
+	
+
+	/**
+	 * Constructor por defecto
+	 */
 	public CommandTest() {
 		this(null, null);
 	}
 
+	/**
+	 * 
+	 * @param name nombre de el test
+	 * @param command conjunto de comando del test
+	 * @param params parametros para esos comandos
+	 */
 	public CommandTest(String name, Command command, String... params) {
 		super(name);
 		this.command = new SimpleObjectProperty<Command>(this, "command", command);

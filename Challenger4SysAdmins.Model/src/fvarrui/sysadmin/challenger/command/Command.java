@@ -18,6 +18,14 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+
+
+/**
+ * Clase Modelo que representa un comando
+ * @author Fran Vargas
+ * @version 1.0
+ * 
+ */
 @XmlType
 @XmlSeeAlso(value = { ShellCommand.class })
 public class Command {
@@ -25,11 +33,19 @@ public class Command {
 	private StringProperty command;
 	private ReadOnlyObjectWrapper<ExecutionResult> result;
 
+	
+	/**
+	 * Constructor
+	 * @param command nombre del comando
+	 */
 	public Command(String command) {
 		this.command = new SimpleStringProperty(this, "command", command);
 		this.result = new ReadOnlyObjectWrapper<>(this, "result");
 	}
 
+	/**
+	 * Constructor por defecto
+	 */
 	public Command() {
 		this(null);
 	}
@@ -64,6 +80,11 @@ public class Command {
 		return String.format(getCommand(), (Object[]) params);
 	}
 
+	/**
+	 * 
+	 * @param Un conjunto de parametros
+	 * @return los valores de salida de la ejecucion
+	 */
 	public ExecutionResult execute(String ... params) {
 		 ExecutionResult result = new ExecutionResult();
 		 try {

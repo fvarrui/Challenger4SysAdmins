@@ -4,6 +4,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane fx:id="view" prefHeight="500.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
@@ -12,19 +14,73 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+<<<<<<< HEAD
                   <MenuItem mnemonicParsing="false" text="New" />
                   <MenuItem mnemonicParsing="false" text="Open" />
               <MenuItem mnemonicParsing="false" text="Save" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Exit" />
+=======
+                  <MenuItem mnemonicParsing="false" onAction="#newButtonAction" text="New">
+                     <graphic>
+                        <ImageView>
+                           <image>
+                              <Image url="@../resources/nuevo-16x16.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#openButtonAction" text="Open">
+                     <graphic>
+                        <ImageView>
+                           <image>
+                              <Image url="@../resources/abrir-16x16.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+              <MenuItem mnemonicParsing="false" onAction="#saveButtonAction" text="Save">
+                     <graphic>
+                        <ImageView>
+                           <image>
+                              <Image url="@../resources/guardar-16x16.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitButtonAction" text="Exit">
+                     <graphic>
+                        <ImageView>
+                           <image>
+                              <Image url="@../resources/salir-16x16.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+>>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
+<<<<<<< HEAD
               <MenuItem mnemonicParsing="false" text="About" />
+=======
+              <MenuItem mnemonicParsing="false" onAction="#aboutButtonAction" text="About">
+                     <graphic>
+                        <ImageView>
+                           <image>
+                              <Image url="@../resources/about-16x16.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+>>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
+   <center>
+      <ImageView fitHeight="200.0" fitWidth="200.0" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../resources/band-512x512.png" />
+         </image>
+      </ImageView>
+   </center>
 </BorderPane>

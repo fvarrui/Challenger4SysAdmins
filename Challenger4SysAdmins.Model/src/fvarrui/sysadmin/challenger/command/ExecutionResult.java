@@ -10,7 +10,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Clase modelo representa el conjunto de valores devueltos por la aplicacion.
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
+
 public class ExecutionResult {
+	
 	private IntegerProperty returnValue;
 	private StringProperty output;
 	private StringProperty error;
@@ -18,6 +26,10 @@ public class ExecutionResult {
 	private ObjectProperty<LocalDateTime> executionTime;
 	private ObjectProperty<Duration> duration;
 
+
+	/**
+	 * Constructor por defecto
+	 */
 	public ExecutionResult() {
 		this.returnValue = new SimpleIntegerProperty(this, "returnValue", 0);
 		this.output = new SimpleStringProperty(this, "output", "");

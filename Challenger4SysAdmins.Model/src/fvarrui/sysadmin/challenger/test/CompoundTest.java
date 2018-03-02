@@ -12,16 +12,31 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
+/**
+ * Clase modelo representa un 'CompoundTest',un conjunto de tests
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
 @XmlType
 @XmlSeeAlso(value = { AndTest.class, OrTest.class, NotTest.class })
 public abstract class CompoundTest extends Test {
 
 	private ListProperty<Test> tests;
 
+	/**
+	 * Constructor por defecto
+	 */
 	public CompoundTest() {
 		this(null);
 	}
 
+	/**
+	 * 
+	 * @param name nombre de los tests
+	 * @param conjunto de tests
+	 */
 	public CompoundTest(String name, Test... tests) {
 		 super(name);
 		 this.tests = new SimpleListProperty<>(this, "tests", FXCollections.observableArrayList(tests));
