@@ -16,6 +16,14 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+
+/**
+ * Clase modelo abstracta que  representa un 'Test'
+ * 
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
 @XmlType
 @XmlSeeAlso(value = { CommandTest.class, CompoundTest.class })
 public abstract class Test {
@@ -26,10 +34,17 @@ public abstract class Test {
 	@XmlTransient
 	protected ReadOnlyBooleanWrapper verified;
 
+	/**
+	 * Constructor por defecto
+	 */
 	public Test() {
 		this(null);
 	}
 
+	/**
+	 * Constructor
+	 * @param name nombre del test
+	 */
 	public Test(String name) {
 		this.name = new SimpleStringProperty(this, "name", name);
 		this.description = new SimpleStringProperty(this, "descripcion");

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="hand" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <ImageView fitHeight="200.0" fitWidth="200.0" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../resources/band-512x512.png" />
+         </image>
+      </ImageView>
+   </center>
+</BorderPane>

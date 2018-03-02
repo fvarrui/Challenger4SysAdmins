@@ -4,6 +4,14 @@ import java.io.File;
 
 import org.apache.commons.lang.SystemUtils;
 
+
+/**
+ * Clase de apoyo para determinar el S.O de la maquina que ejecuta la aplicacion.
+ * 
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
 public class OSUtils {
 	
 	private static final String PS_PATH = "System32\\WindowsPowerShell\\v1.0\\PowerShell.exe"; 

@@ -16,6 +16,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+
+/**
+ * Clase Modelo que representa un objetivo
+ * @author Fran Vargas,Ricardo Vargas
+ * @version 1.0
+ * 
+ */
 @XmlType
 public class Goal {
 
@@ -26,14 +33,25 @@ public class Goal {
 	@XmlTransient
 	private ReadOnlyBooleanWrapper achieved;
 
+	/**
+	 * Constructor por defecto
+	 */
 	public Goal() {
 		this(null);
 	}
 
+	/**
+	 * Constructor
+	 * @param name nombre del objetivo
+	 */
 	public Goal(String name) {
 		this(name, null);
 	}
 
+	/**
+	 * Constructor
+	 * @param name nombre del objetivo y la descripcion
+	 */
 	public Goal(String name, String description) {
 		super();
 		this.name = new SimpleStringProperty(this, "name", name);
@@ -90,6 +108,10 @@ public class Goal {
 		return this.achievedProperty().get();
 	}
 	
+	/**
+	 * metodo que comprueba que se haya completado un objetivo
+	 * @return si el objetivo se a alcanzado
+	 */
 	public boolean verify() {
 		if (!isAchieved()) {
 			this.achieved.set(getTest().verify());
@@ -99,7 +121,7 @@ public class Goal {
 	
 	@Override
 	public String toString() {
-		return StringUtils.repeat("-", 7) + " (" + (achieved.get() ? "+" : "-") + ") [goal] " + getDescription() + "\n" + getTest().toString(11);
+		return StringUtils.repeat("-", 7) + " (" + (achieved.get() ? "+" : "-") + ") [goal] " + getDescription() + ((getTest() != null ) ? "\n" + getTest().toString(11) : "");
 	}
 
 }

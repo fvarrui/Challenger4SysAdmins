@@ -1,6 +1,8 @@
 package fvarrui.sysadmin.challenger.command;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,6 +18,14 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+
+
+/**
+ * Clase Modelo que representa un comando
+ * @author Fran Vargas
+ * @version 1.0
+ * 
+ */
 @XmlType
 @XmlSeeAlso(value = { ShellCommand.class })
 public class Command {
@@ -23,11 +33,19 @@ public class Command {
 	private StringProperty command;
 	private ReadOnlyObjectWrapper<ExecutionResult> result;
 
+	
+	/**
+	 * Constructor
+	 * @param command nombre del comando
+	 */
 	public Command(String command) {
 		this.command = new SimpleStringProperty(this, "command", command);
 		this.result = new ReadOnlyObjectWrapper<>(this, "result");
 	}
 
+	/**
+	 * Constructor por defecto
+	 */
 	public Command() {
 		this(null);
 	}
@@ -62,21 +80,35 @@ public class Command {
 		return String.format(getCommand(), (Object[]) params);
 	}
 
+	/**
+	 * 
+	 * @param Un conjunto de parametros
+	 * @return los valores de salida de la ejecucion
+	 */
 	public ExecutionResult execute(String ... params) {
 		 ExecutionResult result = new ExecutionResult();
 		 try {
 			 
-			 result.setExecutionTime(LocalDateTime.now());
+			 LocalDateTime before = LocalDateTime.now();
+			 
+			 result.setExecutionTime(before);
 			 result.setExecutedCommand(prepareCommand(params));
 			 
 			 String [] splittedCommand = result.getExecutedCommand().split("[ ]+");
 			 ProcessBuilder pb = new ProcessBuilder(splittedCommand);
 			 Process p = pb.start();
 			 p.getOutputStream().close();
-			 
+
+			 LocalDateTime after = LocalDateTime.now();
+
+			 result.setDuration(Duration.between(before, after));
 			 result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()));
 			 result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()));
 			 result.setReturnValue(p.exitValue());
+		 } catch (IOException e) {
+			 result.setError(e.getMessage());
+			 result.setReturnValue(-1);
+			 e.printStackTrace();	 
 		 } catch (Exception e) {
 			 result.setError(e.getMessage());
 			 result.setReturnValue(-1);
