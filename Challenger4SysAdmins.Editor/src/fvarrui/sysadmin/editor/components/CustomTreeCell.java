@@ -8,8 +8,6 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-<<<<<<< HEAD
-=======
 
 /**
  * Logica de negocio para crear la celda correspondiente segun el objeto selecionado.
@@ -17,7 +15,6 @@ import javafx.scene.image.ImageView;
  * @version 1.0
  *
  */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 public class CustomTreeCell extends TreeCell<Object> {
 
 	private static final Image CHALLENGE = new Image("/fvarrui/sysadmin/editor/ui/resources/challenge-32x32.png");

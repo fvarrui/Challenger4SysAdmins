@@ -12,14 +12,10 @@ import javax.xml.bind.annotation.XmlType;
 public class BASHCommand extends ShellCommand {
 	
 	private static final String BASH = "bash -c %s";
-<<<<<<< HEAD
-
-=======
 	
 	/**
 	 * Constructor por defecto
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public BASHCommand() {
 		this(null);
 	}

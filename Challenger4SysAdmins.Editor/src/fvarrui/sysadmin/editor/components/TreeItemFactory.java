@@ -9,11 +9,6 @@ import fvarrui.sysadmin.challenger.test.Test;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.TreeItem;
 
-<<<<<<< HEAD
-public class TreeItemFactory {
-	
-
-=======
 
 /**
  * Logica de negocio para crear los distintos tipos de Items y el arbol inicial de la aplicacion..
@@ -29,7 +24,6 @@ public class TreeItemFactory {
 	 * @param  Un Challenge
 	 * @return Un item de tipo Challenge
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public static TreeItem<Object> createChallengeTreeItem(Challenge challenge) {
 		TreeItem<Object> challengeItem = new TreeItem<Object>();
 		challengeItem.setExpanded(true);
@@ -50,15 +44,12 @@ public class TreeItemFactory {
 		});
 		return challengeItem;
 	}
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * 
 	 * @param recibe un objeto Goal
 	 * @return Un item de tipo Goal
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 
 	public static TreeItem<Object> createGoalTreeItem(Goal goal) {
 		TreeItem<Object> goalItem = new TreeItem<Object>();
@@ -76,15 +67,12 @@ public class TreeItemFactory {
 		return goalItem;
 	}
 
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * 
 	 * @param recibe un objeto Test
 	 * @return Un item de tipo Test
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public static TreeItem<Object> createTestTreeItem(Test test) {
 		TreeItem<Object> testItem = new TreeItem<Object>();
 		testItem.setExpanded(true);
@@ -110,15 +98,12 @@ public class TreeItemFactory {
 		return testItem;
 	}
 
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * 
 	 * @param recibe un objeto Coamnd
 	 * @return Un item de tipo Comand
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public static TreeItem<Object> createCommandTreeItem(Command command) {
 		TreeItem<Object> commandItem = new TreeItem<Object>();
 		commandItem.setExpanded(true);

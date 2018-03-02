@@ -2,8 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
@@ -11,42 +9,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<TitledPane fx:id="view" collapsible="false" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Challenge tree" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane fx:id="view" collapsible="false" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Challenge tree" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <TreeView fx:id="treeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <contextMenu>
-            <ContextMenu>
-              <items>
-                <MenuItem mnemonicParsing="false" text="Add">
-                     <graphic>
-                        <ImageView>
-                           <image>
-                              <Image url="@../resources/mas-16x16.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Edit">
-                     <graphic>
-                        <ImageView>
-                           <image>
-                              <Image url="@../resources/editar-16x16.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Delete">
-                     <graphic>
-                        <ImageView>
-                           <image>
-                              <Image url="@../resources/menos-16x16.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </MenuItem>
-              </items>
-            </ContextMenu>
-         </contextMenu></TreeView>
+      <TreeView fx:id="treeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
    </content>
    <graphic>
       <HBox alignment="BASELINE_RIGHT" fillHeight="false" spacing="5.0">
@@ -73,6 +38,11 @@
                      </image>
                   </ImageView>
                </graphic></Button>
+            <ImageView>
+               <image>
+                  <Image url="@../resources/hand-32x32.png" />
+               </image>
+            </ImageView>
          </children>
       </HBox>
    </graphic>

@@ -14,15 +14,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
-<<<<<<< HEAD
-public class GoalController implements Initializable {
-
-	// model
-
-	private ObjectProperty<Goal> goal = new SimpleObjectProperty<>(this, "goal");
-
-	// view
-=======
 
 
 /**
@@ -35,7 +26,6 @@ public class GoalController implements Initializable {
 public class GoalController implements Initializable {
 
 	private ObjectProperty<Goal> goal = new SimpleObjectProperty<>(this, "goal");
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 
 	@FXML
 	private BorderPane view;
@@ -46,14 +36,11 @@ public class GoalController implements Initializable {
 	@FXML
 	private TextField nameText;
 
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * Constructor de los retos
 	 * @throws IOException si no pudo cargar la vista
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public GoalController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/GoalView.fxml"));
 		loader.setController(this);
@@ -67,14 +54,11 @@ public class GoalController implements Initializable {
 
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * Listener en el modelo para bindear y desbindear los componenetes al modelo
 	 * @param oldGoal modelo viejo
 	 * @param newGoal modelo nuevo
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	private void onGoalChange(Goal oldGoal, Goal newGoal) {
 		if (oldGoal != null) {
 			nameText.textProperty().unbindBidirectional(oldGoal.nameProperty());
@@ -86,46 +70,34 @@ public class GoalController implements Initializable {
 		}
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * 
 	 * @return La vista cargada por el controlador
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public BorderPane getView() {
 		return view;
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * 
 	 * @return Property del goal
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public final ObjectProperty<Goal> goalProperty() {
 		return this.goal;
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * 
 	 * @return  Objeto Goal encapsulado
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public final Goal getGoal() {
 		return this.goalProperty().get();
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * 
 	 * @return Setea un nuevo objeto goal
 	 */
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 	public final void setGoal(final Goal goal) {
 		this.goalProperty().set(goal);
 	}

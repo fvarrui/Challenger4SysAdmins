@@ -6,6 +6,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Clase principal que lanza la aplicacion.
+ * @author Ricardo Vargas
+ * @version 1.0
+ *
+ */
+
 public class EditorApp extends Application {
 
 	private static Stage primaryStage;
@@ -25,10 +32,19 @@ public class EditorApp extends Application {
 
 	}
 
+	/**
+	 * Punto de entrada de la aplicacion.
+	 * @param argumentos de la aplicacion
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	
+	/**
+	 * Metodo para retornar el Stage principal d ela aplicacion.
+	 * @return Devuelve ventana principal
+	 */
 	public static Stage getPrimaryStage() {
 		return primaryStage;
 	}

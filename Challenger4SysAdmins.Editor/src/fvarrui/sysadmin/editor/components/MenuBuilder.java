@@ -6,12 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
-<<<<<<< HEAD
-
-public class MenuBuilder {
-
-	public static ContextMenu getMenu(TreeItem<String> itemSelecterd) {
-=======
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -33,23 +27,10 @@ public class MenuBuilder {
 	public static ContextMenu getMenu(TreeItem<Object> itemSelected) {
 
 		
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 
 		ContextMenu contextMenu = new ContextMenu();
 		ListProperty<MenuItem> menuItems = new SimpleListProperty<>(FXCollections.observableArrayList());
 
-<<<<<<< HEAD
-		if (itemSelecterd.isLeaf()) {
-			menuItems.addAll(new MenuItem("Nuevo Test"), new MenuItem("Editar Test"), new MenuItem("Eliminar Test"));
-			contextMenu.getItems().addAll(menuItems);
-		} else {
-			menuItems.addAll(new MenuItem("Nuevo Goal"), new MenuItem("Editar Goal"), new MenuItem("Eliminar Goal"));
-			contextMenu.getItems().setAll(menuItems);
-		}
-
-		return contextMenu;
-	}
-=======
 		if (itemSelected.getParent() == null) {
 			
 			
@@ -67,5 +48,4 @@ public class MenuBuilder {
 		return contextMenu;
 	}
 
->>>>>>> 7afdb606eb5ff55c3880a5f4dbdef57dacedc15a
 }
