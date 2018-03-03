@@ -119,9 +119,13 @@ public class Goal {
 		return isAchieved();
 	}
 	
+	public String toString(int spaces) {
+		return StringUtils.repeat("-", spaces) + " (" + (achieved.get() ? "+" : "-") + ") [goal] " + getDescription() + ((getTest() != null ) ? "\n" + getTest().toString(11) : "");
+	}
+	
 	@Override
 	public String toString() {
-		return StringUtils.repeat("-", 7) + " (" + (achieved.get() ? "+" : "-") + ") [goal] " + getDescription() + ((getTest() != null ) ? "\n" + getTest().toString(11) : "");
+		return getName();
 	}
 
 }

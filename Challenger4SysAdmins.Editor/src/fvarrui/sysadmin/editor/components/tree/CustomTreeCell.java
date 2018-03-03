@@ -1,4 +1,4 @@
-package fvarrui.sysadmin.editor.components;
+package fvarrui.sysadmin.editor.components.tree;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
@@ -17,10 +17,10 @@ import javafx.scene.image.ImageView;
  */
 public class CustomTreeCell extends TreeCell<Object> {
 
-	private static final Image CHALLENGE = new Image("/fvarrui/sysadmin/editor/ui/resources/challenge-32x32.png");
-	private static final Image GOAL = new Image("/fvarrui/sysadmin/editor/ui/resources/goal-32x32.png");
-	private static final Image TEST = new Image("/fvarrui/sysadmin/editor/ui/resources/test-32x32.png");
-	private static final Image COMMAND = new Image("/fvarrui/sysadmin/editor/ui/resources/command-32x32.png");
+	private static final Image CHALLENGE = new Image("/fvarrui/sysadmin/editor/ui/resources/challenge-16x16.png");
+	private static final Image GOAL = new Image("/fvarrui/sysadmin/editor/ui/resources/goal-16x16.png");
+	private static final Image TEST = new Image("/fvarrui/sysadmin/editor/ui/resources/test-16x16.png");
+	private static final Image COMMAND = new Image("/fvarrui/sysadmin/editor/ui/resources/command-16x16.png");
 
 	private ImageView imageView = new ImageView();
 	
@@ -45,9 +45,7 @@ public class CustomTreeCell extends TreeCell<Object> {
 				setText(((Command) item).getCommand());
 				imageView.setImage(COMMAND);
 			}
-			
 		}
-		
 	}
 	
 }

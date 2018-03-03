@@ -38,11 +38,6 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <ImageView>
-               <image>
-                  <Image url="@../resources/hand-32x32.png" />
-               </image>
-            </ImageView>
          </children>
       </HBox>
    </graphic>

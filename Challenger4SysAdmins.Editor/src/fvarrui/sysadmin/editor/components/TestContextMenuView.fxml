@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+
+
+<fx:root type="ContextMenu" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+   <items>
+      <MenuItem fx:id="andTestMenuItem" mnemonicParsing="false" onAction="#onAndTestAction" text="AndTest" />
+      <MenuItem fx:id="orTestMenuItem" mnemonicParsing="false" onAction="#onOrTestAction" text="OrTest" />
+      <MenuItem fx:id="notTestMenuItem" mnemonicParsing="false" onAction="#onNotTestAction" text="NotTest" />
+      <MenuItem fx:id="CommandTest" mnemonicParsing="false" onAction="#onCommandTestAction" text="CommandTest" />
+   </items>
+</fx:root>

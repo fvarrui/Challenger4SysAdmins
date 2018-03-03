@@ -12,12 +12,10 @@
         <goal name="Detener el servicio Temas">
             <description>El servicio Temas (Themes) ha sido detenido</description>
             <test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="notTest" name="Negación">
-                <tests>
-                    <test xsi:type="commandTest" name="¿Servicio Themes iniciado?">
-                        <command xsi:type="psCommand" shell="PowerShell &amp; { %s }" command="if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }"/>
-                        <params>themes</params>
-                    </test>
-                </tests>
+                <test xsi:type="commandTest" name="¿Servicio Themes iniciado?">
+                    <command xsi:type="psCommand" shell="PowerShell &amp; { %s }" command="if ((Get-Service %s).Status -eq 'Running') { exit 0 } else { exit 1 }"/>
+                    <params>themes</params>
+                </test>
             </test>
         </goal>
     </goals>

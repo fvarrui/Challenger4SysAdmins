@@ -20,7 +20,7 @@ import javafx.collections.ObservableList;
  *
  */
 @XmlType
-@XmlSeeAlso(value = { AndTest.class, OrTest.class, NotTest.class })
+@XmlSeeAlso(value = { AndTest.class, OrTest.class })
 public abstract class CompoundTest extends Test {
 
 	private ListProperty<Test> tests;
@@ -44,11 +44,6 @@ public abstract class CompoundTest extends Test {
 
 	public String toString(int spaces) {
 		return super.toString(spaces) + "\n" + tests.stream().map(g -> g.toString(spaces + 4)).collect(Collectors.joining("\n"));
-	}
-
-	@Override
-	public String toString() {
-		return toString(4);
 	}
 
 	public ListProperty<Test> testsProperty() {

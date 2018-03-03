@@ -26,7 +26,7 @@ public class EditorApp extends Application {
 		rootController = new RootController();
 
 		primaryStage.setTitle("Challenge Editor");
-		primaryStage.getIcons().add(new Image(getClass().getResource("/fvarrui/sysadmin/editor/ui/resources/logo-128x128.png").toExternalForm()));
+		primaryStage.getIcons().add(new Image(getClass().getResource("/fvarrui/sysadmin/editor/ui/resources/logo-32x32.png").toExternalForm()));
 		primaryStage.setScene(new Scene(rootController.getView(), 1000, 500));
 		primaryStage.show();
 

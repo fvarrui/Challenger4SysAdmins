@@ -1,23 +1,27 @@
 package fvarrui.sysadmin.editor.controllers;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
+import fvarrui.sysadmin.challenger.command.Command;
+import fvarrui.sysadmin.challenger.command.ShellCommand;
 import fvarrui.sysadmin.challenger.test.CommandTest;
+import fvarrui.sysadmin.challenger.test.CompoundTest;
+import fvarrui.sysadmin.challenger.test.NotTest;
 import fvarrui.sysadmin.challenger.test.Test;
-import fvarrui.sysadmin.editor.components.CustomTreeCell;
-import fvarrui.sysadmin.editor.components.MenuBuilder;
-import fvarrui.sysadmin.editor.components.TreeItemFactory;
+import fvarrui.sysadmin.editor.components.TestContextMenu;
+import fvarrui.sysadmin.editor.components.tree.ChallengeTreeItem;
+import fvarrui.sysadmin.editor.components.tree.CustomTreeCell;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
@@ -26,7 +30,7 @@ import javafx.scene.control.TreeView;
 import javafx.util.Callback;
 
 /**
- * Logica de negocio para gestionar el arbol del retos
+ * Controlador que gestiona el árbol del retos
  * 
  * @author Ricardo Vargas
  * @version 1.0
@@ -34,10 +38,14 @@ import javafx.util.Callback;
 
 public class TreeEditorController implements Initializable {
 
+	// model
+	
 	private ObjectProperty<TreeItem<Object>> selectedItem = new SimpleObjectProperty<>(this, "selectedItem");
 	private ObjectProperty<Object> seleccionado = new SimpleObjectProperty<>(this, "seleccionado");
 	private ObjectProperty<Challenge> challenge = new SimpleObjectProperty<>(this, "challenge");
 
+	// view
+	
 	@FXML
 	private TitledPane view;
 
@@ -55,8 +63,7 @@ public class TreeEditorController implements Initializable {
 	 * 
 	 */
 	public TreeEditorController() throws IOException {
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource("/fvarrui/sysadmin/editor/ui/views/TreeEditorView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/TreeEditorView.fxml"));
 		loader.setController(this);
 		loader.load();
 	}
@@ -72,23 +79,17 @@ public class TreeEditorController implements Initializable {
 
 		challenge.addListener((o, ov, nv) -> {
 			if (nv != null)
-				treeView.setRoot(TreeItemFactory.createChallengeTreeItem(nv));
+				treeView.setRoot(new ChallengeTreeItem(nv));
 			else
 				treeView.setRoot(null);
 		});
 
 		selectedItem.addListener((o, ov, nv) -> {
-
-			treeView.setContextMenu(MenuBuilder.getMenu(selectedItem.get()));
 			if (nv != null) {
-
 				seleccionado.set(nv.getValue());
 			} else {
 				seleccionado.set(null);
-
 			}
-
-
 		});
 
 		selectedItem.bind(treeView.getSelectionModel().selectedItemProperty());
@@ -111,11 +112,52 @@ public class TreeEditorController implements Initializable {
 		Object item = seleccionado.get();
 
 		if (item instanceof Challenge) {
+			
+			Goal goal = new Goal("Nuevo objetivo");
 			Challenge challenge = (Challenge) item;
 			challenge.getGoals().add(new Goal("Nuevo objetivo"));
+			System.out.println("objetivo " + goal.getName() + " añadido al reto " + challenge.getName());
+			
 		} else if (item instanceof Goal) {
+
 			Goal goal = (Goal) item;
-			goal.setTest(new CommandTest("Nuevo test de comando", null));
+			TestContextMenu menu = new TestContextMenu();
+			menu.show(addButton, Side.BOTTOM, 0, 0);
+			menu.setOnHidden(e -> {
+				Test test = menu.getTest();
+				goal.setTest(test);
+				System.out.println("test " + test.getName() + " añadido al objetivo " + goal.getName());
+			});
+			
+		} else if (item instanceof CompoundTest) {
+
+			CompoundTest test = (CompoundTest) item;
+			TestContextMenu menu = new TestContextMenu();
+			menu.show(addButton, Side.BOTTOM, 0, 0);
+			menu.setOnHidden(e -> {
+				Test childTest = menu.getTest();
+				test.getTests().add(childTest);
+				System.out.println("test " + childTest.getName() + " añadido al test compuesto " + test.getName());
+			});
+
+		} else if (item instanceof NotTest) {
+
+			NotTest test = (NotTest) item;
+			TestContextMenu menu = new TestContextMenu();
+			menu.show(addButton, Side.BOTTOM, 0, 0);
+			menu.setOnHidden(e -> {
+				Test childTest = menu.getTest();
+				test.setTest(childTest);
+				System.out.println("test " + childTest.getName() + " añadido al test de negación " + test.getName());
+			});
+			
+		} else if (item instanceof CommandTest) {
+
+			Command command = new ShellCommand("shell", "command");
+			CommandTest test = (CommandTest) item;
+			test.setCommand(command);
+			System.out.println("comando " + command.getCommand() + " añadido al test de comando " + test.getName());
+			
 		}
 
 		
@@ -133,16 +175,36 @@ public class TreeEditorController implements Initializable {
 		Object item = seleccionado.get();
 
 		if (item instanceof Goal) {
+			
 			Goal goal = (Goal) item;
 			challenge.get().getGoals().remove(goal);
+			System.out.println("objetivo " + goal.getName() + " eliminado del reto " + challenge.getName());
 
-		}
+		} else if (item instanceof Test) {
 
-		if (item instanceof Test) {
-
-			TreeItem<Object> selected = (TreeItem<Object>) treeView.getSelectionModel().getSelectedItem();
-			selectedItem.get().getParent().getChildren().remove(selected);
-
+			Test test = (Test) item;
+			Object parent = selectedItem.get().getParent().getValue();
+			if (parent instanceof Goal) {
+				Goal goal = (Goal) parent;
+				goal.setTest(null);
+				System.out.println("test " + test.getName() + " eliminado del objetivo " + goal.getName());
+			} else if (parent instanceof CompoundTest) {
+				CompoundTest compoundTest = (CompoundTest) parent;
+				compoundTest.getTests().remove(item);
+				System.out.println("test " + test.getName() + " eliminado del test " + compoundTest.getName());
+			} else if (parent instanceof NotTest) {
+				NotTest notTest = (NotTest) parent;
+				notTest.setTest(null);
+				System.out.println("test " + test.getName() + " eliminado del test de negación " + notTest.getName());
+			} 
+			
+		} else if (item instanceof Command) {
+			
+			Command command = (Command) item;
+			CommandTest parent = (CommandTest) selectedItem.get().getParent().getValue();
+			parent.setCommand(null);
+			System.out.println("comando " + command.getCommand() + " eliminado del test " + parent.getName());
+			
 		}
 
 	}
@@ -204,7 +266,4 @@ public class TreeEditorController implements Initializable {
 		this.seleccionadoProperty().set(seleccionado);
 	}
 
-	public TreeView<Object> getTreeView() {
-		return treeView;
-	}
 }

@@ -26,8 +26,6 @@ public class MenuBuilder {
 	 */
 	public static ContextMenu getMenu(TreeItem<Object> itemSelected) {
 
-		
-
 		ContextMenu contextMenu = new ContextMenu();
 		ListProperty<MenuItem> menuItems = new SimpleListProperty<>(FXCollections.observableArrayList());
 

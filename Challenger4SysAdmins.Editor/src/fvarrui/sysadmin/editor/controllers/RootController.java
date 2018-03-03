@@ -35,6 +35,7 @@ public class RootController implements Initializable {
 	private TreeEditorController treeEditorController;
 	private GoalController goalController;
 	private TestController testController;
+	private ChallengeController challengeController;
 
 	private ObjectProperty<Challenge> challenge = new SimpleObjectProperty<>(this, "challenge");
 	private ObjectProperty<Object> seleccionado = new SimpleObjectProperty<>(this, "seleccionado");
@@ -43,7 +44,7 @@ public class RootController implements Initializable {
 	private BorderPane view;
 
 	@FXML
-	private BorderPane hand;
+	private BorderPane emptyView;
 
 	/**
 	 * Constructor del controlador raiz
@@ -55,18 +56,21 @@ public class RootController implements Initializable {
 		treeEditorController = new TreeEditorController();
 		goalController = new GoalController();
 		testController = new TestController();
+		challengeController = new ChallengeController();
+
+		emptyView = FXMLLoader.load(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/EmptyView.fxml"));
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/RootView.fxml"));
 		loader.setController(this);
 		loader.load();
 
-		hand = FXMLLoader.load(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/DefaultView.fxml"));
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		view.setLeft(treeEditorController.getView());
+		view.setCenter(emptyView);
 
 		seleccionado.addListener((o, ov, nv) -> onSeleccionadoChanged(o, ov, nv));
 
@@ -90,7 +94,8 @@ public class RootController implements Initializable {
 	 */
 	private void onSeleccionadoChanged(ObservableValue<? extends Object> o, Object ov, Object nv) {
 
-		view.setCenter(hand);
+		view.setCenter(emptyView);
+		
 		if (nv instanceof Goal) {
 			Goal goal = (Goal) nv;
 			goalController.goalProperty().bind(new SimpleObjectProperty<Goal>(goal));
@@ -106,13 +111,19 @@ public class RootController implements Initializable {
 			testController.testProperty().bind(new SimpleObjectProperty<>(test));
 			view.setCenter(testController.getView());
 		}
-
 		if (ov instanceof Test) {
-
 			testController.testProperty().unbind();
-
 		}
 
+		if (nv instanceof Challenge) {
+			Challenge challenge = (Challenge) nv;
+			challengeController.challengeProperty().bind(new SimpleObjectProperty<>(challenge));
+			view.setCenter(challengeController.getView());
+		}
+		if (ov instanceof Challenge) {
+			challengeController.challengeProperty().unbind();
+		}
+		
 	}
 
 	/**
