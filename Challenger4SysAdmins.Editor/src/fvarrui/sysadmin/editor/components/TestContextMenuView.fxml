@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.MenuItem?>
+<<<<<<< HEAD
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 
@@ -39,5 +40,15 @@
                </image>
             </ImageView>
          </graphic></MenuItem>
+=======
+
+
+<fx:root type="ContextMenu" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+   <items>
+      <MenuItem fx:id="andTestMenuItem" mnemonicParsing="false" onAction="#onAndTestAction" text="AndTest" />
+      <MenuItem fx:id="orTestMenuItem" mnemonicParsing="false" onAction="#onOrTestAction" text="OrTest" />
+      <MenuItem fx:id="notTestMenuItem" mnemonicParsing="false" onAction="#onNotTestAction" text="NotTest" />
+      <MenuItem fx:id="CommandTest" mnemonicParsing="false" onAction="#onCommandTestAction" text="CommandTest" />
+>>>>>>> 2ffaae0cfc64077a7cd02f55dc72a1cfbc9f2f88
    </items>
 </fx:root>
