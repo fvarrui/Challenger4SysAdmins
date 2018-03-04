@@ -1,4 +1,4 @@
-package fvarrui.sysadmin.editor.components;
+package fvarrui.sysadmin.editor.components.tree;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
@@ -78,11 +78,25 @@ public class TreeItemFactory {
 		testItem.setExpanded(true);
 		testItem.setValue(test);
 		if (test instanceof CompoundTest) {
+			
 			CompoundTest ct = (CompoundTest) test;
 			for (Test t : ct.getTests()) {
 				testItem.getChildren().add(createTestTreeItem(t));
 			}
+			ct.testsProperty().addListener(new ListChangeListener<Test>() {
+				public void onChanged(Change<? extends Test> c) {
+					while (c.next()) {
+						c.getAddedSubList().stream().forEach(g -> testItem.getChildren().add(createTestTreeItem(g)));
+						c.getRemoved().stream().forEach(g -> {
+							TreeItem<Object> item = testItem.getChildren().stream().filter(i -> i.getValue().equals(g)).findFirst().get();
+							testItem.getChildren().remove(item);
+						});
+					}
+				}
+			});
+			
 		} else if (test instanceof CommandTest) {
+			
 			CommandTest ct = (CommandTest) test;
 			if (ct.getCommand() != null) {
 				testItem.getChildren().add(createCommandTreeItem(ct.getCommand()));
@@ -94,6 +108,7 @@ public class TreeItemFactory {
 					testItem.getChildren().clear();
 				}
 			});
+			
 		}
 		return testItem;
 	}

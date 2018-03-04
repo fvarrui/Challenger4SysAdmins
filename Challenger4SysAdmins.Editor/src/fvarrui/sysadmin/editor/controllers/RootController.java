@@ -1,12 +1,13 @@
 package fvarrui.sysadmin.editor.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
+import fvarrui.sysadmin.challenger.command.ShellCommand;
 import fvarrui.sysadmin.challenger.test.Test;
 import fvarrui.sysadmin.editor.application.EditorApp;
 import javafx.beans.property.ObjectProperty;
@@ -16,11 +17,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * Gestiona la logica de negocio principal como contenedor raiz de los
@@ -35,6 +42,8 @@ public class RootController implements Initializable {
 	private TreeEditorController treeEditorController;
 	private GoalController goalController;
 	private TestController testController;
+	private ChallengeController challengeController;
+	private ComandController comandController;
 
 	private ObjectProperty<Challenge> challenge = new SimpleObjectProperty<>(this, "challenge");
 	private ObjectProperty<Object> seleccionado = new SimpleObjectProperty<>(this, "seleccionado");
@@ -43,7 +52,16 @@ public class RootController implements Initializable {
 	private BorderPane view;
 
 	@FXML
-	private BorderPane hand;
+	private BorderPane emptyView;
+
+	@FXML
+	private Pane aboutView;
+
+	@FXML
+	private Hyperlink ricardoLink;
+
+	@FXML
+	private Hyperlink franLink;
 
 	/**
 	 * Constructor del controlador raiz
@@ -52,21 +70,25 @@ public class RootController implements Initializable {
 	 *             En caso de no poder cargar la vista.
 	 */
 	public RootController() throws IOException {
+		comandController = new ComandController();
 		treeEditorController = new TreeEditorController();
 		goalController = new GoalController();
 		testController = new TestController();
+		challengeController = new ChallengeController();
+
+		emptyView = FXMLLoader.load(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/EmptyView.fxml"));
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/RootView.fxml"));
 		loader.setController(this);
 		loader.load();
 
-		hand = FXMLLoader.load(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/DefaultView.fxml"));
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		view.setLeft(treeEditorController.getView());
+		view.setCenter(emptyView);
 
 		seleccionado.addListener((o, ov, nv) -> onSeleccionadoChanged(o, ov, nv));
 
@@ -90,7 +112,8 @@ public class RootController implements Initializable {
 	 */
 	private void onSeleccionadoChanged(ObservableValue<? extends Object> o, Object ov, Object nv) {
 
-		view.setCenter(hand);
+		view.setCenter(emptyView);
+
 		if (nv instanceof Goal) {
 			Goal goal = (Goal) nv;
 			goalController.goalProperty().bind(new SimpleObjectProperty<Goal>(goal));
@@ -106,11 +129,26 @@ public class RootController implements Initializable {
 			testController.testProperty().bind(new SimpleObjectProperty<>(test));
 			view.setCenter(testController.getView());
 		}
-
 		if (ov instanceof Test) {
-
 			testController.testProperty().unbind();
+		}
 
+		if (nv instanceof Challenge) {
+			Challenge challenge = (Challenge) nv;
+			challengeController.challengeProperty().bind(new SimpleObjectProperty<>(challenge));
+			view.setCenter(challengeController.getView());
+		}
+		if (ov instanceof Challenge) {
+			challengeController.challengeProperty().unbind();
+		}
+
+		if (nv instanceof ShellCommand) {
+			ShellCommand comand = (ShellCommand) nv;
+			comandController.shellCommandProperty().bind(new SimpleObjectProperty<>(comand));
+			view.setCenter(comandController.getView());
+		}
+		if (ov instanceof ShellCommand) {
+			comandController.shellCommandProperty().unbind();
 		}
 
 	}
@@ -120,17 +158,25 @@ public class RootController implements Initializable {
 	 * 
 	 * @param evento
 	 *            del boton
+	 * @throws IOException
 	 */
 	@FXML
-	void aboutButtonAction(ActionEvent event) {
+	void aboutButtonAction(ActionEvent event) throws IOException {
 
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Challenger4SysAdmins");
-		alert.setHeaderText("2-DAM Modulo DAD");
-		alert.initModality(Modality.WINDOW_MODAL);
-		alert.initOwner(EditorApp.getPrimaryStage());
-		alert.setContentText("Desarollado por Fran Vargas & Ricardo Vargas.");
-		alert.showAndWait();
+	
+
+		aboutView = FXMLLoader.load(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/AboutView.fxml"));
+
+		Stage stage = new Stage();
+		stage.setResizable(false);
+		stage.setTitle("About");
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.getIcons().addAll(EditorApp.getPrimaryStage().getIcons());
+		stage.initOwner(EditorApp.getPrimaryStage());
+		stage.setScene(new Scene(aboutView));
+		stage.show();
+		
+		
 	}
 
 	/**
@@ -141,7 +187,7 @@ public class RootController implements Initializable {
 	 */
 	@FXML
 	void exitButtonAction(ActionEvent event) {
-		
+
 		EditorApp.getPrimaryStage().close();
 
 	}
@@ -149,58 +195,73 @@ public class RootController implements Initializable {
 	@FXML
 	void newButtonAction(ActionEvent event) {
 
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Nuevo Challenge");
-		alert.setHeaderText(
-				"Se va a crear un nuevo challenge FXML.\nLos cambios que haya realizado en el modelo actual se perderán.");
-		alert.setContentText("¿Desea continuar?");
-		alert.initModality(Modality.WINDOW_MODAL);
-		alert.initOwner(EditorApp.getPrimaryStage());
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
-			// ... user chose OK
-		} else {
-			// ... user chose CANCEL or closed the dialog
+		Alert confirmacion = new Alert(AlertType.WARNING);
+		confirmacion.initOwner(EditorApp.getPrimaryStage());
+		confirmacion.setTitle("Nuevo Challenge");
+		confirmacion.initModality(Modality.APPLICATION_MODAL);
+		confirmacion.setHeaderText("Se dispone a crear un nuevo challenge.\nSi tiene información sin guardar se perderá para siempre.");
+		confirmacion.setContentText("¿Seguro que desea continuar?");
+		confirmacion.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+		if (confirmacion.showAndWait().get().equals(ButtonType.YES)) {
+		
+			challenge.set(new Challenge());
 		}
-
 	}
 
 	@FXML
 	void openButtonAction(ActionEvent event) {
 
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Abrir challenge");
-		alert.setHeaderText(
-				"Se va a abrir un challenge FXML desde fichero.\nLos cambios que haya realizado en el modelo actual se perderán.");
-		alert.setContentText("¿Desea continuar?");
-		alert.initModality(Modality.WINDOW_MODAL);
-		alert.initOwner(EditorApp.getPrimaryStage());
+		
+		try {
+			// abre el diálogo para abrir un fichero
+			FileChooser abrirDialog = new FileChooser();
+			abrirDialog.setInitialDirectory(new File("."));
+			abrirDialog.getExtensionFilters().add(new ExtensionFilter("Historial de comandos (*.challenge)", "*.challenge"));
+			File fichero = abrirDialog.showOpenDialog(EditorApp.getPrimaryStage());
+			
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
-			// ... user chose OK
-		} else {
-			// ... user chose CANCEL or closed the dialog
+			if (fichero != null) {
+				
+				challenge.set(Challenge.load(fichero));
+				
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		
+			Alert error = new Alert(AlertType.ERROR);
+			error.initOwner(EditorApp.getPrimaryStage());
+			error.setTitle("Abrir Challenge");
+			error.initModality(Modality.APPLICATION_MODAL);
+			error.setHeaderText("Error al abrir un challenge.");
+			error.setContentText(e1.getMessage());
+			error.showAndWait();
 		}
 	}
 
 	@FXML
 	void saveButtonAction(ActionEvent event) {
 
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Guardar challenge");
-		alert.setHeaderText(
-				"Se va a guardar el challenge a fichero.\nLos cambios que haya realizado en el modelo actual se guardaran.");
-		alert.setContentText("¿Desea continuar?");
-		alert.initModality(Modality.WINDOW_MODAL);
-		alert.initOwner(EditorApp.getPrimaryStage());
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
-			// ... user chose OK
-		} else {
-			// ... user chose CANCEL or closed the dialog
+		try {
+			// abre el diálogo para guardar un fichero
+			FileChooser guardarDialog = new FileChooser();
+			guardarDialog.setInitialDirectory(new File("."));
+			guardarDialog.getExtensionFilters().add(new ExtensionFilter("Challenge (*.challenge)", "*.challenge"));
+			File fichero = guardarDialog.showSaveDialog(EditorApp.getPrimaryStage());
+			// comprueba si se seleccionó un fichero en el diálogo (File) o se canceló (null)			
+			if (fichero != null) {
+				// se guarda el historial en el fichero indicado
+				challenge.get().save(fichero);
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			// muestra un diálogo con el error			
+			Alert error = new Alert(AlertType.ERROR);
+			error.initOwner(EditorApp.getPrimaryStage());
+			error.initModality(Modality.APPLICATION_MODAL);
+			error.setTitle("Guardar challenge");
+			error.setHeaderText("Error al guardar un challenge.");
+			error.setContentText(e1.getMessage());
+			error.showAndWait();
 		}
 	}
 

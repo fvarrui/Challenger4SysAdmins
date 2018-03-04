@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<fx:root type="ContextMenu" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <items>
+      <MenuItem fx:id="andTestMenuItem" mnemonicParsing="false" onAction="#onAndTestAction" text="AndTest">
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@../ui/resources/and-32-32.png" />
+               </image>
+            </ImageView>
+         </graphic></MenuItem>
+      <MenuItem fx:id="orTestMenuItem" mnemonicParsing="false" onAction="#onOrTestAction" text="OrTest">
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@../ui/resources/or-32x-32.png" />
+               </image>
+            </ImageView>
+         </graphic></MenuItem>
+      <MenuItem fx:id="notTestMenuItem" mnemonicParsing="false" onAction="#onNotTestAction" text="NotTest">
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@../ui/resources/not-32x32.png" />
+               </image>
+            </ImageView>
+         </graphic></MenuItem>
+      <MenuItem fx:id="CommandTest" mnemonicParsing="false" onAction="#onCommandTestAction" text="CommandTest">
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@../ui/resources/comandContext-32x32.png" />
+               </image>
+            </ImageView>
+         </graphic></MenuItem>
+   </items>
+</fx:root>

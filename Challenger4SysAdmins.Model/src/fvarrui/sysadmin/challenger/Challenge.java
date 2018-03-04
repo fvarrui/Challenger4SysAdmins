@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.StringUtils;
+
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
@@ -118,16 +120,20 @@ public class Challenge {
 	public void start() throws InterruptedException {
 		System.out.println("Iniciando reto '" + getName() + "'");
 		do {
-			System.out.println(this);
+			System.out.println(this.toString(0));
 			Thread.sleep(2000L);
 		} while (!verify());		
 		System.out.println("Reto alcanzado");
-		System.out.println(this);
+		System.out.println(this.toString(0));
 	}
 
+	public String toString(int spaces) {
+		return StringUtils.repeat("-", spaces) + "--- Comprobando objetivos:\n" + goals.stream().map(g -> g.toString(7)).collect(Collectors.joining("\n"));
+	}
+	
 	@Override
 	public String toString() {
-		return "--- Comprobando objetivos:\n" + goals.stream().map(g -> g.toString()).collect(Collectors.joining("\n"));
+		return getName();
 	}
 
 	/**

@@ -25,7 +25,7 @@ import javafx.beans.property.StringProperty;
  *
  */
 @XmlType
-@XmlSeeAlso(value = { CommandTest.class, CompoundTest.class })
+@XmlSeeAlso(value = { CommandTest.class, CompoundTest.class, NotTest.class })
 public abstract class Test {
 
 	private StringProperty name;
@@ -92,7 +92,7 @@ public abstract class Test {
 	
 	@Override
 	public String toString() {
-		return toString(11);
+		return getName();
 	}
 	
 	public abstract Boolean verify();
