@@ -115,7 +115,7 @@ public class Challenge {
 
 	/**
 	 * Metodo que se mantine a la escucha de que el reto sea completado correctamente
-	 * @throws InterruptedException 
+	 * @throws InterruptedException si no se pudo empezar el reto
 	 */
 	public void start() throws InterruptedException {
 		System.out.println("Iniciando reto '" + getName() + "'");

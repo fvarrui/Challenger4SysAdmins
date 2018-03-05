@@ -78,26 +78,17 @@ public class GoalController implements Initializable {
 		return view;
 	}
 
-	/**
-	 * 
-	 * @return Property del goal
-	 */
+
 	public final ObjectProperty<Goal> goalProperty() {
 		return this.goal;
 	}
 
-	/**
-	 * 
-	 * @return  Objeto Goal encapsulado
-	 */
+
 	public final Goal getGoal() {
 		return this.goalProperty().get();
 	}
 
-	/**
-	 * 
-	 * @return Setea un nuevo objeto goal
-	 */
+	
 	public final void setGoal(final Goal goal) {
 		this.goalProperty().set(goal);
 	}

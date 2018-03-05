@@ -19,11 +19,7 @@ public class OrTest extends CompoundTest {
 		this(null);
 	}
 
-	/**
-	 * 
-	 * @param name nombres de los test
-	 * @param conjunto de test
-	 */
+
 	public OrTest(String name, Test... tests) {
 		super(name, tests);
 	}

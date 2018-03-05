@@ -35,16 +35,13 @@ import javafx.util.Callback;
  * @author Ricardo Vargas
  * @version 1.0
  */
-
 public class TreeEditorController implements Initializable {
 
-	// model
 	
 	private ObjectProperty<TreeItem<Object>> selectedItem = new SimpleObjectProperty<>(this, "selectedItem");
 	private ObjectProperty<Object> seleccionado = new SimpleObjectProperty<>(this, "seleccionado");
 	private ObjectProperty<Challenge> challenge = new SimpleObjectProperty<>(this, "challenge");
 
-	// view
 	
 	@FXML
 	private TitledPane view;
@@ -103,8 +100,7 @@ public class TreeEditorController implements Initializable {
 	 * Dispara el evento para añadir nuevos elementos al arbol.
 	 * 
 	 * @param event  del boton
-	 *           
-	 * 
+	 *   
 	 */
 	@FXML
 	void addButtonAction(ActionEvent event) {
@@ -217,51 +213,32 @@ public class TreeEditorController implements Initializable {
 		return view;
 	}
 
-	/**
-	 * 
-	 * @return Property del reto
-	 */
+
 	public final ObjectProperty<Challenge> challengeProperty() {
 		return this.challenge;
 	}
 
-	/**
-	 * 
-	 * @return El challenge
-	 */
+
 	public final Challenge getChallenge() {
 		return this.challengeProperty().get();
 	}
 
-	/**
-	 * 
-	 * @param Nuevo
-	 *            Challenge a establecer
-	 */
+
 	public final void setChallenge(final Challenge challenge) {
 		this.challengeProperty().set(challenge);
 	}
 
-	/**
-	 * 
-	 * @return Property del objeto selecionado
-	 */
+
 	public final ObjectProperty<Object> seleccionadoProperty() {
 		return this.seleccionado;
 	}
 
-	/**
-	 * 
-	 * @return Objeto selecionado
-	 */
+
 	public final Object getSeleccionado() {
 		return this.seleccionadoProperty().get();
 	}
 
-	/**
-	 * 
-	 * @return Setea un nuevo selecionado
-	 */
+
 	public final void setSeleccionado(final Object seleccionado) {
 		this.seleccionadoProperty().set(seleccionado);
 	}

@@ -32,11 +32,8 @@ public abstract class CompoundTest extends Test {
 		this(null);
 	}
 
-	/**
-	 * 
-	 * @param name nombre de los tests
-	 * @param conjunto de tests
-	 */
+
+	
 	public CompoundTest(String name, Test... tests) {
 		 super(name);
 		 this.tests = new SimpleListProperty<>(this, "tests", FXCollections.observableArrayList(tests));

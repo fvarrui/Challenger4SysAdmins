@@ -24,12 +24,7 @@ public class NotTest extends Test {
 		this(null);
 	}
 
-	/**
-	 * 
-	 * @param name
-	 *            nombre del test
-	 * @param test
-	 */
+
 	public NotTest(String name, Test test) {
 		super(name);
 		this.test = new SimpleObjectProperty<>(this, "test", test);

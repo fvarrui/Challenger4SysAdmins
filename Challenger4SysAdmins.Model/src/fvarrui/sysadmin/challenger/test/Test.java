@@ -41,10 +41,7 @@ public abstract class Test {
 		this(null);
 	}
 
-	/**
-	 * Constructor
-	 * @param name nombre del test
-	 */
+
 	public Test(String name) {
 		this.name = new SimpleStringProperty(this, "name", name);
 		this.description = new SimpleStringProperty(this, "descripcion");

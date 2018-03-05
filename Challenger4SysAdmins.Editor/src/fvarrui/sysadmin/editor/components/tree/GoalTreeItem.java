@@ -6,6 +6,13 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+/**
+ * Logica de negocio que gestiona los item de tipo goal
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
 public class GoalTreeItem extends TreeItem<Object> {
 	
 	private static final Image GOAL = new Image("/fvarrui/sysadmin/editor/ui/resources/goal-16x16.png");

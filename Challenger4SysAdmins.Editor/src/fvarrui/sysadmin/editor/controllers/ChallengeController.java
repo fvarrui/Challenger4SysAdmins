@@ -38,8 +38,8 @@ public class ChallengeController implements Initializable {
 	/**
 	 * Constructor de los retos
 	 * 
-	 * @throws IOException
-	 *             si no pudo cargar la vista
+	 * @throws IOException si no pudo cargar la vista
+	 *             
 	 */
 	public ChallengeController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fvarrui/sysadmin/editor/ui/views/ChallengeView.fxml"));
@@ -57,10 +57,10 @@ public class ChallengeController implements Initializable {
 	/**
 	 * Listener en el modelo para bindear y desbindear los componenetes al modelo
 	 * 
-	 * @param oldGoal
-	 *            modelo viejo
-	 * @param newGoal
-	 *            modelo nuevo
+	 * @param oldGoal modelo viejo
+	 *          
+	 * @param newGoal modelo nuevo
+	 *           
 	 */
 	private void onChallengeChange(Challenge oldChallenge, Challenge newChallenge) {
 		if (oldChallenge != null) {

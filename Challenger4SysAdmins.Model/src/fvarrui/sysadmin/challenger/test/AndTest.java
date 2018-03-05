@@ -19,11 +19,7 @@ public class AndTest extends CompoundTest {
 		super(null);
 	}
 
-	/**
-	 * 
-	 * @param name nombre del test
-	 * @param testsconjunto de tests
-	 */
+
 	public AndTest(String name, Test... tests) {
 		super(name, tests);
 	}

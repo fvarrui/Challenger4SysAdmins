@@ -8,6 +8,13 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+/**
+ * Logica de negocio que gestiona el estado inicial de el arbol
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
 public class ChallengeTreeItem extends TreeItem<Object> {
 	
 	private static final Image CHALLENGE = new Image("/fvarrui/sysadmin/editor/ui/resources/challenge-16x16.png");

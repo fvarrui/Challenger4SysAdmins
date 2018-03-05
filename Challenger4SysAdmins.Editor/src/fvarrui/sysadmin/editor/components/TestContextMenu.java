@@ -16,13 +16,18 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.WindowEvent;
 
+
+/**
+ * Logica de negocio que gestiona el menu contextual
+ * @author Fran Vargas
+ * @version 1.0
+ */
 public class TestContextMenu extends ContextMenu {
 
-	// model
-
+	
 	private ObjectProperty<Test> test = new SimpleObjectProperty<>(this, "test");
 
-	// view
+
 
 	@FXML
 	private MenuItem andTestMenuItem;

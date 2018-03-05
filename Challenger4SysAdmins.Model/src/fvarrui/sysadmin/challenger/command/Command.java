@@ -35,8 +35,8 @@ public class Command {
 	/**
 	 * Constructor
 	 * 
-	 * @param command
-	 *            nombre del comando
+	 * @param command  nombre del comando
+	 *           
 	 */
 	public Command(String command) {
 		this.command = new SimpleStringProperty(this, "command", command);
@@ -80,12 +80,7 @@ public class Command {
 		return String.format(getCommand(), (Object[]) params);
 	}
 
-	/**
-	 * 
-	 * @param Un
-	 *            conjunto de parametros
-	 * @return los valores de salida de la ejecucion
-	 */
+
 	public ExecutionResult execute(String... params) {
 		ExecutionResult result = new ExecutionResult();
 		try {

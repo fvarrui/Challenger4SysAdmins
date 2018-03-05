@@ -48,9 +48,11 @@ public class Goal {
 		this(name, null);
 	}
 
+
 	/**
-	 * Constructor
-	 * @param name nombre del objetivo y la descripcion
+	 * 
+	 * @param name nombre del objetivo
+	 * @param description del objetivo
 	 */
 	public Goal(String name, String description) {
 		super();

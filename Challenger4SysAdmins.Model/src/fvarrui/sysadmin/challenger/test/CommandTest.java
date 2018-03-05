@@ -39,15 +39,7 @@ public class CommandTest extends Test {
 		this(name, null);
 	}
 
-	/**
-	 * 
-	 * @param name
-	 *            nombre de el test
-	 * @param command
-	 *            conjunto de comando del test
-	 * @param params
-	 *            parametros para esos comandos
-	 */
+
 	public CommandTest(String name, Command command, String... params) {
 		super(name);
 		this.command = new SimpleObjectProperty<Command>(this, "command", command);

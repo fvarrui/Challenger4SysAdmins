@@ -70,36 +70,24 @@ public class TestController implements Initializable {
 		}
 	}
 
-	/**
-	 * 
-	 * @return la vista cargada por el controlador.
-	 */
+
 	public BorderPane getView() {
 		return view;
 	}
 
-	/**
-	 * 
-	 * @return property del test
-	 */
+
 	public ObjectProperty<Test> testProperty() {
 		return this.test;
 	}
 	
 
-	/**
-	 * 
-	 * @return el objeto Test encapsulado
-	 */
+
 	public Test getTest() {
 		return this.testProperty().get();
 	}
 	
 	
-	/**
-	 * 
-	 * @param permite setear un nuevo Test
-	 */
+
 	public void setTest(final Test test) {
 		this.testProperty().set(test);
 	}

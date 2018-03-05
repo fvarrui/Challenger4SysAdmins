@@ -6,6 +6,13 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Logica de negocio que gestiona los item de tipo comando
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
+
 public class CommandTreeItem extends TreeItem<Object> {
 	
 	private static final Image COMMAND = new Image("/fvarrui/sysadmin/editor/ui/resources/command-16x16.png");

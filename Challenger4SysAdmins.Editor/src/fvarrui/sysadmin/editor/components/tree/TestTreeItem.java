@@ -10,6 +10,14 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+
+/**
+ * Logica de negocio que gestiona los item de tipo test
+ * @author Fran Vargas
+ * @version 1.0
+ *
+ */
 public class TestTreeItem extends TreeItem<Object> {
 	
 	private static final Image TEST = new Image("/fvarrui/sysadmin/editor/ui/resources/test-16x16.png");

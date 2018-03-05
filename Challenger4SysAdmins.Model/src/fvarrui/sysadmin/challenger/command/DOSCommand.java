@@ -22,8 +22,8 @@ public class DOSCommand extends ShellCommand {
 	}
 
 	/**
-	 * Constructor
-	 * @param nombre del comando
+	 * 
+	 * @param command comando
 	 */
 	public DOSCommand(String command) {
 		super(CMD, command);

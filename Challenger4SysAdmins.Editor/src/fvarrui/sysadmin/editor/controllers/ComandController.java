@@ -41,8 +41,8 @@ public class ComandController implements Initializable {
 	/**
 	 * Constructor de los comandos
 	 * 
-	 * @throws IOException
-	 *             si no pudo cargar la vista
+	 * @throws IOException  si no pudo cargar la vista
+	 *            
 	 */
 	public ComandController() throws IOException {
 
@@ -62,10 +62,10 @@ public class ComandController implements Initializable {
 	/**
 	 * Listener en el modelo para bindear y desbindear los componenetes al modelo
 	 * 
-	 * @param oldTest
-	 *            modelo viejo de Comand
-	 * @param newTest
-	 *            modelo nuevo de Comand
+	 * @param oldTest  modelo viejo de Comand
+	 *           
+	 * @param newTest  modelo nuevo de Comand
+	 *           
 	 */
 	private void onComandChange(Command oldComand, Command newComand) {
 

@@ -3,18 +3,11 @@ package fvarrui.sysadmin.editor.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-<<<<<<< HEAD
-=======
-import java.util.Optional;
->>>>>>> 2ffaae0cfc64077a7cd02f55dc72a1cfbc9f2f88
 import java.util.ResourceBundle;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
-<<<<<<< HEAD
 import fvarrui.sysadmin.challenger.command.ShellCommand;
-=======
->>>>>>> 2ffaae0cfc64077a7cd02f55dc72a1cfbc9f2f88
 import fvarrui.sysadmin.challenger.test.Test;
 import fvarrui.sysadmin.editor.application.EditorApp;
 import javafx.beans.property.ObjectProperty;
@@ -50,10 +43,7 @@ public class RootController implements Initializable {
 	private GoalController goalController;
 	private TestController testController;
 	private ChallengeController challengeController;
-<<<<<<< HEAD
 	private ComandController comandController;
-=======
->>>>>>> 2ffaae0cfc64077a7cd02f55dc72a1cfbc9f2f88
 
 	private ObjectProperty<Challenge> challenge = new SimpleObjectProperty<>(this, "challenge");
 	private ObjectProperty<Object> seleccionado = new SimpleObjectProperty<>(this, "seleccionado");
@@ -63,7 +53,6 @@ public class RootController implements Initializable {
 
 	@FXML
 	private BorderPane emptyView;
-<<<<<<< HEAD
 
 	@FXML
 	private Pane aboutView;
@@ -73,14 +62,12 @@ public class RootController implements Initializable {
 
 	@FXML
 	private Hyperlink franLink;
-=======
->>>>>>> 2ffaae0cfc64077a7cd02f55dc72a1cfbc9f2f88
 
 	/**
 	 * Constructor del controlador raiz
 	 * 
-	 * @throws IOException
-	 *             En caso de no poder cargar la vista.
+	 * @throws IOException En caso de no poder cargar la vista.
+	 *            
 	 */
 	public RootController() throws IOException {
 		comandController = new ComandController();
@@ -115,22 +102,18 @@ public class RootController implements Initializable {
 	/**
 	 * Listener para ser notificado de cambios y bindear el modelo.
 	 * 
-	 * @param o
-	 *            valor observable
-	 * @param ov
-	 *            viejo goal
-	 * @param nv
-	 *            goal nuevo
-	 * @throws IOException
+	 * @param o valor observable
+	 *            
+	 * @param ov viejo goal
+	 *            
+	 * @param nv goal nuevo
+	 *            
+	 * @throws IOException si no puede cargar la vista
 	 */
 	private void onSeleccionadoChanged(ObservableValue<? extends Object> o, Object ov, Object nv) {
 
 		view.setCenter(emptyView);
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 2ffaae0cfc64077a7cd02f55dc72a1cfbc9f2f88
 		if (nv instanceof Goal) {
 			Goal goal = (Goal) nv;
 			goalController.goalProperty().bind(new SimpleObjectProperty<Goal>(goal));
@@ -148,7 +131,6 @@ public class RootController implements Initializable {
 		}
 		if (ov instanceof Test) {
 			testController.testProperty().unbind();
-<<<<<<< HEAD
 		}
 
 		if (nv instanceof Challenge) {
@@ -167,26 +149,15 @@ public class RootController implements Initializable {
 		}
 		if (ov instanceof ShellCommand) {
 			comandController.shellCommandProperty().unbind();
-=======
->>>>>>> 2ffaae0cfc64077a7cd02f55dc72a1cfbc9f2f88
 		}
 
-		if (nv instanceof Challenge) {
-			Challenge challenge = (Challenge) nv;
-			challengeController.challengeProperty().bind(new SimpleObjectProperty<>(challenge));
-			view.setCenter(challengeController.getView());
-		}
-		if (ov instanceof Challenge) {
-			challengeController.challengeProperty().unbind();
-		}
-		
 	}
 
 	/**
 	 * Dispara el evento 'About' de la barra de menu
 	 * 
-	 * @param evento
-	 *            del boton
+	 * @param evento del boton
+	 *         
 	 * @throws IOException
 	 */
 	@FXML
@@ -211,8 +182,8 @@ public class RootController implements Initializable {
 	/**
 	 * Dispara el evento 'Exit' y cierra la aplicacion
 	 * 
-	 * @param evento
-	 *            del boton
+	 * @param evento  del boton
+	 *           
 	 */
 	@FXML
 	void exitButtonAction(ActionEvent event) {
@@ -221,6 +192,12 @@ public class RootController implements Initializable {
 
 	}
 
+	/**
+	 * Dispara el evento 'New' y cierra la aplicacion
+	 * 
+	 * @param evento  del boton
+	 *           
+	 */
 	@FXML
 	void newButtonAction(ActionEvent event) {
 
@@ -237,12 +214,18 @@ public class RootController implements Initializable {
 		}
 	}
 
+	/**
+	 * Dispara el evento 'Open' y cierra la aplicacion
+	 * 
+	 * @param evento  del boton
+	 *           
+	 */
 	@FXML
 	void openButtonAction(ActionEvent event) {
 
 		
 		try {
-			// abre el diálogo para abrir un fichero
+		
 			FileChooser abrirDialog = new FileChooser();
 			abrirDialog.setInitialDirectory(new File("."));
 			abrirDialog.getExtensionFilters().add(new ExtensionFilter("Historial de comandos (*.challenge)", "*.challenge"));
@@ -267,23 +250,28 @@ public class RootController implements Initializable {
 		}
 	}
 
+	/**
+	 * Dispara el evento 'Guardar' y cierra la aplicacion
+	 * 
+	 * @param evento  del boton
+	 *           
+	 */
 	@FXML
 	void saveButtonAction(ActionEvent event) {
 
 		try {
-			// abre el diálogo para guardar un fichero
+			
 			FileChooser guardarDialog = new FileChooser();
 			guardarDialog.setInitialDirectory(new File("."));
 			guardarDialog.getExtensionFilters().add(new ExtensionFilter("Challenge (*.challenge)", "*.challenge"));
 			File fichero = guardarDialog.showSaveDialog(EditorApp.getPrimaryStage());
-			// comprueba si se seleccionó un fichero en el diálogo (File) o se canceló (null)			
+					
 			if (fichero != null) {
-				// se guarda el historial en el fichero indicado
+				
 				challenge.get().save(fichero);
 			}
 		} catch (Exception e1) {
-			e1.printStackTrace();
-			// muestra un diálogo con el error			
+			e1.printStackTrace();		
 			Alert error = new Alert(AlertType.ERROR);
 			error.initOwner(EditorApp.getPrimaryStage());
 			error.initModality(Modality.APPLICATION_MODAL);
