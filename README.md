@@ -2,7 +2,7 @@
 
 Retador para administradores de sistemas.
 
-![](Challenger4SysAdmins/docs/DesingSnapshots/logo.PNG)
+![](Challenger4SysAdmins/docs/DesingSnapshots/logo.png)
 
 Desarolladores:
 
