@@ -2,7 +2,7 @@
 
 Retador para administradores de sistemas.
 
-![logo](docs\DesingSnapshots\logo.png)
+![logo](\docs\DesingSnapshots\logo.png)
 
 Desarolladores:
 
