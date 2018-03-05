@@ -33,8 +33,8 @@ public class EditorApp extends Application {
 	}
 
 	/**
-	 * Punto de entrada de la aplicacion.
-	 * @param argumentos de la aplicacion
+	 * punto de entrada de la aplicacion
+	 * @param args argumentos de la aplicacion
 	 */
 	public static void main(String[] args) {
 		launch(args);

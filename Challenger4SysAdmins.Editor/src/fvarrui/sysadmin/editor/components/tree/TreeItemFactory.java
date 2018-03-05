@@ -19,11 +19,13 @@ import javafx.scene.control.TreeItem;
 public class TreeItemFactory {
 	
 
+
 	/**
-	 *
-	 * @param  Un Challenge
-	 * @return Un item de tipo Challenge
+	 * 
+	 * @param challenge un chellenge
+	 * @return un item
 	 */
+	
 	public static TreeItem<Object> createChallengeTreeItem(Challenge challenge) {
 		TreeItem<Object> challengeItem = new TreeItem<Object>();
 		challengeItem.setExpanded(true);
@@ -45,10 +47,11 @@ public class TreeItemFactory {
 		return challengeItem;
 	}
 	
+	 
 	/**
 	 * 
-	 * @param recibe un objeto Goal
-	 * @return Un item de tipo Goal
+	 * @param goal un goal
+	 * @return un item de tipo goal
 	 */
 
 	public static TreeItem<Object> createGoalTreeItem(Goal goal) {
@@ -70,8 +73,8 @@ public class TreeItemFactory {
 	
 	/**
 	 * 
-	 * @param recibe un objeto Test
-	 * @return Un item de tipo Test
+	 * @param test un test
+	 * @return un item de tipo test
 	 */
 	public static TreeItem<Object> createTestTreeItem(Test test) {
 		TreeItem<Object> testItem = new TreeItem<Object>();
@@ -114,11 +117,11 @@ public class TreeItemFactory {
 	}
 
 	
-	/**
-	 * 
-	 * @param recibe un objeto Coamnd
-	 * @return Un item de tipo Comand
-	 */
+   /**
+    * 
+    * @param command un comando
+    * @return un item de tipo comando
+    */
 	public static TreeItem<Object> createCommandTreeItem(Command command) {
 		TreeItem<Object> commandItem = new TreeItem<Object>();
 		commandItem.setExpanded(true);
