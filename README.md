@@ -2,7 +2,7 @@
 
 Retador para administradores de sistemas.
 
-![](Challenger4SysAdmins/docs/DesingSnapshots/logo.PNG)
+![logo](/docs/DesingSnapshots/logo.png)
 
 Desarolladores:
 
@@ -20,13 +20,9 @@ La aplicacion a sido desarollada utilizando el patron de  diseño **MVC**,ademas
 
 ## Documentos de ayuda
 
-**Documentacion** ->[Desing](https://github.com/fvarrui/Challenger4SysAdmins/blob/master/docs/design.md)
+**Documentacion-Diseño de la aplicacion** ->[Desing](/docs/design.md)
 
-Documentacion** ->[Analisis](https://github.com/fvarrui/Challenger4SysAdmins/blob/master/docs/Analisis.md)
-
-
+**Documentacion-Analisis de la aplicacion** ->[Analisis](/docs/Analisis.md)
 
 
-
-#### 
 
