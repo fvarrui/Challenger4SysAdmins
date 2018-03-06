@@ -1,44 +1,92 @@
+---
+
+---
+
 # Diseño
 
 
 
 El diseño de la aplicación ha sido realizado mediante el framework **JavaFX**, utilizando la herramienta grafica **Scene Builder** para el desarrollo delas distintas ventanas y componentes que componen la aplicación.
 
-La ventana del **Editor de Retos** se ha divido en varios componenteso zonas **independientes** para facilitar el tratamiento independiente de la informaciónque gestiona cada parte de la ventana, para finalmente encajar cada pieza de la ventana conformando una ventana **ensamblada** por cada pequeña parte de la misma.
+La ventana del **Editor de Retos** se ha divido en varios componenteso zonas **independientes** para facilitar el tratamiento independiente de la informaciónque gestiona cada parte de la ventana, para finalmente encajar cada pieza de la ventana conformando una ventana **ensamblada** por cada pequeña parte de la misma. 
 
-La aplicacion esta conformada por 4 partes independientes.
+1. AboutView(Ayuda)
+2. ChallengeView(Reto)
+3. TreeEditorView(Arbol)
+4. EmptyView(Sin Panel)
+5. GoalView(Objetivos)
+6. TestView(Test)
+7. CompleteView(Vista Completa)
 
-1. Superior
-2. Central
-3. Derecha
-4. Inferior
+------
 
-#### Superior
+#### <u>Ayuda</u>
 
-En la parte superior tenemos un menú con algunas de las acciones
-que podemos realizar en la aplicación, además tenemos algunos de los campos de
-texto que nos permiten definir un reto.
+Panel de ayuda con informacion general de la aplicacion,**vercion**,fecha,autores y vercion de **java** con la que se compilo el sofware.
 
+![AboutView](DesingSnapshots/AboutView.jpg)
 
-
-#### Central
-
-En la parte central podemos encontrar una tabla sobre la que
-podemos realizar diferentes operaciones como son crear nuevo objetivos, editar
-un objetivo, o eliminarlo permitiéndonos así ajustar el **reto** a nuestras necesidades.
+------
 
 
 
-#### Derecha
+#### <u>Reto</u>
 
-En la parte derecha podemos encontrar una lista sobre la que
-podemos realizar varias **operaciones** como son la de añadir un **Test**, editar un **Test**
-o eliminarlo.
+Panel que permite darle un nombre al reto a si como una descripcion de el mismo.
+
+![ChallengerView](DesingSnapshots/ChallengerView.jpg)
+
+------
 
 
-#### Inferior
 
-En la parte inferior podemos encontrar una serie de botones
-que nos permiten realizar varias **operaciones** como son la de editar un **Reto** o
-crearlo a si como un botón para salir de la aplicación.
+#### <u>Arbol</u>
+
+Arbol que almacena toda la jerarquia de objetos dentro de el reto.
+
+![TreView](DesingSnapshots/TreView.jpg)
+
+------
+
+
+
+#### <u>Sin Panel</u>
+
+Panel que se muestra cuando no hay nada selecionado en el arbol.
+
+![EmptyView](DesingSnapshots/EmptyView.jpg)
+
+------
+
+
+
+#### <u>Objetivos</u>
+
+Panel de los objetivos que nos permite darle un nombre y una descripcion al objetivo.
+
+![GoalView](DesingSnapshots/GoalView.jpg)
+
+------
+
+
+
+#### <u>Test</u>
+
+Panel de los test que nos permite darle nombre y una descripcion.
+
+![TestView](DesingSnapshots/TestView.jpg)
+
+------
+
+
+
+#### <u>Vista Completa</u>
+
+Aspecto completo de todos los paneles ensamblados.
+
+![CompleteView](DesingSnapshots/CompleteView.jpg)
+
+
+
+
 
