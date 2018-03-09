@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="view" prefHeight="300.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+	<top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+      		<MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      			<menus>
+      				<Menu text="_File">
+      					<items>
+      						<MenuItem onAction="#newButtonAction" text="_New">
+      							<graphic>
+      								<ImageView>
+      									<image>
+      										<Image url="@../resources/new-16x16.png" />
+      									</image>
+      								</ImageView>
+      							</graphic>
+      							<accelerator>
+      								<KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+      							</accelerator>
+      						</MenuItem>
+      						<SeparatorMenuItem />
+      						<MenuItem onAction="#openButtonAction" text="Open...">
+      							<graphic>
+      								<ImageView>
+      									<image>
+      										<Image url="@../resources/open-16x16.png" />
+      									</image>
+      								</ImageView>
+      							</graphic>
+      							<accelerator>
+      								<KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+      							</accelerator>
+      						</MenuItem>
+      						<SeparatorMenuItem />
+      						<MenuItem onAction="#saveButtonAction" text="Save">
+      							<graphic>
+      								<ImageView>
+      									<image>
+      										<Image url="@../resources/save-16x16.png" />
+      									</image>
+      								</ImageView>
+      							</graphic>
+      							<accelerator>
+      								<KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+      							</accelerator>
+      						</MenuItem>
+      						<MenuItem onAction="#saveButtonAction" text="Save As...">
+      							<graphic>
+      								<ImageView>
+      									<image>
+      										<Image url="@../resources/save-16x16.png" />
+      									</image>
+      								</ImageView>
+      							</graphic>
+      							<accelerator>
+      								<KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+      							</accelerator>
+      						</MenuItem>
+      						<SeparatorMenuItem />
+      						<MenuItem onAction="#exitButtonAction" text="Exit">
+      							<graphic>
+      								<ImageView>
+      									<image>
+      										<Image url="@../resources/exit-16x16.png" />
+      									</image>
+      								</ImageView>
+      							</graphic>
+      							<accelerator>
+      								<KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP" shortcut="UP" />
+      							</accelerator>
+      						</MenuItem>
+      					</items>
+      				</Menu>
+      				<Menu text="_Help">
+      					<items>
+      						<MenuItem onAction="#aboutButtonAction" text="_About...">
+      							<graphic>
+      								<ImageView>
+      									<image>
+      										<Image url="@../resources/about-16x16.png" />
+      									</image>
+      								</ImageView>
+      							</graphic>
+      						</MenuItem>
+      					</items>
+      				</Menu>
+      			</menus>
+      		</MenuBar>
+            <ToolBar>
+              <items>
+                <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="Run">
+                     <graphic>
+                        <ImageView pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/play-16x16.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+	</top>
+	<center>
+		<SplitPane dividerPositions="0.25" BorderPane.alignment="CENTER">
+			<items>
+				<BorderPane fx:id="leftPane" />
+            <ScrollPane fitToHeight="true" fitToWidth="true">
+               <content>
+      				<BorderPane fx:id="centerPane" styleClass="workspacePane" />
+               </content>
+            </ScrollPane>
+			</items>
+		</SplitPane>
+	</center>
+   <bottom>
+      <Accordion BorderPane.alignment="CENTER">
+        <panes>
+          <TitledPane animated="false" expanded="false" text="Console">
+               <content>
+                  <TextArea prefRowCount="5" />
+               </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </bottom>
+</BorderPane>

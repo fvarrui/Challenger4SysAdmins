@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane fx:id="view" hgap="5.0" prefHeight="300.0" prefWidth="480.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+	<rowConstraints>
+		<RowConstraints minHeight="10.0" prefHeight="50.0" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+		<RowConstraints minHeight="10.0" vgrow="NEVER" />
+	</rowConstraints>
+	<columnConstraints>
+		<ColumnConstraints minWidth="10.0" />
+		<ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+		<ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+	</columnConstraints>
+	<padding>
+		<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+	</padding>
+	<children>
+		<ImageView fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="4">
+			<image>
+				<Image url="@../resources/logo-128x128.png" />
+			</image>
+		</ImageView>
+		<Label text="Release date:" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BASELINE" />
+		<Label text="Java:" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BASELINE" />
+		<Label text="Version:" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BASELINE" />
+		<Label fx:id="titleLabel" text="&lt;title&gt;" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+		<Label fx:id="versionLabel" text="&lt;version&gt;" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BASELINE" />
+		<Label fx:id="releaseDateLabel" text="&lt;releaseDate&gt;" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="BASELINE" />
+		<Label fx:id="javaVersionLabel" text="&lt;javaVersion&gt;" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="BASELINE" />
+		<Label text="Authors:" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BASELINE" />
+		<VBox fx:id="authorsPane" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="BASELINE" />
+	</children>
+</GridPane>
