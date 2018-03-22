@@ -118,8 +118,8 @@ public class ExecutionResult {
 		buffer.append("ExecutionTime   : " + getExecutionTime() + "\n");
 		buffer.append("Duration        : " + getDuration().toMillis() + "ms\n");
 		buffer.append("ReturnValue     : " + getReturnValue() + "\n");
-		buffer.append("Output          : " + getOutput() + "\n");
-		buffer.append("Error           : " + getError());
+		buffer.append("Output:\n" + getOutput() + "\n");
+		buffer.append("Error:\n" + getError());
 		return buffer.toString();
 	}
 

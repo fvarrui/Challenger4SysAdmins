@@ -1,5 +1,7 @@
 package fvarrui.sysadmin.challenger.command;
 
+import java.io.InputStream;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -43,6 +45,11 @@ public class ShellCommand extends Command {
 	@Override
 	public ExecutionResult execute(String... params) {
 		return shell.execute(prepareCommand(params));
+	}
+	
+	@Override
+	public InputStream longExecute(String... params) {
+		return shell.longExecute(prepareCommand(params));
 	}
 
 	@XmlAttribute

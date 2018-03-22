@@ -52,8 +52,8 @@ public class CommandController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		shellCommand.addListener((o, oldComand, newComand) -> onComandChange(oldComand, newComand));
-
+		shellCommand.addListener((o, oldCommand, newCommand) -> onCommandChange(oldCommand, newCommand));
+		
 	}
 
 	/**
@@ -61,15 +61,15 @@ public class CommandController implements Initializable {
 	 * @param oldTest  modelo viejo de Comand
 	 * @param newTest  modelo nuevo de Comand
 	 */
-	private void onComandChange(ShellCommand oldComand, ShellCommand newComand) {
+	private void onCommandChange(ShellCommand oldCommand, ShellCommand newCommand) {
 
-		if (oldComand != null) {
-			commandText.textProperty().unbindBidirectional(oldComand.commandProperty());
-			shellComboBox.valueProperty().unbindBidirectional(oldComand.shellProperty());
+		if (oldCommand != null) {
+			commandText.textProperty().unbindBidirectional(oldCommand.commandProperty());
+			shellComboBox.valueProperty().unbindBidirectional(oldCommand.shellProperty());
 		}
-		if (newComand != null) {
-			commandText.textProperty().bindBidirectional(newComand.commandProperty());
-			shellComboBox.valueProperty().bindBidirectional(newComand.shellProperty());
+		if (newCommand != null) {
+			commandText.textProperty().bindBidirectional(newCommand.commandProperty());
+			shellComboBox.valueProperty().bindBidirectional(newCommand.shellProperty());
 		}
 
 	}

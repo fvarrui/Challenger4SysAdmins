@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class PSCommand extends ShellCommand {
 
-	private static final String PS = "PowerShell & { %s }";
+	private static final String PS = "powershell \"%s\"";
 
 	/**
 	 * Constructor por defecto

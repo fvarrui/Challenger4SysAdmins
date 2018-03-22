@@ -1,6 +1,8 @@
 package fvarrui.sysadmin.challenger.command;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -80,7 +82,6 @@ public class Command {
 		return String.format(getCommand(), (Object[]) params);
 	}
 
-
 	public ExecutionResult execute(String... params) {
 		ExecutionResult result = new ExecutionResult();
 		try {
@@ -98,8 +99,8 @@ public class Command {
 			LocalDateTime after = LocalDateTime.now();
 
 			result.setDuration(Duration.between(before, after));
-			result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()));
-			result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()));
+			result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()).trim());
+			result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()).trim());
 			result.setReturnValue(p.exitValue());
 		} catch (IOException e) {
 			result.setError(e.getMessage());
@@ -112,6 +113,23 @@ public class Command {
 		}
 		this.result.set(result);
 		return result;
+	}
+	
+	public InputStream longExecute(String... params) {
+		InputStream input = null;
+		try {
+			String preparedCommand = prepareCommand(params);
+			System.out.println(preparedCommand);
+			String[] splittedCommand = preparedCommand.split("[ ]+");
+			ProcessBuilder pb = new ProcessBuilder(splittedCommand);
+			Process p = pb.start();
+			input = p.getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return input;
 	}
 	
 	@Override
