@@ -1,5 +1,6 @@
 package fvarrui.sysadmin.challenger.monitoring;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class PSMonitor extends Monitor {
 	public static final String USERNAME = "username";
 	public static final String TIMESTAMP = "timestamp";
 	
-	private static final long DELAY = 250L;
+	private static final long DELAY = 1000L;
 	private static final String QUERY_EVENTS_CMD = "wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>'%s']][EventID=4104]]\"";
 	
 	private long delay;
@@ -68,8 +69,11 @@ public class PSMonitor extends Monitor {
 		Command resolveUsername = new PSCommand("(Get-LocalUser | Where SID -eq '%s').Name");		
 		LocalDateTime dateTime = LocalDateTime.now();
 		do {
-			
+
+			LocalDateTime before = LocalDateTime.now(); 
+
 			ExecutionResult result = command.execute(dateTime.toString());
+			
 			
 			if (!result.getOutput().isEmpty()) {
 				
@@ -104,14 +108,18 @@ public class PSMonitor extends Monitor {
 				
 			}
 			
-			delay();
+			LocalDateTime after = LocalDateTime.now();
+			long consumedMillis = Duration.between(before, after).toMillis();
+
+			delay(consumedMillis);
 			
 		} while (!isStopped());
 	}
 	
-	private void delay() {
+	private void delay(long consumedMillis) {
+		if (delay <= consumedMillis) return;
 		try {
-			Thread.sleep(delay);
+			Thread.sleep(delay - consumedMillis);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}		

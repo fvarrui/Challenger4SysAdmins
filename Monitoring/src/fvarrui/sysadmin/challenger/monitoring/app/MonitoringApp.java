@@ -1,10 +1,13 @@
 package fvarrui.sysadmin.challenger.monitoring.app;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
+import org.apache.commons.lang.SystemUtils;
 import org.controlsfx.control.Notifications;
 
+import fvarrui.sysadmin.challenger.monitoring.BASHMonitor;
+import fvarrui.sysadmin.challenger.monitoring.Monitor;
 import fvarrui.sysadmin.challenger.monitoring.PSMonitor;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -17,7 +20,7 @@ import javafx.stage.StageStyle;
 public class MonitoringApp extends Application {
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-	private PSMonitor monitor = new PSMonitor();
+	private Monitor monitor;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -35,13 +38,30 @@ public class MonitoringApp extends Application {
         primaryStage.toBack();
         primaryStage.show();
 
-		monitor.addListener((cmd,time) -> {
+        if (SystemUtils.IS_OS_WINDOWS) {
+        	monitor = new PSMonitor();
+        } else if (SystemUtils.IS_OS_LINUX) {
+        	monitor = new BASHMonitor();        	
+        } else {
+        	System.err.println("Sistema operativo no soportado");
+        	Platform.exit();
+        }
+        
+		monitor.addListener(data -> {
+			String cmd = (String) data.get(PSMonitor.COMMAND);
+			String user = (String) data.get(PSMonitor.USERNAME);
+			LocalDateTime time = (LocalDateTime) data.get(PSMonitor.TIMESTAMP);
+			
 			System.out.println("---> " + cmd);
 			Platform.runLater(() -> 
 					Notifications
 						.create()
 						.title("PowerShell")
-						.text("Hora: " + time.format(formatter) + "\nComando: " + cmd)
+						.text(
+							"Hora: " + time.format(formatter) + "\n" +
+							"Usuario: " + user + "\n" +
+							"Comando: " + (cmd.length() > 50 ? cmd.substring(0, 50) + "..." : cmd)
+						)
 						.showInformation()
 				);
 		});

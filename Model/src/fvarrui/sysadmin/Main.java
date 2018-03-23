@@ -19,6 +19,7 @@ import fvarrui.sysadmin.challenger.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.command.PSCommand;
 import fvarrui.sysadmin.challenger.command.ShellCommand;
 import fvarrui.sysadmin.challenger.monitoring.BASHMonitor;
+import fvarrui.sysadmin.challenger.monitoring.Monitor;
 import fvarrui.sysadmin.challenger.monitoring.PSMonitor;
 import fvarrui.sysadmin.challenger.test.CommandTest;
 import fvarrui.sysadmin.challenger.test.NotTest;
@@ -59,11 +60,8 @@ public class Main {
 //			System.out.println(i++ + " : " + line);
 //		}
 
-//		BASHMonitor l = new BASHMonitor();
-//		l.addListener((data) -> System.out.println(data.get("timestamp") + " : " + cmd));
-//		l.start();
-		
-		PSMonitor l = new PSMonitor();
+		Monitor l = new BASHMonitor();
+//		Monitor l = new PSMonitor();
 		l.addListener((data) -> {
 			System.out.println(String.format("%s (%s): %s", 
 					data.get(PSMonitor.TIMESTAMP), 
