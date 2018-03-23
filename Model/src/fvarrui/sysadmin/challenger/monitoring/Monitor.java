@@ -1,8 +1,8 @@
 package fvarrui.sysadmin.challenger.monitoring;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Monitor extends Thread {
 	
@@ -17,9 +17,9 @@ public abstract class Monitor extends Thread {
 	@Override
 	public void run() {
 		stop = false;
-		System.out.println(String.format("monitor %s iniciado", getName()));
+		System.out.println(String.format("monitor %s started", getName()));
 		doWork();
-		System.out.println(String.format("monitor %s detenido", getName()));
+		System.out.println(String.format("monitor %s stopped", getName()));
 	}
 	
 	protected abstract void doWork();
@@ -29,7 +29,7 @@ public abstract class Monitor extends Thread {
 	}
 
 	public void requestStop() {
-		System.out.println(String.format("solicitando parada del monitor %s", getName()));
+		System.out.println(String.format("request stop monitor %s", getName()));
 		this.stop = true;
 	}
 	
@@ -41,9 +41,9 @@ public abstract class Monitor extends Thread {
 		this.listeners.remove(listener);
 	}
 	
-	protected void notify(String command, LocalDateTime time) {
+	protected void notifyAll(Map<String, Object> data) {
 		for (MonitorListener listener : listeners) {
-			listener.commandExecuted(command, time);
+			listener.notify(data);
 		}
 	}
 

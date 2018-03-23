@@ -1,0 +1,28 @@
+16564 23:15:38 ssv) ls --color=auto
+16564 23:15:39 ssv) ls --color=auto -la
+16564 23:15:41 ssv) cd /
+16564 23:15:44 ssv) cd /bin
+16564 23:15:47 ssv) nano fichero
+16564 23:15:49 ssv) cd /home/ssv
+23050 23:16:42 ssv) /bin/sh /usr/bin/lesspipe
+   23050 23:16:42 ssv) basename /usr/bin/lesspipe
+23050 23:16:42 ssv) dirname /usr/bin/lesspipe
+23050 23:16:42 ssv) dircolors -b
+23050 23:16:42 ssv) ls /etc/bash_completion.d
+23050 23:16:42 ssv) /bin/bash /usr/bin/mint-fortune
+      23050 23:16:42 ssv) gsettings get com.linuxmint.terminal show-fortunes
+23050 23:16:47 ssv) su chuck
+   23050 23:16:49 chuck) bash 
+         23050 23:16:49 chuck) /bin/sh /usr/bin/lesspipe
+            23050 23:16:49 chuck) basename /usr/bin/lesspipe
+               23050 23:16:49 chuck) dirname /usr/bin/lesspipe
+         23050 23:16:49 chuck) dircolors -b
+         23050 23:16:49 chuck) ls /etc/bash_completion.d
+      23050 23:16:49 chuck) /bin/bash /usr/bin/mint-fortune
+            23050 23:16:49 chuck) gsettings get com.linuxmint.terminal show-fortunes
+      23050 23:16:52 chuck) ls --color=auto
+        23050 23:16:53 chuck) cd /home/chuck
+23106 23:17:01 root) /bin/sh -c    cd / && run-parts --report /etc/cron.hourly
+    23106 23:17:01 root) cd /
+   23106 23:17:01 root) run-parts --report /etc/cron.hourly
+23050 23:17:05 ssv) find -name

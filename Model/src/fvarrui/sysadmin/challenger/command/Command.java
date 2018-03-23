@@ -2,7 +2,6 @@ package fvarrui.sysadmin.challenger.command;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -14,6 +13,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -90,6 +90,7 @@ public class Command {
 
 			result.setExecutionTime(before);
 			result.setExecutedCommand(prepareCommand(params));
+			result.setParams(StringUtils.join(params, " "));
 
 			String[] splittedCommand = result.getExecutedCommand().split("[ ]+");
 			ProcessBuilder pb = new ProcessBuilder(splittedCommand);
@@ -110,8 +111,9 @@ public class Command {
 			result.setError(e.getMessage());
 			result.setReturnValue(-1);
 			e.printStackTrace();
+		} finally {
+			this.result.set(result);
 		}
-		this.result.set(result);
 		return result;
 	}
 	

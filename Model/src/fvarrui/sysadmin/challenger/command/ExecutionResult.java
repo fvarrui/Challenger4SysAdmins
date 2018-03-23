@@ -12,20 +12,21 @@ import javafx.beans.property.StringProperty;
 
 /**
  * Clase modelo representa el conjunto de valores devueltos por la aplicacion.
+ * 
  * @author Fran Vargas
  * @version 1.0
  *
  */
 
 public class ExecutionResult {
-	
+
 	private IntegerProperty returnValue;
 	private StringProperty output;
 	private StringProperty error;
 	private StringProperty executedCommand;
+	private StringProperty params;
 	private ObjectProperty<LocalDateTime> executionTime;
 	private ObjectProperty<Duration> duration;
-
 
 	/**
 	 * Constructor por defecto
@@ -35,6 +36,7 @@ public class ExecutionResult {
 		this.output = new SimpleStringProperty(this, "output", "");
 		this.error = new SimpleStringProperty(this, "error", "");
 		this.executedCommand = new SimpleStringProperty(this, "executedCommand");
+		this.params = new SimpleStringProperty(this, "params");
 		this.executionTime = new SimpleObjectProperty<>(this, "executionTime");
 		this.duration = new SimpleObjectProperty<>(this, "duration");
 	}
@@ -87,6 +89,18 @@ public class ExecutionResult {
 		this.executedCommandProperty().set(executedCommand);
 	}
 
+	public final StringProperty paramsProperty() {
+		return this.params;
+	}
+
+	public final String getParams() {
+		return this.paramsProperty().get();
+	}
+
+	public final void setParams(final String params) {
+		this.paramsProperty().set(params);
+	}
+
 	public final ObjectProperty<LocalDateTime> executionTimeProperty() {
 		return this.executionTime;
 	}
@@ -115,6 +129,7 @@ public class ExecutionResult {
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("ExecutedCommand : " + getExecutedCommand() + "\n");
+		buffer.append("Params          : " + getParams() + "\n");
 		buffer.append("ExecutionTime   : " + getExecutionTime() + "\n");
 		buffer.append("Duration        : " + getDuration().toMillis() + "ms\n");
 		buffer.append("ReturnValue     : " + getReturnValue() + "\n");

@@ -1,9 +1,9 @@
 package fvarrui.sysadmin.challenger.monitoring;
 
-import java.time.LocalDateTime;
+import java.util.Map;
 
 public interface MonitorListener {
 
-	public void commandExecuted(String command, LocalDateTime time);
+	public void notify(Map<String,Object> data);
 	
 }

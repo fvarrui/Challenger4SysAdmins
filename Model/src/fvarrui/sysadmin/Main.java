@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
@@ -17,6 +18,7 @@ import fvarrui.sysadmin.challenger.command.DOSCommand;
 import fvarrui.sysadmin.challenger.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.command.PSCommand;
 import fvarrui.sysadmin.challenger.command.ShellCommand;
+import fvarrui.sysadmin.challenger.monitoring.BASHMonitor;
 import fvarrui.sysadmin.challenger.monitoring.PSMonitor;
 import fvarrui.sysadmin.challenger.test.CommandTest;
 import fvarrui.sysadmin.challenger.test.NotTest;
@@ -44,9 +46,11 @@ public class Main {
 //		Command c = new PSCommand("Get-WinEvent -LogName \\\"Microsoft-Windows-PowerShell/Operational\\\" -FilterXPath \\\"*[System[TimeCreated[@SystemTime>='2018-03-15T14:30:00']][EventID=4104]]\\\"");
 
 //		Command c = new DOSCommand("wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>='%s']][EventID=4104]]\"");
+		
+//		Command c = new PSCommand("Get-Date");
 //		System.out.println(c.execute("2018-03-16T14:30:00"));
 		
-//		Command c = new PSCommand("while ($true) { Write-Output \\\"hola\\\" ; Start-Sleep -Seconds 1 }");
+//		Command c = new PSCommand("Get-Content sysdig.log | ForEach-Object { $_ ; Start-Sleep -Seconds 5 }");
 //		InputStream s = c.longExecute();
 //		BufferedReader r = new BufferedReader(new InputStreamReader(s));
 //		String line = null;
@@ -54,10 +58,19 @@ public class Main {
 //		while ((line = r.readLine()) != null) {
 //			System.out.println(i++ + " : " + line);
 //		}
-		
 
+//		BASHMonitor l = new BASHMonitor();
+//		l.addListener((data) -> System.out.println(data.get("timestamp") + " : " + cmd));
+//		l.start();
+		
 		PSMonitor l = new PSMonitor();
-		l.addListener((cmd,time) -> System.out.println(time + " : " + cmd));
+		l.addListener((data) -> {
+			System.out.println(String.format("%s (%s): %s", 
+					data.get(PSMonitor.TIMESTAMP), 
+					data.get(PSMonitor.USERNAME), 
+					data.get(PSMonitor.COMMAND))
+				);
+		});
 		l.start();
 		
 //		Thread.sleep(15000L);
