@@ -41,11 +41,16 @@ public class BASHMonitor extends Monitor {
 	public void doWork() {
 		try {
 			
+			System.out.println("ejecutando comando: " + command.getCommand());
 			InputStream input = command.longExecute();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 			
 			String line = null;
+			
+			System.out.println("iniciando bucle");
 			while ((line = reader.readLine()) != null) {
+
+				System.out.println("linea: " + line);
 
 				Matcher matcher = pattern.matcher(line);
 				if (matcher.find()) {
@@ -68,6 +73,7 @@ public class BASHMonitor extends Monitor {
 				}
 				
 			}
+			System.out.println("fin del bucle");
 
 		} catch (IOException e) {
 			e.printStackTrace();

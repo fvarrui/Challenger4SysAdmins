@@ -36,6 +36,7 @@
 							<goal>build-jar</goal>
 						</goals>
 					</execution>
+					<!-- 
 					<execution>
 						<id>create-native</id>
 						<phase>package</phase>
@@ -43,6 +44,7 @@
 							<goal>build-native</goal>
 						</goals>
 					</execution>
+					 -->
 				</executions>
 			</plugin>
 			
