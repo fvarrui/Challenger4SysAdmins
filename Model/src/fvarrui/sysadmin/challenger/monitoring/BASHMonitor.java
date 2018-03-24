@@ -33,7 +33,8 @@ public class BASHMonitor extends Monitor {
 	public BASHMonitor() {
 		super("BashMonitor");
 //		this.command = new PSCommand(READ_SYSDIG_LOG); // para hacer pruebas desde Windows
-		this.command = new BASHCommand(SYSDIG);
+//		this.command = new BASHCommand(SYSDIG);
+		this.command = new Command("/usr/bin/sysdig -c spy_users");
 		this.excludedCommands = new ArrayList<>();
 	}
 	
