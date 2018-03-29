@@ -1,4 +1,4 @@
-package fvarrui.sysadmin.challenger.test.os;
+package fvarrui.sysadmin.challenger.utils;
 
 import java.io.File;
 
