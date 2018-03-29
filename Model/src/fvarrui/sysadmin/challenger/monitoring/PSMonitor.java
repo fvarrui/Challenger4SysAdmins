@@ -2,6 +2,10 @@ package fvarrui.sysadmin.challenger.monitoring;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +19,9 @@ import fvarrui.sysadmin.challenger.command.Command;
 import fvarrui.sysadmin.challenger.command.DOSCommand;
 import fvarrui.sysadmin.challenger.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.command.PSCommand;
+import fvarrui.sysadmin.challenger.utils.Chronometer;
 import fvarrui.sysadmin.challenger.utils.DateTimeUtils;
+import fvarrui.sysadmin.challenger.utils.Sleep;
 import fvarrui.sysadmin.challenger.utils.XMLUtils;
 
 public class PSMonitor extends Monitor {
@@ -67,13 +73,15 @@ public class PSMonitor extends Monitor {
 	public void doWork() {
 		String resolveUsernameCommand = "";
 		Command resolveUsername = new PSCommand("(Get-LocalUser | Where SID -eq '%s').Name");		
-		LocalDateTime dateTime = LocalDateTime.now();
+		ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC);
+
+		Chronometer chrono = new Chronometer();
+		
 		do {
 
-			LocalDateTime before = LocalDateTime.now(); 
-
-			ExecutionResult result = command.execute(dateTime.toString());
+			chrono.init();
 			
+			ExecutionResult result = command.execute(dateTime.toString());
 			
 			if (!result.getOutput().isEmpty()) {
 				
@@ -86,7 +94,7 @@ public class PSMonitor extends Monitor {
 					String command = XMLUtils.searchText(node, "EventData/Data[@Name='ScriptBlockText']");
 					String userId = XMLUtils.searchAttribute(node, "System/Security", "UserID");
 					String xmlDateTime = XMLUtils.searchAttribute(node, "System/TimeCreated", "SystemTime");
-					LocalDateTime timestamp = DateTimeUtils.xmlInstantToLocalDateTime(xmlDateTime);
+					ZonedDateTime timestamp = DateTimeUtils.xmlInstantToZonedDateTime(xmlDateTime);
 										
 					if (!excludedCommands.contains(command) && !command.equals(resolveUsernameCommand)) {
 						
@@ -98,8 +106,8 @@ public class PSMonitor extends Monitor {
 						
 						Map<String, Object> data = new HashMap<>();
 						data.put(COMMAND, command);
-						data.put(TIMESTAMP, timestamp);
 						data.put(USERNAME, username);
+						data.put(TIMESTAMP, LocalDateTime.ofInstant(timestamp.toInstant(), ZoneId.systemDefault()));
 						
 						notifyAll(data);
 					}
@@ -108,21 +116,11 @@ public class PSMonitor extends Monitor {
 				
 			}
 			
-			LocalDateTime after = LocalDateTime.now();
-			long consumedMillis = Duration.between(before, after).toMillis();
-
-			delay(consumedMillis);
+			chrono.stop();
+			
+			Sleep.millis(delay - chrono.getDiff());
 			
 		} while (!isStopped());
-	}
-	
-	private void delay(long consumedMillis) {
-		if (delay <= consumedMillis) return;
-		try {
-			Thread.sleep(delay - consumedMillis);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}		
 	}
 	
 	public List<String> getExcludedCommands() {

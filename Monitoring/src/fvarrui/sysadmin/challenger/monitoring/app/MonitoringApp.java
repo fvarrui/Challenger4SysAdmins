@@ -49,19 +49,19 @@ public class MonitoringApp extends Application {
         
 		monitor.addListener(data -> {
 			String cmd = (String) data.get(PSMonitor.COMMAND);
+			cmd = (cmd.length() > 50 ? cmd.substring(0, 50) + "..." : cmd);
+			
 			String user = (String) data.get(PSMonitor.USERNAME);
 			LocalDateTime time = (LocalDateTime) data.get(PSMonitor.TIMESTAMP);
+			
+			String text = String.format("Hora: %s\nUsuario: %s\nComando: %s", time.format(formatter), user, cmd);
 			
 			System.out.println("---> " + cmd);
 			Platform.runLater(() -> 
 					Notifications
 						.create()
 						.title("PowerShell")
-						.text(
-							"Hora: " + time.format(formatter) + "\n" +
-							"Usuario: " + user + "\n" +
-							"Comando: " + (cmd.length() > 50 ? cmd.substring(0, 50) + "..." : cmd)
-						)
+						.text(text)
 						.showInformation()
 				);
 		});

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.regex.Pattern;
 
 import fvarrui.sysadmin.challenger.Challenge;
@@ -51,7 +52,7 @@ public class Main {
 //		Command c = new PSCommand("Get-Date");
 //		System.out.println(c.execute("2018-03-16T14:30:00"));
 		
-//		Command c = new PSCommand("Get-Content sysdig.log | ForEach-Object { $_ ; Start-Sleep -Seconds 5 }");
+//		Command c = new BASHCommand("while true ; do date ; sleep 1s ; done");
 //		InputStream s = c.longExecute();
 //		BufferedReader r = new BufferedReader(new InputStreamReader(s));
 //		String line = null;
@@ -59,9 +60,9 @@ public class Main {
 //		while ((line = r.readLine()) != null) {
 //			System.out.println(i++ + " : " + line);
 //		}
-
-		Monitor l = new BASHMonitor();
-//		Monitor l = new PSMonitor();
+		
+//		Monitor l = new BASHMonitor();
+		Monitor l = new PSMonitor();
 		l.addListener((data) -> {
 			System.out.println(String.format("%s (%s): %s", 
 					data.get(PSMonitor.TIMESTAMP), 
@@ -70,6 +71,8 @@ public class Main {
 				);
 		});
 		l.start();
+		
+		
 		
 //		Thread.sleep(15000L);
 //		l.requestStop();
@@ -81,7 +84,7 @@ public class Main {
 		// new CommandTest("existe-directorio-donpepito", c, "/hola/donpepito")
 		// );
 		
-		//
+		// 
 		// AndTest main = new AndTest("principal", test1, test2);
 		//
 
