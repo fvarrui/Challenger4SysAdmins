@@ -52,25 +52,26 @@ public class Main {
 //		Command c = new PSCommand("Get-Date");
 //		System.out.println(c.execute("2018-03-16T14:30:00"));
 		
-//		Command c = new BASHCommand("while true ; do date ; sleep 1s ; done");
-//		InputStream s = c.longExecute();
-//		BufferedReader r = new BufferedReader(new InputStreamReader(s));
-//		String line = null;
-//		int i = 1;
-//		while ((line = r.readLine()) != null) {
-//			System.out.println(i++ + " : " + line);
-//		}
+		Command c = new BASHCommand("while true ; do date ; sleep 1s ; done");
+		InputStream s = c.longExecute();
+		BufferedReader r = new BufferedReader(new InputStreamReader(s));
+		String line = null;
+		int i = 1;
+		while ((line = r.readLine()) != null) {
+			System.out.println(i++ + " : " + line);
+		}
 		
 //		Monitor l = new BASHMonitor();
-		Monitor l = new PSMonitor();
-		l.addListener((data) -> {
-			System.out.println(String.format("%s (%s): %s", 
-					data.get(PSMonitor.TIMESTAMP), 
-					data.get(PSMonitor.USERNAME), 
-					data.get(PSMonitor.COMMAND))
-				);
-		});
-		l.start();
+		
+//		Monitor l = new PSMonitor();
+//		l.addListener((data) -> {
+//			System.out.println(String.format("%s (%s): %s", 
+//					data.get(PSMonitor.TIMESTAMP), 
+//					data.get(PSMonitor.USERNAME), 
+//					data.get(PSMonitor.COMMAND))
+//				);
+//		});
+//		l.start();
 		
 		
 		

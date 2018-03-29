@@ -10,6 +10,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
+		
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
@@ -20,13 +21,33 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0</version>
+				<groupId>com.zenjava</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>8.6.0</version>
+				<configuration>
+					<appName>MonitoringApp</appName>
+					<mainClass>fvarrui.sysadmin.Main</mainClass>
+					<vendor>Fran Vargas</vendor>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-jfxjar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-jar</goal>
+						</goals>
+					</execution>
+					<!-- 
+					<execution>
+						<id>create-native</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-native</goal>
+						</goals>
+					</execution>
+					 -->
+				</executions>
 			</plugin>
-
-
-
 
 
 		</plugins>
