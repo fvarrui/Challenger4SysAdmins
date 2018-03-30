@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class BASHCommand extends ShellCommand {
 	
-	private static final String BASH = "bash -c \"%s\"";
+	private static final String BASH = "/bin/bash -c \"%s\"";
 	
 	/**
 	 * Constructor por defecto
