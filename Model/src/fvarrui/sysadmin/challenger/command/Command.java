@@ -116,7 +116,9 @@ public class Command {
 				
 				new Thread(() -> {
 					try {
+						System.out.println("esperando a que termine");
 						p.waitFor();
+						System.out.println("terminó!!! 8-O");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
