@@ -56,7 +56,7 @@ public class Main {
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
 		
-		Process p = new ProcessBuilder().command("/usr/bin/sysdig -c spy_users").start();
+		Process p = new ProcessBuilder().command("/usr/bin/sysdig -c spy_users").redirectErrorStream(true).start();
 		BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line = null;
 		int i = 1;
