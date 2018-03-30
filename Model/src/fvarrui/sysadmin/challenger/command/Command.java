@@ -97,7 +97,13 @@ public class Command {
 
 			Chronometer chrono = new Chronometer();
 
-			Process p = Runtime.getRuntime().exec(result.getExecutedCommand());
+			String [] splittedCommand = result.getExecutedCommand().split("[ ]+");
+			
+			ProcessBuilder pb = new ProcessBuilder();
+			pb.command(splittedCommand);
+			pb.redirectErrorStream(true);
+			
+			Process p = pb.start();
 
 			result.setOutputStream(p.getInputStream());
 			result.setErrorStream(p.getErrorStream());
