@@ -105,11 +105,23 @@ public class Command {
 			result.setErrorStream(p.getErrorStream());
 			
 			if (waitFor) {
+				
 				result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()).trim());
 				result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()).trim());
 				result.setReturnValue(p.waitFor());
 				p.getOutputStream().flush();
 				p.getOutputStream().close();
+				
+			} else {
+				
+				new Thread(() -> {
+					try {
+						p.waitFor();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}).start();
+				
 			}
 
 			chrono.stop();
