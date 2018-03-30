@@ -56,7 +56,7 @@ public class Main {
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
 		
-		Process p = Runtime.getRuntime().exec("/bin/bash -c \"ping 8.8.8.8\"");
+		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users");
 		BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line = null;
 		int i = 1;
