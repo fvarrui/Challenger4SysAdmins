@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 
 import fvarrui.sysadmin.challenger.command.BASHCommand;
 import fvarrui.sysadmin.challenger.command.Command;
+import fvarrui.sysadmin.challenger.command.ExecutionResult;
 
 public class BASHMonitor extends Monitor {
 	
@@ -43,10 +44,11 @@ public class BASHMonitor extends Monitor {
 		try {
 			
 			System.out.println("ejecutando comando: " + command.getCommand());
-			InputStream input = command.longExecute();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+			ExecutionResult result = command.execute(false);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(result.getOutputStream()));
 			
 			System.out.println("iniciando bucle");
+			
 			while (!isStopped()) {
 
 				String line = reader.readLine();
@@ -76,7 +78,11 @@ public class BASHMonitor extends Monitor {
 				}
 				
 			}
+			
 			System.out.println("fin del bucle");
+			
+			result.getOutputStream().close();
+			result.getErrorStream().close();
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+import fvarrui.sysadmin.challenger.utils.Chronometer;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,7 +31,7 @@ import javafx.beans.property.StringProperty;
 @XmlType
 @XmlSeeAlso(value = { ShellCommand.class })
 public class Command {
-
+	
 	private StringProperty command;
 	private ReadOnlyObjectWrapper<ExecutionResult> result;
 
@@ -81,32 +82,40 @@ public class Command {
 	protected String prepareCommand(String... params) {
 		return String.format(getCommand(), (Object[]) params);
 	}
-
+	
 	public ExecutionResult execute(String... params) {
-		ExecutionResult result = new ExecutionResult();
+		return execute(true, params);
+	}
+
+	public ExecutionResult execute(boolean waitFor, String... params) {
+		final ExecutionResult result = new ExecutionResult();
+		result.setExecutionTime(LocalDateTime.now());
+		result.setExecutedCommand(prepareCommand(params));
+		result.setParams(StringUtils.join(params, " "));
+		
 		try {
 
-			LocalDateTime before = LocalDateTime.now();
-
-			result.setExecutionTime(before);
-			result.setExecutedCommand(prepareCommand(params));
-			result.setParams(StringUtils.join(params, " "));
+			Chronometer chrono = new Chronometer();
 
 			String[] splittedCommand = result.getExecutedCommand().split("[ ]+");
 			ProcessBuilder pb = new ProcessBuilder(splittedCommand);
 			Process p = pb.start();
-			p.getOutputStream().close();
 
-			LocalDateTime after = LocalDateTime.now();
+			result.setOutputStream(p.getInputStream());
+			result.setErrorStream(p.getErrorStream());
+			
+			if (waitFor) {
+				result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()).trim());
+				result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()).trim());
+				result.setReturnValue(p.waitFor());
+				p.getOutputStream().flush();
+				p.getOutputStream().close();
+			}
 
-			result.setDuration(Duration.between(before, after));
-			result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()).trim());
-			result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()).trim());
-			result.setReturnValue(p.exitValue());
-		} catch (IOException e) {
-			result.setError(e.getMessage());
-			result.setReturnValue(-1);
-			e.printStackTrace();
+			chrono.stop();
+			
+			result.setDuration(Duration.ofMillis(chrono.getDiff()));
+
 		} catch (Exception e) {
 			result.setError(e.getMessage());
 			result.setReturnValue(-1);
@@ -114,24 +123,8 @@ public class Command {
 		} finally {
 			this.result.set(result);
 		}
+		
 		return result;
-	}
-	
-	public InputStream longExecute(String... params) {
-		InputStream input = null;
-		try {
-			String preparedCommand = prepareCommand(params);
-			System.out.println(preparedCommand);
-			String[] splittedCommand = preparedCommand.split("[ ]+");
-			ProcessBuilder pb = new ProcessBuilder(splittedCommand);
-			Process p = pb.start();
-			input = p.getInputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return input;
 	}
 	
 	@Override

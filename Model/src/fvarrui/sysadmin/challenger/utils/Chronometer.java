@@ -5,7 +5,7 @@ public class Chronometer {
 	private long init, stop;
 	
 	public Chronometer() {
-		init = 0;
+		init();
 	}
 	
 	public void init() {

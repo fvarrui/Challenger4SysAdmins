@@ -43,13 +43,8 @@ public class ShellCommand extends Command {
 	}
 
 	@Override
-	public ExecutionResult execute(String... params) {
-		return shell.execute(prepareCommand(params));
-	}
-	
-	@Override
-	public InputStream longExecute(String... params) {
-		return shell.longExecute(prepareCommand(params));
+	public ExecutionResult execute(boolean waitFor, String... params) {
+		return shell.execute(waitFor, prepareCommand(params));
 	}
 
 	@XmlAttribute

@@ -1,5 +1,6 @@
 package fvarrui.sysadmin.challenger.command;
 
+import java.io.InputStream;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -11,7 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Clase modelo representa el conjunto de valores devueltos por la aplicacion.
+ * Resultado de la ejecución de un comando del sistema.
  * 
  * @author Fran Vargas
  * @version 1.0
@@ -21,6 +22,8 @@ import javafx.beans.property.StringProperty;
 public class ExecutionResult {
 
 	private IntegerProperty returnValue;
+	private ObjectProperty<InputStream> outputStream;
+	private ObjectProperty<InputStream> errorStream;
 	private StringProperty output;
 	private StringProperty error;
 	private StringProperty executedCommand;
@@ -28,13 +31,12 @@ public class ExecutionResult {
 	private ObjectProperty<LocalDateTime> executionTime;
 	private ObjectProperty<Duration> duration;
 
-	/**
-	 * Constructor por defecto
-	 */
 	public ExecutionResult() {
 		this.returnValue = new SimpleIntegerProperty(this, "returnValue", 0);
-		this.output = new SimpleStringProperty(this, "output", "");
-		this.error = new SimpleStringProperty(this, "error", "");
+		this.outputStream = new SimpleObjectProperty<>(this, "outputStream");
+		this.errorStream = new SimpleObjectProperty<>(this, "errorStream");
+		this.output = new SimpleStringProperty(this, "output");
+		this.error = new SimpleStringProperty(this, "error");
 		this.executedCommand = new SimpleStringProperty(this, "executedCommand");
 		this.params = new SimpleStringProperty(this, "params");
 		this.executionTime = new SimpleObjectProperty<>(this, "executionTime");
@@ -51,30 +53,6 @@ public class ExecutionResult {
 
 	public final void setReturnValue(final int returnValue) {
 		this.returnValueProperty().set(returnValue);
-	}
-
-	public final StringProperty outputProperty() {
-		return this.output;
-	}
-
-	public final String getOutput() {
-		return this.outputProperty().get();
-	}
-
-	public final void setOutput(final String output) {
-		this.outputProperty().set(output);
-	}
-
-	public final StringProperty errorProperty() {
-		return this.error;
-	}
-
-	public final String getError() {
-		return this.errorProperty().get();
-	}
-
-	public final void setError(final String error) {
-		this.errorProperty().set(error);
 	}
 
 	public final StringProperty executedCommandProperty() {
@@ -123,6 +101,54 @@ public class ExecutionResult {
 
 	public final void setDuration(final Duration duration) {
 		this.durationProperty().set(duration);
+	}
+
+	public final ObjectProperty<InputStream> outputStreamProperty() {
+		return this.outputStream;
+	}
+
+	public final InputStream getOutputStream() {
+		return this.outputStreamProperty().get();
+	}
+
+	public final void setOutputStream(final InputStream outputStream) {
+		this.outputStreamProperty().set(outputStream);
+	}
+
+	public final ObjectProperty<InputStream> errorStreamProperty() {
+		return this.errorStream;
+	}
+
+	public final InputStream getErrorStream() {
+		return this.errorStreamProperty().get();
+	}
+
+	public final void setErrorStream(final InputStream errorStream) {
+		this.errorStreamProperty().set(errorStream);
+	}
+
+	public final StringProperty outputProperty() {
+		return this.output;
+	}
+
+	public final String getOutput() {
+		return this.outputProperty().get();
+	}
+
+	public final void setOutput(final String output) {
+		this.outputProperty().set(output);
+	}
+
+	public final StringProperty errorProperty() {
+		return this.error;
+	}
+
+	public final String getError() {
+		return this.errorProperty().get();
+	}
+
+	public final void setError(final String error) {
+		this.errorProperty().set(error);
 	}
 
 	@Override
