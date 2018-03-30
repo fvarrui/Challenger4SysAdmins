@@ -52,7 +52,7 @@ public class Main {
 //		Command c = new PSCommand("Get-Datee");
 //		System.out.println(c.execute("2018-03-16T14:30:00"));
 		
-		Command c = new BASHCommand("while true ; do date ; sleep 1s ; done");
+		Command c = new BASHCommand("ping 8.8.8.8");
 		ExecutionResult result = c.execute(false); 
 		System.out.println(result);
 		BufferedReader r = new BufferedReader(new InputStreamReader(result.getOutputStream()));
