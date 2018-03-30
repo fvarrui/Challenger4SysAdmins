@@ -52,15 +52,18 @@ public class Main {
 //		Command c = new PSCommand("Get-Datee");
 //		System.out.println(c.execute("2018-03-16T14:30:00"));
 		
-		Command c = new BASHCommand("ping 8.8.8.8");
-		ExecutionResult result = c.execute(false); 
-		System.out.println(result);
-		BufferedReader r = new BufferedReader(new InputStreamReader(result.getOutputStream()));
+//		Command c = new BASHCommand("ping 8.8.8.8");
+//		ExecutionResult result = c.execute(false); 
+//		System.out.println(result);
+		
+		Process p = Runtime.getRuntime().exec("bash -c \"ping 8.8.8.8\"");
+		BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line = null;
 		int i = 1;
 		while ((line = r.readLine()) != null) {
 			System.out.println(i++ + " : " + line);
 		}
+		
 		
 //		Monitor l = new BASHMonitor();
 		
