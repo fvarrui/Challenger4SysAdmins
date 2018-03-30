@@ -97,9 +97,7 @@ public class Command {
 
 			Chronometer chrono = new Chronometer();
 
-			String[] splittedCommand = result.getExecutedCommand().split("[ ]+");
-			ProcessBuilder pb = new ProcessBuilder(splittedCommand);
-			Process p = pb.start();
+			Process p = Runtime.getRuntime().exec(result.getExecutedCommand());
 
 			result.setOutputStream(p.getInputStream());
 			result.setErrorStream(p.getErrorStream());
@@ -117,7 +115,8 @@ public class Command {
 				new Thread(() -> {
 					try {
 						System.out.println("esperando a que termine");
-						p.waitFor();
+						while (p.isAlive()) ;
+						result.setReturnValue(p.waitFor());
 						System.out.println("terminó!!! 8-O");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
