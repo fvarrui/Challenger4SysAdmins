@@ -61,7 +61,7 @@ public class Main {
 //		System.out.println(result);
 		
 //		Process p = Runtime.getRuntime().exec("ping 8.8.8.8");
-		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users");
+		Process p = Runtime.getRuntime().exec("/usr/bin/stdbuf -i0 -o0 -e0 /usr/bin/sysdig -c spy_users");
 //		Process p = Runtime.getRuntime().exec("bash -c \"while true ; do date ; sleep 1s ; done\"");
 		new Thread(new StreamGobbler(p.getInputStream(), System.out::println)).start();
 		new Thread(new StreamGobbler(p.getErrorStream(), System.err::println)).start();
