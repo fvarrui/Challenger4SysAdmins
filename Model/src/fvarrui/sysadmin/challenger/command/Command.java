@@ -113,23 +113,21 @@ public class Command {
 				result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()).trim());
 				result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()).trim());
 				result.setReturnValue(p.waitFor());
-				p.getOutputStream().flush();
-				p.getOutputStream().close();
 				
 			} else {
 				
 				new Thread(() -> {
 					try {
-						System.out.println("esperando a que termine");
-						while (p.isAlive()) ;
 						result.setReturnValue(p.waitFor());
-						System.out.println("terminó!!! 8-O");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}).start();
 				
 			}
+
+			p.getOutputStream().flush();
+			p.getOutputStream().close();
 
 			chrono.stop();
 			

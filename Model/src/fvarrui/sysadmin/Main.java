@@ -64,7 +64,7 @@ public class Main {
 		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users --unbuffered");
 //		Process p = Runtime.getRuntime().exec("/usr/bin/tail -f /var/log/syslog");
 //		Process p = Runtime.getRuntime().exec("bash -c \"while true ; do date ; sleep 1s ; done\"");
-		new Thread(new StreamGobbler(p.getInputStream(), System.out::println)).start();
+		new Thread(new StreamGobbler(p.getInputStream(), s -> System.out.println(s))).start();
 		new Thread(new StreamGobbler(p.getErrorStream(), System.err::println)).start();
 		System.out.println("esperando a que termine");
 		p.waitFor();

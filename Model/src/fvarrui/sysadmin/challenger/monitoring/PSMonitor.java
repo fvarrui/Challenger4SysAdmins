@@ -24,32 +24,26 @@ import fvarrui.sysadmin.challenger.utils.DateTimeUtils;
 import fvarrui.sysadmin.challenger.utils.Sleep;
 import fvarrui.sysadmin.challenger.utils.XMLUtils;
 
-public class PSMonitor extends Monitor {
-	
-	public static final String COMMAND = "command";
-	public static final String USERNAME = "username";
-	public static final String TIMESTAMP = "timestamp";
+public class PSMonitor extends ShellMonitor {
 	
 	private static final long DELAY = 1000L;
 	private static final String QUERY_EVENTS_CMD = "wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>'%s']][EventID=4104]]\"";
 	
 	private long delay;
 	private Command command;
-	private List<String> excludedCommands;
 	
 	public PSMonitor(long delay) {
 		super("PowerShell Monitor");
 		this.delay = delay;
 		this.command = new DOSCommand(QUERY_EVENTS_CMD);
-		this.excludedCommands = new ArrayList<>();
-		this.excludedCommands.add("prompt");
-		this.excludedCommands.add("{ Set-StrictMode -Version 1; $_.OriginInfo }");
-		this.excludedCommands.add("{ Set-StrictMode -Version 1; $_.ErrorCategory_Message }"); 
-		this.excludedCommands.add("{ Set-StrictMode -Version 1; $_.PSMessageDetails }");
-		this.excludedCommands.add("{ Set-StrictMode -Version 1; $this.DisplayHint }");
-		this.excludedCommands.add("[Microsoft.Windows.PowerShell.Gui.Internal.HostTextWriter]::RegisterHost($host.ui)");
-		this.excludedCommands.add("filter more { $_ }");
-		this.excludedCommands.add("\n" + 
+		this.getExcludedCommands().add("prompt");
+		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.OriginInfo }");
+		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.ErrorCategory_Message }"); 
+		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.PSMessageDetails }");
+		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $this.DisplayHint }");
+		this.getExcludedCommands().add("[Microsoft.Windows.PowerShell.Gui.Internal.HostTextWriter]::RegisterHost($host.ui)");
+		this.getExcludedCommands().add("filter more { $_ }");
+		this.getExcludedCommands().add("\n" + 
 			"function psEdit([Parameter(Mandatory=$true)]$filenames)\n" + 
 			"{\n" + 
 			"    foreach ($filename in $filenames)\n" + 
@@ -59,10 +53,10 @@ public class PSMonitor extends Monitor {
 			"        }\n" + 
 			"    }\n" + 
 			"}");
-		this.excludedCommands.add("$OutputEncoding = [System.Console]::OutputEncoding");
-		this.excludedCommands.add("ipmo ISE");
-		this.excludedCommands.add("{ Set-StrictMode -Version 1; $this.Exception.InnerException.PSMessageDetails }");
-		this.excludedCommands.add("$global:?");
+		this.getExcludedCommands().add("$OutputEncoding = [System.Console]::OutputEncoding");
+		this.getExcludedCommands().add("ipmo ISE");
+		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $this.Exception.InnerException.PSMessageDetails }");
+		this.getExcludedCommands().add("$global:?");
 	}
 	
 	public PSMonitor() {
@@ -96,7 +90,7 @@ public class PSMonitor extends Monitor {
 					String xmlDateTime = XMLUtils.searchAttribute(node, "System/TimeCreated", "SystemTime");
 					ZonedDateTime timestamp = DateTimeUtils.xmlInstantToZonedDateTime(xmlDateTime);
 										
-					if (!excludedCommands.contains(command) && !command.equals(resolveUsernameCommand)) {
+					if (!getExcludedCommands().contains(command) && !command.equals(resolveUsernameCommand)) {
 						
 						ExecutionResult usernameResult = resolveUsername.execute(userId);
 
@@ -121,10 +115,6 @@ public class PSMonitor extends Monitor {
 			Sleep.millis(delay - chrono.getDiff());
 			
 		} while (!isStopped());
-	}
-	
-	public List<String> getExcludedCommands() {
-		return excludedCommands;
 	}
 
 }

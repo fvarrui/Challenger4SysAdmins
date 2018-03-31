@@ -2,41 +2,28 @@ package fvarrui.sysadmin.challenger.monitoring;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import fvarrui.sysadmin.challenger.command.BASHCommand;
 import fvarrui.sysadmin.challenger.command.Command;
 import fvarrui.sysadmin.challenger.command.ExecutionResult;
 
-public class BASHMonitor extends Monitor {
+public class BASHMonitor extends ShellMonitor {
 	
-	public static final String COMMAND = "command";
-	public static final String USERNAME = "username";
-	public static final String TIMESTAMP = "timestamp";
-	
-//	private static final String READ_SYSDIG_LOG = "Get-Content sysdig.log | ForEach-Object { $_ ; Start-Sleep -Seconds 5 }";
-	private static final String SYSDIG = "sysdig -c spy_users";
+	private static final String SYSDIG = "/usr/bin/sysdig -c spy_users --unbuffered";
 	
 	private Pattern pattern = Pattern.compile("^\\s*\\d+ (\\d{1,2}:\\d{1,2}:\\d{1,2}) (\\w+)\\) (.*)$");
 	private Command command;
-	private List<String> excludedCommands;
 	
 	public BASHMonitor() {
 		super("BashMonitor");
-//		this.command = new PSCommand(READ_SYSDIG_LOG); // para hacer pruebas desde Windows
-		this.command = new BASHCommand(SYSDIG);
-		this.excludedCommands = new ArrayList<>();
+		this.command = new Command(SYSDIG);
 	}
 	
 	@Override
@@ -61,7 +48,7 @@ public class BASHMonitor extends Monitor {
 						String username = matcher.group(2);
 						String command = matcher.group(3);
 						
-						if (!excludedCommands.contains(command)) {
+						if (!getExcludedCommands().contains(command)) {
 						
 							LocalDateTime timestamp = LocalDateTime.of(LocalDate.now(), LocalTime.parse(time));
 							
@@ -80,17 +67,10 @@ public class BASHMonitor extends Monitor {
 			}
 			
 			System.out.println("fin del bucle");
-			
-			result.getOutputStream().close();
-			result.getErrorStream().close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public List<String> getExcludedCommands() {
-		return excludedCommands;
 	}
 
 }
