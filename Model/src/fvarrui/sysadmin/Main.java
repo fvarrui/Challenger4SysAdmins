@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
 import fvarrui.sysadmin.challenger.Challenge;
@@ -27,7 +28,7 @@ import fvarrui.sysadmin.challenger.monitoring.PSMonitor;
 import fvarrui.sysadmin.challenger.test.CommandTest;
 import fvarrui.sysadmin.challenger.test.NotTest;
 import fvarrui.sysadmin.challenger.test.Test;
-import fvarrui.sysadmin.challenger.utils.BackgroundReader;
+import fvarrui.sysadmin.challenger.utils.StreamGobbler;
 
 public class Main {
 	
@@ -59,12 +60,15 @@ public class Main {
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
 		
-		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users");
-
+		Process p = Runtime.getRuntime().exec("ping 8.8.8.8");
+//		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users");
 //		Process p = Runtime.getRuntime().exec("bash -c \"while true ; do date ; sleep 1s ; done\"");
-		Executors.newSingleThreadExecutor().submit(new BackgroundReader(p.getInputStream(), System.out::println));
-		Executors.newSingleThreadExecutor().submit(new BackgroundReader(p.getErrorStream(), System.err::println));
+		new Thread(new StreamGobbler(p.getInputStream(), System.out::println)).start();
+		new Thread(new StreamGobbler(p.getErrorStream(), System.err::println)).start();
+		System.out.println("esperando a que termine");
 		p.waitFor();
+		System.out.println("terminó");
+//		err.cancel(true);
 
 //		new Thread(() -> {
 //			BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));

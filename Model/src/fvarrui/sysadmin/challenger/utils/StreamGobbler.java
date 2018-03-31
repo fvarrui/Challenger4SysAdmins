@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.Consumer;
 
-public class BackgroundReader extends Thread {
+public class StreamGobbler extends Thread {
 	private InputStream inputStream;
 	private Consumer<String> consumer;
 
-	public BackgroundReader(InputStream inputStream, Consumer<String> consumer) {
+	public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
 		this.inputStream = inputStream;
 		this.consumer = consumer;
 	}
