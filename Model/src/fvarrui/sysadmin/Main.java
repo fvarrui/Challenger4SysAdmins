@@ -4,6 +4,7 @@ package fvarrui.sysadmin;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -56,15 +57,38 @@ public class Main {
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
 		
-		Process p = new ProcessBuilder().command("/usr/bin/sysdig -c spy_users".split(" ")).redirectErrorStream(true).start();
-		p.getOutputStream().close();
-		BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		String line = null;
-		int i = 1;
-		while ((line = r.readLine()) != null) {
-			System.out.println(i++ + " : " + line);
-		}
+//		Process p = new ProcessBuilder().command("/usr/bin/sysdig -c spy_users".split(" ")).redirectErrorStream(true).start();
+
+		Process p = new ProcessBuilder().command("bash", "-c", "\"while true ; do date ; sleep 1s ; done\"").redirectErrorStream(true).start();
+
+		new Thread(() -> {
+			BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line = null;
+			int i = 1;
+			try {
+				while ((line = r.readLine()) != null) {
+					System.out.println("STDOUT " + i++ + " : " + line);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}).start();
+
+		new Thread(() -> {
+			BufferedReader r = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+			String line = null;
+			int i = 1;
+			try {
+				while ((line = r.readLine()) != null) {
+					System.out.println("STDERR " + i++ + " : " + line);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}).start();
 		
+		p.waitFor();
+
 		
 //		Monitor l = new BASHMonitor();
 		
