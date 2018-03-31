@@ -38,25 +38,29 @@ public class BASHMonitor extends ShellMonitor {
 			
 			while (!isStopped()) {
 
-				String line = reader.readLine();
-				if (line != null) {
-					System.out.println("linea: " + line);
-	
-					Matcher matcher = pattern.matcher(line);
-					if (matcher.find()) {
-						String time = matcher.group(1);
-						String username = matcher.group(2);
-						String command = matcher.group(3);
-						
-						if (!getExcludedCommands().contains(command)) {
-						
-							LocalDateTime timestamp = LocalDateTime.of(LocalDate.now(), LocalTime.parse(time));
+				if (reader.ready()) {
+					
+					String line = reader.readLine();
+					if (line != null) {
+						System.out.println("linea: " + line);
+		
+						Matcher matcher = pattern.matcher(line);
+						if (matcher.find()) {
+							String time = matcher.group(1);
+							String username = matcher.group(2);
+							String command = matcher.group(3);
 							
-							Map<String, Object> data = new HashMap<>();
-							data.put(COMMAND, command);
-							data.put(USERNAME, username);
-							data.put(TIMESTAMP, timestamp);
-							notifyAll(data);
+							if (!getExcludedCommands().contains(command)) {
+							
+								LocalDateTime timestamp = LocalDateTime.of(LocalDate.now(), LocalTime.parse(time));
+								
+								Map<String, Object> data = new HashMap<>();
+								data.put(COMMAND, command);
+								data.put(USERNAME, username);
+								data.put(TIMESTAMP, timestamp);
+								notifyAll(data);
+								
+							}
 							
 						}
 						
