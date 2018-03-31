@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 import fvarrui.sysadmin.challenger.Challenge;
@@ -26,6 +27,7 @@ import fvarrui.sysadmin.challenger.monitoring.PSMonitor;
 import fvarrui.sysadmin.challenger.test.CommandTest;
 import fvarrui.sysadmin.challenger.test.NotTest;
 import fvarrui.sysadmin.challenger.test.Test;
+import fvarrui.sysadmin.challenger.utils.BackgroundReader;
 
 public class Main {
 	
@@ -57,37 +59,40 @@ public class Main {
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
 		
-//		Process p = new ProcessBuilder().command("/usr/bin/sysdig -c spy_users".split(" ")).redirectErrorStream(true).start();
+		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users");
 
-		Process p = new ProcessBuilder().command("bash", "-c", "\"while true ; do date ; sleep 1s ; done\"").redirectErrorStream(true).start();
-
-		new Thread(() -> {
-			BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line = null;
-			int i = 1;
-			try {
-				while ((line = r.readLine()) != null) {
-					System.out.println("STDOUT " + i++ + " : " + line);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}).start();
-
-		new Thread(() -> {
-			BufferedReader r = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-			String line = null;
-			int i = 1;
-			try {
-				while ((line = r.readLine()) != null) {
-					System.out.println("STDERR " + i++ + " : " + line);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}).start();
-		
+//		Process p = Runtime.getRuntime().exec("bash -c \"while true ; do date ; sleep 1s ; done\"");
+		Executors.newSingleThreadExecutor().submit(new BackgroundReader(p.getInputStream(), System.out::println));
+		Executors.newSingleThreadExecutor().submit(new BackgroundReader(p.getErrorStream(), System.err::println));
 		p.waitFor();
+
+//		new Thread(() -> {
+//			BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//			String line = null;
+//			int i = 1;
+//			try {
+//				while ((line = r.readLine()) != null) {
+//					System.out.println("STDOUT " + i++ + " : " + line);
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}).start();
+//
+//		new Thread(() -> {
+//			BufferedReader r = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+//			String line = null;
+//			int i = 1;
+//			try {
+//				while ((line = r.readLine()) != null) {
+//					System.out.println("STDERR " + i++ + " : " + line);
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}).start();
+//		
+//		p.waitFor();
 
 		
 //		Monitor l = new BASHMonitor();
