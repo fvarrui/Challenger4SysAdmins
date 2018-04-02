@@ -22,7 +22,7 @@ import fvarrui.sysadmin.challenger.command.DOSCommand;
 import fvarrui.sysadmin.challenger.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.command.PSCommand;
 import fvarrui.sysadmin.challenger.command.ShellCommand;
-import fvarrui.sysadmin.challenger.monitoring.BASHMonitor;
+import fvarrui.sysadmin.challenger.monitoring.SysdigMonitor;
 import fvarrui.sysadmin.challenger.monitoring.Monitor;
 import fvarrui.sysadmin.challenger.monitoring.PSMonitor;
 import fvarrui.sysadmin.challenger.test.CommandTest;
