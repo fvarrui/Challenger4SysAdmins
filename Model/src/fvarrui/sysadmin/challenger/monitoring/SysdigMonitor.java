@@ -1,8 +1,5 @@
 package fvarrui.sysadmin.challenger.monitoring;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,7 +27,7 @@ public class SysdigMonitor extends ShellMonitor {
 	@Override
 	public void doWork() {
 			
-		System.out.println("ejecutando comando: " + command.getCommand());
+		System.out.println("ejecutando comando: " + command.getExecutable());
 		ExecutionResult result = command.execute(false);
 		
 		if (result.getReturnValue() != 0) {
@@ -38,7 +35,7 @@ public class SysdigMonitor extends ShellMonitor {
 			return;
 		}
 		
-		Thread output = new Thread(new StreamGobbler(result.getOutputStream(), line -> processLine(line)));
+		Thread output = new Thread(new StreamGobbler(result.getOutputStream(), this::parseLine));
 		Thread error = new Thread(new StreamGobbler(result.getErrorStream(), System.err::println));
 		
 		output.start();
@@ -51,7 +48,7 @@ public class SysdigMonitor extends ShellMonitor {
 
 	}
 
-	private void processLine(String line) {
+	private void parseLine(String line) {
 		System.out.println("linea: " + line);
 		
 		Matcher matcher = pattern.matcher(line);

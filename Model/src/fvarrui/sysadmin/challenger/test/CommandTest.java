@@ -1,17 +1,18 @@
 package fvarrui.sysadmin.challenger.test;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import fvarrui.sysadmin.challenger.command.Command;
-import javafx.beans.property.ListProperty;
+import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 /**
  * Clase modelo representa un test de tipo 'CommandTest'.
@@ -26,29 +27,33 @@ public class CommandTest extends Test {
 	private static final int SUCCESS_EXIT_CODE = 0;
 
 	private ObjectProperty<Command> command;
-	private ListProperty<String> params;
+	private MapProperty<String, Object> substitutionMap;
 
 	/**
 	 * Constructor por defecto
 	 */
 	public CommandTest() {
-		this(null, null);
+		this(null, null, new HashMap<>());
 	}
-	
+
 	public CommandTest(String name) {
-		this(name, null);
+		this(name, null, new HashMap<>());
 	}
 
+	public CommandTest(String name, Command command) {
+		this(name, command, new HashMap<>());
+	}
 
-	public CommandTest(String name, Command command, String... params) {
+	public CommandTest(String name, Command command, Map<String, Object> substitutionMap) {
 		super(name);
 		this.command = new SimpleObjectProperty<Command>(this, "command", command);
-		this.params = new SimpleListProperty<>(this, "params", FXCollections.observableList(Arrays.asList(params)));
+		this.substitutionMap = new SimpleMapProperty<>(this, "substitutionMap",
+				FXCollections.observableMap(substitutionMap));
 	}
 
 	@Override
 	public Boolean verify() {
-		verified.set(getCommand().execute(getParams()).getReturnValue() == SUCCESS_EXIT_CODE);
+		verified.set(getCommand().execute(substitutionMap).getExitValue() == SUCCESS_EXIT_CODE);
 		return isVerified();
 	}
 
@@ -65,17 +70,17 @@ public class CommandTest extends Test {
 		this.commandProperty().set(command);
 	}
 
-	public final ListProperty<String> paramsProperty() {
-		return this.params;
+	public final MapProperty<String, Object> substitutionMapProperty() {
+		return this.substitutionMap;
 	}
 
 	@XmlElement
-	public final ObservableList<String> getParams() {
-		return this.paramsProperty().get();
+	public final ObservableMap<String, Object> getSubstitutionMap() {
+		return this.substitutionMapProperty().get();
 	}
 
-	public final void setParams(final ObservableList<String> params) {
-		this.paramsProperty().set(params);
+	public final void setSubstitutionMap(final ObservableMap<String, Object> substitutionMap) {
+		this.substitutionMapProperty().set(substitutionMap);
 	}
 
 }

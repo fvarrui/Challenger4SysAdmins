@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlType
-public class BASHCommand extends ShellCommand {
+public class BASHCommand extends Command {
 	
-	private static final String BASH = "/bin/bash -c \"%s\"";
+	private static final String BASH = "bash";
 	
 	/**
 	 * Constructor por defecto
@@ -25,7 +25,7 @@ public class BASHCommand extends ShellCommand {
 	 * @param command nombre del comando Bash
 	 */
 	public BASHCommand(String command) {
-		super(BASH, command);
-	}	
+		super(BASH, "-c", command);
+	}
 	
 }

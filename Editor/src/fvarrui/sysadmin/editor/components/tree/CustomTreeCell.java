@@ -42,7 +42,7 @@ public class CustomTreeCell extends TreeCell<Object> {
 				setText(((Test) item).getName());
 				imageView.setImage(TEST);
 			} else if (item instanceof Command) {
-				setText(((Command) item).getCommand());
+				setText(((Command) item).getExecutable());
 				imageView.setImage(COMMAND);
 			}
 		}

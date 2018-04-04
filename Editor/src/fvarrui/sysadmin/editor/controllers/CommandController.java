@@ -64,11 +64,11 @@ public class CommandController implements Initializable {
 	private void onCommandChange(ShellCommand oldCommand, ShellCommand newCommand) {
 
 		if (oldCommand != null) {
-			commandText.textProperty().unbindBidirectional(oldCommand.commandProperty());
+			commandText.textProperty().unbindBidirectional(oldCommand.executableProperty());
 			shellComboBox.valueProperty().unbindBidirectional(oldCommand.shellProperty());
 		}
 		if (newCommand != null) {
-			commandText.textProperty().bindBidirectional(newCommand.commandProperty());
+			commandText.textProperty().bindBidirectional(newCommand.executableProperty());
 			shellComboBox.valueProperty().bindBidirectional(newCommand.shellProperty());
 		}
 

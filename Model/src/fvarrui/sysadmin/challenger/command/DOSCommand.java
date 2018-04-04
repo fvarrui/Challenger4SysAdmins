@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlType
-public class DOSCommand extends ShellCommand {
+public class DOSCommand extends Command {
 
-	private static final String CMD = "cmd /c %s";
+	private static final String CMD = "cmd";
 
 	/**
 	 * Constructor por defecto
@@ -26,7 +26,7 @@ public class DOSCommand extends ShellCommand {
 	 * @param command comando
 	 */
 	public DOSCommand(String command) {
-		super(CMD, command);
+		super(CMD, "/c", command);
 	}
 
 }

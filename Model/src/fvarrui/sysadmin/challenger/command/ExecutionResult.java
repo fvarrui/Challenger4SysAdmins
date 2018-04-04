@@ -21,7 +21,7 @@ import javafx.beans.property.StringProperty;
 
 public class ExecutionResult {
 
-	private IntegerProperty returnValue;
+	private IntegerProperty exitValue;
 	private ObjectProperty<InputStream> outputStream;
 	private ObjectProperty<InputStream> errorStream;
 	private StringProperty output;
@@ -32,7 +32,7 @@ public class ExecutionResult {
 	private ObjectProperty<Duration> duration;
 
 	public ExecutionResult() {
-		this.returnValue = new SimpleIntegerProperty(this, "returnValue", 0);
+		this.exitValue = new SimpleIntegerProperty(this, "exitValue", 0);
 		this.outputStream = new SimpleObjectProperty<>(this, "outputStream");
 		this.errorStream = new SimpleObjectProperty<>(this, "errorStream");
 		this.output = new SimpleStringProperty(this, "output");
@@ -43,16 +43,16 @@ public class ExecutionResult {
 		this.duration = new SimpleObjectProperty<>(this, "duration");
 	}
 
-	public final IntegerProperty returnValueProperty() {
-		return this.returnValue;
+	public final IntegerProperty exitValueProperty() {
+		return this.exitValue;
 	}
 
-	public final int getReturnValue() {
-		return this.returnValueProperty().get();
+	public final int getExitValue() {
+		return this.exitValueProperty().get();
 	}
 
-	public final void setReturnValue(final int returnValue) {
-		this.returnValueProperty().set(returnValue);
+	public final void setExitValue(final int exitValue) {
+		this.exitValueProperty().set(exitValue);
 	}
 
 	public final StringProperty executedCommandProperty() {
@@ -157,8 +157,8 @@ public class ExecutionResult {
 		buffer.append("ExecutedCommand : " + getExecutedCommand() + "\n");
 		buffer.append("Params          : " + getParams() + "\n");
 		buffer.append("ExecutionTime   : " + getExecutionTime() + "\n");
-		buffer.append("Duration        : " + getDuration().toMillis() + "ms\n");
-		buffer.append("ReturnValue     : " + getReturnValue() + "\n");
+		buffer.append("Duration        : " + (getDuration() != null ? getDuration().toMillis() + "ms" : "" ) + "\n");
+		buffer.append("ExitValue       : " + getExitValue() + "\n");
 		buffer.append("Output:\n" + getOutput() + "\n");
 		buffer.append("Error:\n" + getError());
 		return buffer.toString();

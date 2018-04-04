@@ -1,25 +1,38 @@
 package fvarrui.sysadmin.challenger.command;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecuteResultHandler;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteException;
+import org.apache.commons.exec.Executor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fvarrui.sysadmin.challenger.utils.Chronometer;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clase Modelo que representa un comando
@@ -32,17 +45,19 @@ import javafx.beans.property.StringProperty;
 @XmlSeeAlso(value = { ShellCommand.class })
 public class Command {
 	
-	private StringProperty command;
+	private StringProperty executable;
+	private ListProperty<String> arguments;
 	private ReadOnlyObjectWrapper<ExecutionResult> result;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param command  nombre del comando
+	 * @param executable	nombre del ejecutable
 	 *           
 	 */
-	public Command(String command) {
-		this.command = new SimpleStringProperty(this, "command", command);
+	public Command(String executable, String ... arguments) {
+		this.executable = new SimpleStringProperty(this, "executable", executable);
+		this.arguments = new SimpleListProperty<>(this, "arguments", FXCollections.observableArrayList(arguments)); 
 		this.result = new ReadOnlyObjectWrapper<>(this, "result");
 	}
 
@@ -53,17 +68,30 @@ public class Command {
 		this(null);
 	}
 
-	public StringProperty commandProperty() {
-		return this.command;
+	public StringProperty executableProperty() {
+		return this.executable;
 	}
 
 	@XmlAttribute
-	public String getCommand() {
-		return this.commandProperty().get();
+	public String getExecutable() {
+		return this.executableProperty().get();
 	}
 
-	public void setCommand(final String command) {
-		this.commandProperty().set(command);
+	public void setExecutable(final String command) {
+		this.executableProperty().set(command);
+	}
+	
+	public final ListProperty<String> argumentsProperty() {
+		return this.arguments;
+	}
+	
+	@XmlElement
+	public final ObservableList<String> getArguments() {
+		return this.argumentsProperty().get();
+	}
+
+	public final void setArguments(final ObservableList<String> arguments) {
+		this.argumentsProperty().set(arguments);
 	}
 
 	public final ReadOnlyObjectProperty<ExecutionResult> resultProperty() {
@@ -75,70 +103,79 @@ public class Command {
 		return this.resultProperty().get();
 	}
 
-	public ExecutionResult execute(List<String> params) {
-		return execute(params.toArray(new String[params.size()]));
+	public ExecutionResult execute() {
+		return execute(Collections.emptyMap());
 	}
 
-	protected String prepareCommand(String... params) {
-		return String.format(getCommand(), (Object[]) params);
-	}
-	
-	public ExecutionResult execute(String... params) {
-		return execute(true, params);
+	public ExecutionResult execute(boolean waitFor) {
+		return execute(waitFor, Collections.emptyMap());
 	}
 
-	public ExecutionResult execute(boolean waitFor, String... params) {
-		final ExecutionResult result = new ExecutionResult();
-		result.setExecutionTime(LocalDateTime.now());
-		result.setExecutedCommand(prepareCommand(params));
-		result.setParams(StringUtils.join(params, " "));
+	public ExecutionResult execute(Map<String, Object> substitutionMap) {
+		return execute(true, substitutionMap);
+	}
+
+	public ExecutionResult execute(boolean waitFor, Map<String, Object> substitutionMap) {
+		ExecutionResult result = new ExecutionResult();
 		
 		try {
 
+			result.setExecutionTime(LocalDateTime.now());
+
 			Chronometer chrono = new Chronometer();
-
-			String [] splittedCommand = result.getExecutedCommand().split("[ ]+");
 			
-			ProcessBuilder pb = new ProcessBuilder();
-			pb.command(splittedCommand);
-			pb.redirectErrorStream(true);
+			CommandLine cmdLine = new CommandLine(getExecutable());
+			for (String argument : getArguments()) {
+				cmdLine.addArgument(argument, false);
+			}
+			cmdLine.setSubstitutionMap(substitutionMap);
 			
-			Process p = pb.start();
+			result.setParams(StringUtils.join(cmdLine.getArguments(), " "));
+			result.setExecutedCommand(cmdLine.getExecutable() + " " + result.getParams());
+			
+			DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler() {
+				@Override
+				public void onProcessComplete(int exitValue) {
+					super.onProcessComplete(exitValue);
+					result.setExitValue(exitValue);
+					result.setDuration(Duration.ofMillis(chrono.stop()));
+				}
+				@Override
+				public void onProcessFailed(ExecuteException e) {
+					super.onProcessFailed(e);
+					result.setExitValue(getExitValue());
+					result.setDuration(Duration.ofMillis(chrono.stop()));					
+				}
+			};
+			
+			PipedOutputStream output = new PipedOutputStream();
+			PipedOutputStream error = new PipedOutputStream();
+			
+			PumpStreamHandler streamHandler = new PumpStreamHandler(output, error);
 
-			result.setOutputStream(p.getInputStream());
-			result.setErrorStream(p.getErrorStream());
+			result.setOutputStream(new PipedInputStream(output));
+			result.setErrorStream(new PipedInputStream(error));
+			
+			Executor executor = new DefaultExecutor();
+			executor.setStreamHandler(streamHandler);
+			executor.execute(cmdLine, handler);
 			
 			if (waitFor) {
-				
-				result.setOutput(IOUtils.toString(p.getInputStream(), Charset.defaultCharset()).trim());
-				result.setError(IOUtils.toString(p.getErrorStream(), Charset.defaultCharset()).trim());
-				result.setReturnValue(p.waitFor());
-				
-			} else {
-				
-				new Thread(() -> {
-					try {
-						result.setReturnValue(p.waitFor());
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}).start();
-				
+				result.setOutput(IOUtils.toString(result.getOutputStream(), Charset.defaultCharset()).trim());
+				result.setError(IOUtils.toString(result.getErrorStream(), Charset.defaultCharset()).trim());
+				handler.waitFor();
 			}
-
-			p.getOutputStream().flush();
-			p.getOutputStream().close();
-
-			chrono.stop();
 			
-			result.setDuration(Duration.ofMillis(chrono.getDiff()));
-
 		} catch (Exception e) {
+			
 			result.setError(e.getMessage());
-			result.setReturnValue(-1);
+			result.setExitValue(-1);
 			e.printStackTrace();
+			
 		} finally {
+			
 			this.result.set(result);
+			
 		}
 		
 		return result;
@@ -146,7 +183,7 @@ public class Command {
 	
 	@Override
 	public String toString() {
-		return getCommand();
+		return getExecutable();
 	}
 
 }

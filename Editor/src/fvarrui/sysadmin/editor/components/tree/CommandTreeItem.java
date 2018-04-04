@@ -21,7 +21,7 @@ public class CommandTreeItem extends TreeItem<Object> {
 		super(value);
 		setExpanded(true);
 		setGraphic(new ImageView(COMMAND));
-		getCommand().commandProperty().addListener(e -> {
+		getCommand().executableProperty().addListener(e -> {
 			TreeModificationEvent<Object> ev = new TreeModificationEvent<>(valueChangedEvent(), this);
 	        Event.fireEvent(this, ev);
 		});

@@ -13,8 +13,9 @@ public class Chronometer {
 		stop = -1;
 	}
 
-	public void stop() {
+	public long stop() {
 		stop = System.currentTimeMillis();
+		return getDiff();
 	}
 
 	public long getDiff() {

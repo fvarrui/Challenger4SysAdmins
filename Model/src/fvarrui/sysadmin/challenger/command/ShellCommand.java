@@ -19,13 +19,8 @@ import javafx.beans.property.StringProperty;
 @XmlSeeAlso(value = { BASHCommand.class, DOSCommand.class, PSCommand.class })
 public class ShellCommand extends Command {
 
-	private Command shell;
-
-	/**
-	 * Constructor por defecto
-	 */
 	public ShellCommand() {
-		this(null, null);
+		
 	}
 
 	/**
@@ -39,25 +34,25 @@ public class ShellCommand extends Command {
 	 */
 	public ShellCommand(String shell, String command) {
 		super(command);
-		this.shell = new Command(shell);
+//		this.shell = new Command(shell);
 	}
 
-	@Override
-	public ExecutionResult execute(boolean waitFor, String... params) {
-		return shell.execute(waitFor, prepareCommand(params));
-	}
+//	@Override
+//	public ExecutionResult execute(boolean waitFor, String... params) {
+//		return shell.execute(waitFor, prepareCommand(params));
+//	}
 
-	@XmlAttribute
-	public String getShell() {
-		return shell.getCommand();
-	}
-
-	public void setShell(String shell) {
-		this.shell.setCommand(shell);
-	}
-
-	public StringProperty shellProperty() {
-		return this.shell.commandProperty();
-	}
+//	@XmlAttribute
+//	public String getShell() {
+//		return shell.getExecutable();
+//	}
+//
+//	public void setShell(String shell) {
+//		this.shell.setExecutable(shell);
+//	}
+//
+//	public StringProperty shellProperty() {
+//		return this.shell.executableProperty();
+//	}
 
 }

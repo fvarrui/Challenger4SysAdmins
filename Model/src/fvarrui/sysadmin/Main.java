@@ -10,9 +10,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
+
+import org.apache.commons.exec.LogOutputStream;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
@@ -32,8 +37,6 @@ import fvarrui.sysadmin.challenger.utils.StreamGobbler;
 
 public class Main {
 	
-	
-
 	private static void test() throws Exception {
 		// String path = new File("src/fvarrui/sysadmin/challenge").getAbsolutePath();
 
@@ -42,33 +45,44 @@ public class Main {
 		// Command c = new DOSCommand("echo hola");
 		// Command c = new PSCommand("Get-Process -Id 12345");
 		
-		
-//		Command c = new ShellCommand("bash -c \"%s\"", "psx -e --forest");
+//		Command c = new BASHCommand("ps -ef");
 
 //		Command c = new PSCommand("[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\\\"$env:windir\\system32\\cmd.exe\\\").FileVersion");
 
 //		Command c = new PSCommand("($PSVersionTable.PSVersion).ToString()");
 
-//		Command c = new PSCommand("Get-WinEvent -LogName \\\"Microsoft-Windows-PowerShell/Operational\\\" -FilterXPath \\\"*[System[TimeCreated[@SystemTime>='2018-03-15T14:30:00']][EventID=4104]]\\\"");
+//		Command c = new PSCommand("Get-WinEvent -LogName \\\"Microsoft-Windows-PowerShell/Operational\\\" -FilterXPath \\\"*[System[TimeCreated[@SystemTime>='2018-04-03T14:30:00']][EventID=4104]]\\\"");
 
-//		Command c = new DOSCommand("wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>='%s']][EventID=4104]]\"");
+//		Command c = new DOSCommand("wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>='${TIMESTAMP}']][EventID=4104]]\"") ;
 		
-//		Command c = new PSCommand("Get-Datee");
-//		System.out.println(c.execute("2018-03-16T14:30:00"));
+		Command c = new PSCommand("Get-Date -UFormat \"%Y\"");
+		
+		Map<String, Object> vars = new HashMap<>();
+		vars.put("TIMESTAMP", LocalDateTime.now().minusHours(2L).toString());
+		
+		ExecutionResult result = c.execute(vars);
+		System.out.println(result);
+
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(result.getOutputStream()));
+//		String line = null;
+//		while ((line = reader.readLine()) != null) {
+//			System.out.println(line);
+//		}
 		
 //		Command c = new BASHCommand("ping 8.8.8.8");
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
 		
 //		Process p = Runtime.getRuntime().exec("ping 8.8.8.8");
-		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users --unbuffered");
+//		Process p = Runtime.getRuntime().exec("/usr/bin/sysdig -c spy_users --unbuffered");
 //		Process p = Runtime.getRuntime().exec("/usr/bin/tail -f /var/log/syslog");
 //		Process p = Runtime.getRuntime().exec("bash -c \"while true ; do date ; sleep 1s ; done\"");
-		new Thread(new StreamGobbler(p.getInputStream(), s -> System.out.println(s))).start();
-		new Thread(new StreamGobbler(p.getErrorStream(), System.err::println)).start();
-		System.out.println("esperando a que termine");
-		p.waitFor();
-		System.out.println("terminó");
+//		Process p = Runtime.getRuntime().exec("cmd /c \"ping 8.8.8.8\"");
+//		new Thread(new StreamGobbler(p.getInputStream(), s -> System.out.println(s))).start();
+//		new Thread(new StreamGobbler(p.getErrorStream(), System.err::println)).start();
+//		System.out.println("esperando a que termine");
+//		p.waitFor();
+//		System.out.println("terminó");
 //		err.cancel(true);
 
 //		new Thread(() -> {

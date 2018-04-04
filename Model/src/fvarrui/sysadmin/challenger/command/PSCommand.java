@@ -9,23 +9,16 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlType
-public class PSCommand extends ShellCommand {
+public class PSCommand extends Command {
 
-	private static final String PS = "powershell \"%s\"";
+	private static final String PS = "powershell";
 
-	/**
-	 * Constructor por defecto
-	 */
 	public PSCommand() {
 		this(null);
 	}
 
-	/**
-	 * 
-	 * @param command nombrel del comando
-	 */
-	public PSCommand(String command) {
-		super(PS, command);
+	public PSCommand(String cmdlet) {
+		super(PS, cmdlet);
 	}
 
 }

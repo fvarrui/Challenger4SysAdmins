@@ -121,7 +121,7 @@ public class TreeEditorController implements Initializable {
 	private void addCommand(CommandTest parent) {
 		Command command = new ShellCommand();
 		parent.setCommand(command);
-		System.out.println("comando " + command.getCommand() + " añadido al test de comando " + parent.getName());
+		System.out.println("comando " + command.getExecutable() + " añadido al test de comando " + parent.getName());
 	}
 
 	private void addTest(NotTest parent) {
@@ -191,7 +191,7 @@ public class TreeEditorController implements Initializable {
 	private void removeCommand(Command command) {
 		CommandTest parent = (CommandTest) selectedItem.get().getParent().getValue();
 		parent.setCommand(null);
-		System.out.println("comando " + command.getCommand() + " eliminado del test " + parent.getName());
+		System.out.println("comando " + command.getExecutable() + " eliminado del test " + parent.getName());
 	}
 
 	private void removeTest(Test test) {
