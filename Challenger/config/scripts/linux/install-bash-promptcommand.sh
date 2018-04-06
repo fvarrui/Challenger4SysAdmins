@@ -18,6 +18,7 @@ then
 	echo "La variable PROMPT_COMMAND ya existe en $bashrc"
 else
 	echo "Añadiendo variable PROMPT_COMMAND a $bashrc"
-	echo "export PROMPT_COMMAND='history -a && echo \$(date +\"%Y%m%d%H%M%S\"):\$USER:\$PWD:\$OLDPWD:\$(tail -n 1 \$HISTFILE) > $tuberia'" >> $bashrc
+	echo "export PROMPT_COMMAND='history -a && echo \$(date +%FT%T):\$USER:\$PWD:\$OLDPWD:\$(tail -n 1 \$HISTFILE) > $tuberia'" >> $bashrc
 fi
 
+date +%FT%T
