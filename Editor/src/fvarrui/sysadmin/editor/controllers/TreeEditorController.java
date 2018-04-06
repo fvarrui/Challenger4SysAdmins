@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
 import fvarrui.sysadmin.challenger.command.Command;
-import fvarrui.sysadmin.challenger.command.ShellCommand;
 import fvarrui.sysadmin.challenger.test.CommandTest;
 import fvarrui.sysadmin.challenger.test.TestGroup;
 import fvarrui.sysadmin.challenger.test.NotTest;
@@ -119,7 +118,7 @@ public class TreeEditorController implements Initializable {
 	}
 
 	private void addCommand(CommandTest parent) {
-		Command command = new ShellCommand();
+		Command command = new Command();
 		parent.setCommand(command);
 		System.out.println("comando " + command.getExecutable() + " añadido al test de comando " + parent.getName());
 	}

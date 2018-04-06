@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang.SystemUtils;
 import org.controlsfx.control.Notifications;
 
+import fvarrui.sysadmin.challenger.monitoring.PSEventMonitor;
+import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
 import fvarrui.sysadmin.challenger.monitoring.SysdigMonitor;
-import fvarrui.sysadmin.challenger.monitoring.Monitor;
-import fvarrui.sysadmin.challenger.monitoring.PSMonitor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -20,7 +20,7 @@ import javafx.stage.StageStyle;
 public class MonitoringApp extends Application {
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-	private Monitor monitor;
+	private ShellMonitor monitor;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -39,7 +39,7 @@ public class MonitoringApp extends Application {
         primaryStage.show();
 
         if (SystemUtils.IS_OS_WINDOWS) {
-        	monitor = new PSMonitor();
+        	monitor = new PSEventMonitor();
         } else if (SystemUtils.IS_OS_LINUX) {
         	monitor = new SysdigMonitor();        	
         } else {
@@ -48,11 +48,11 @@ public class MonitoringApp extends Application {
         }
         
 		monitor.addListener(data -> {
-			String cmd = (String) data.get(PSMonitor.COMMAND);
+			String cmd = (String) data.get(ShellMonitor.COMMAND);
 			cmd = (cmd.length() > 50 ? cmd.substring(0, 50) + "..." : cmd);
 			
-			String user = (String) data.get(PSMonitor.USERNAME);
-			LocalDateTime time = (LocalDateTime) data.get(PSMonitor.TIMESTAMP);
+			String user = (String) data.get(ShellMonitor.USERNAME);
+			LocalDateTime time = (LocalDateTime) data.get(ShellMonitor.TIMESTAMP);
 			
 			String text = String.format("Hora: %s\nUsuario: %s\nComando: %s", time.format(formatter), user, cmd);
 			

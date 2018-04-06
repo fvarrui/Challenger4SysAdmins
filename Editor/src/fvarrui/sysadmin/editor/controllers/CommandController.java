@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fvarrui.sysadmin.challenger.command.ShellCommand;
+import fvarrui.sysadmin.challenger.command.Command;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -25,7 +25,7 @@ public class CommandController implements Initializable {
 
 	// model
 	
-	private ObjectProperty<ShellCommand> shellCommand = new SimpleObjectProperty<>(this, "shellCommand");
+	private ObjectProperty<Command> command = new SimpleObjectProperty<>(this, "command");
 	
 	// view
 
@@ -52,7 +52,7 @@ public class CommandController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		shellCommand.addListener((o, oldCommand, newCommand) -> onCommandChange(oldCommand, newCommand));
+		command.addListener((o, oldCommand, newCommand) -> onCommandChange(oldCommand, newCommand));
 		
 	}
 
@@ -61,15 +61,13 @@ public class CommandController implements Initializable {
 	 * @param oldTest  modelo viejo de Comand
 	 * @param newTest  modelo nuevo de Comand
 	 */
-	private void onCommandChange(ShellCommand oldCommand, ShellCommand newCommand) {
+	private void onCommandChange(Command oldCommand, Command newCommand) {
 
 		if (oldCommand != null) {
 			commandText.textProperty().unbindBidirectional(oldCommand.executableProperty());
-			shellComboBox.valueProperty().unbindBidirectional(oldCommand.shellProperty());
 		}
 		if (newCommand != null) {
 			commandText.textProperty().bindBidirectional(newCommand.executableProperty());
-			shellComboBox.valueProperty().bindBidirectional(newCommand.shellProperty());
 		}
 
 	}
@@ -78,18 +76,18 @@ public class CommandController implements Initializable {
 		return view;
 	}
 
-	public final ObjectProperty<ShellCommand> shellCommandProperty() {
-		return this.shellCommand;
+	public final ObjectProperty<Command> commandProperty() {
+		return this.command;
 	}
 	
 
-	public final ShellCommand getShellCommand() {
-		return this.shellCommandProperty().get();
+	public final Command getCommand() {
+		return this.commandProperty().get();
 	}
 	
 
-	public final void setShellCommand(final ShellCommand shellCommand) {
-		this.shellCommandProperty().set(shellCommand);
+	public final void setCommand(final Command command) {
+		this.commandProperty().set(command);
 	}
 
 

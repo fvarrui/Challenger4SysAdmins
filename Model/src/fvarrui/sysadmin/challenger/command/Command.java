@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -42,7 +41,7 @@ import javafx.collections.ObservableList;
  * 
  */
 @XmlType
-@XmlSeeAlso(value = { ShellCommand.class })
+@XmlSeeAlso(value = { BASHCommand.class, DOSCommand.class, PSCommand.class })
 public class Command {
 	
 	private StringProperty executable;
@@ -111,11 +110,11 @@ public class Command {
 		return execute(waitFor, Collections.emptyMap());
 	}
 
-	public ExecutionResult execute(Map<String, Object> substitutionMap) {
-		return execute(true, substitutionMap);
+	public ExecutionResult execute(Map<String, Object> data) {
+		return execute(true, data);
 	}
 
-	public ExecutionResult execute(boolean waitFor, Map<String, Object> substitutionMap) {
+	public ExecutionResult execute(boolean waitFor, Map<String, Object> data) {
 		ExecutionResult result = new ExecutionResult();
 		
 		try {
@@ -128,7 +127,7 @@ public class Command {
 			for (String argument : getArguments()) {
 				cmdLine.addArgument(argument, false);
 			}
-			cmdLine.setSubstitutionMap(substitutionMap);
+			cmdLine.setSubstitutionMap(data);
 			
 			result.setParams(StringUtils.join(cmdLine.getArguments(), " "));
 			result.setExecutedCommand(cmdLine.getExecutable() + " " + result.getParams());

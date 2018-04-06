@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import fvarrui.sysadmin.challenger.Challenge;
 import fvarrui.sysadmin.challenger.Goal;
-import fvarrui.sysadmin.challenger.command.ShellCommand;
+import fvarrui.sysadmin.challenger.command.Command;
 import fvarrui.sysadmin.challenger.test.Test;
 import fvarrui.sysadmin.editor.application.EditorApp;
 import fvarrui.sysadmin.editor.components.DialogBuilder;
@@ -120,8 +120,8 @@ public class RootController implements Initializable {
 			goalController.goalProperty().unbind();
 		} else if (ov instanceof Test) {
 			testController.testProperty().unbind();
-		} else if (ov instanceof ShellCommand) {
-			comandController.shellCommandProperty().unbind();
+		} else if (ov instanceof Command) {
+			comandController.commandProperty().unbind();
 		}
 
 		// bindea el elemento al panel adecuado y lo muestra
@@ -137,9 +137,9 @@ public class RootController implements Initializable {
 			Test test = (Test) nv;
 			testController.testProperty().bind(new SimpleObjectProperty<>(test));
 			centerPane.setCenter(testController.getView());
-		} else if (nv instanceof ShellCommand) {
-			ShellCommand comand = (ShellCommand) nv;
-			comandController.shellCommandProperty().bind(new SimpleObjectProperty<>(comand));
+		} else if (nv instanceof Command) {
+			Command comand = (Command) nv;
+			comandController.commandProperty().bind(new SimpleObjectProperty<>(comand));
 			centerPane.setCenter(comandController.getView());
 		}
 

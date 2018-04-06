@@ -30,7 +30,7 @@ public class SysdigMonitor extends ShellMonitor {
 		System.out.println("ejecutando comando: " + command.getExecutable());
 		ExecutionResult result = command.execute(false);
 		
-		if (result.getReturnValue() != 0) {
+		if (result.getExitValue() != 0) {
 			System.err.println(result.getError());
 			return;
 		}

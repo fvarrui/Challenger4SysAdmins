@@ -1,14 +1,10 @@
 package fvarrui.sysadmin.challenger.monitoring;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Document;
@@ -24,15 +20,18 @@ import fvarrui.sysadmin.challenger.utils.DateTimeUtils;
 import fvarrui.sysadmin.challenger.utils.Sleep;
 import fvarrui.sysadmin.challenger.utils.XMLUtils;
 
-public class PSMonitor extends ShellMonitor {
+public class PSEventMonitor extends ShellMonitor {
 	
 	private static final long DELAY = 1000L;
-	private static final String QUERY_EVENTS_CMD = "wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>'%s']][EventID=4104]]\"";
+	private static final String QUERY_EVENTS_CMD = "wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>'${TIME}']][EventID=4104]]\"";
 	
 	private long delay;
 	private Command command;
 	
-	public PSMonitor(long delay) {
+	private Command resolveUsername = new PSCommand("(Get-LocalUser | Where SID -eq '${SID}').Name");
+	private String lastResolveUsernameCommand;
+	
+	public PSEventMonitor(long delay) {
 		super("PowerShell Monitor");
 		this.delay = delay;
 		this.command = new DOSCommand(QUERY_EVENTS_CMD);
@@ -59,14 +58,15 @@ public class PSMonitor extends ShellMonitor {
 		this.getExcludedCommands().add("$global:?");
 	}
 	
-	public PSMonitor() {
+	public PSEventMonitor() {
 		this(DELAY);
 	}
 
+	/**
+	 * Implementa el trabajo realizado por el monitorizador
+	 */
 	@Override
 	public void doWork() {
-		String resolveUsernameCommand = "";
-		Command resolveUsername = new PSCommand("(Get-LocalUser | Where SID -eq '%s').Name");		
 		ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC);
 
 		Chronometer chrono = new Chronometer();
@@ -75,7 +75,10 @@ public class PSMonitor extends ShellMonitor {
 
 			chrono.init();
 			
-			ExecutionResult result = command.execute(dateTime.toString());
+			Map<String, Object> data = new HashMap<>();
+			data.put("TIME", dateTime.toString());
+			
+			ExecutionResult result = command.execute(data);
 			
 			if (!result.getOutput().isEmpty()) {
 				
@@ -90,31 +93,39 @@ public class PSMonitor extends ShellMonitor {
 					String xmlDateTime = XMLUtils.searchAttribute(node, "System/TimeCreated", "SystemTime");
 					ZonedDateTime timestamp = DateTimeUtils.xmlInstantToZonedDateTime(xmlDateTime);
 										
-					if (!getExcludedCommands().contains(command) && !command.equals(resolveUsernameCommand)) {
+					if (!getExcludedCommands().contains(command) && !command.equals(lastResolveUsernameCommand)) {
 						
-						ExecutionResult usernameResult = resolveUsername.execute(userId);
-
-						resolveUsernameCommand = usernameResult.getParams();
+						String username = resolveUsername(userId);
 						
-						String username = usernameResult.getOutput();
+						Map<String, Object> event = new HashMap<>();
+						event.put(COMMAND, command);
+						event.put(USERNAME, username);
+						event.put(TIMESTAMP, LocalDateTime.ofInstant(timestamp.toInstant(), ZoneId.systemDefault()));
 						
-						Map<String, Object> data = new HashMap<>();
-						data.put(COMMAND, command);
-						data.put(USERNAME, username);
-						data.put(TIMESTAMP, LocalDateTime.ofInstant(timestamp.toInstant(), ZoneId.systemDefault()));
+						notifyAll(event);
 						
-						notifyAll(data);
 					}
 					dateTime = timestamp;
 				}
 				
 			}
 			
-			chrono.stop();
-			
-			Sleep.millis(delay - chrono.getDiff());
+			Sleep.millis(delay - chrono.stop());
 			
 		} while (!isStopped());
+	}
+	
+	/**
+	 * Traduce el ID de usuario (SID) en un nombre (username) 
+	 * @param sid Identificador del usuario
+	 * @return Nombre del usuario 
+	 */
+	private String resolveUsername(String sid) {
+		Map<String, Object> data = new HashMap<>();
+		data.put("SID", sid);
+		ExecutionResult usernameResult = resolveUsername.execute(data);
+		lastResolveUsernameCommand = usernameResult.getParams();
+		return usernameResult.getOutput();		
 	}
 
 }
