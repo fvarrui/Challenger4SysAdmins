@@ -18,7 +18,7 @@ public class BASHPromptMonitor extends ShellMonitor {
 	private static final String TAIL_SYSLOG = "/usr/bin/tail -n 0 -f /var/log/syslog";
 	
 	// ejemplo: "Apr  7 01:23:45 ssv-pc Challenger4SysAdmins: username:pwd:oldpwd:tail -n 0 -f /var/log/syslog"
-	private Pattern pattern = Pattern.compile("^(\\w+)\\s+(\\d+) (\\d+:\\d+:\\d+) (.+) Challenger4SysAdmins: (.+):(.+):(.+):(.*)$");
+	private Pattern pattern = Pattern.compile("^(\\w+)\\s+(\\d+) (\\d+:\\d+:\\d+) (.+) Challenger4SysAdmins: (.+):(.*):(.*):(.*)$");
 	private Command command;
 	
 	public BASHPromptMonitor() {

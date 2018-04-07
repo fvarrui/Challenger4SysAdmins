@@ -58,13 +58,17 @@ public class MonitoringApp extends Application {
 			String user = (String) data.get(ShellMonitor.USERNAME);
 			LocalDateTime time = (LocalDateTime) data.get(ShellMonitor.TIMESTAMP);
 			
-			String text = String.format("Hora: %s\nUsuario: %s\nComando: %s", time.format(formatter), user, cmd);
+			String text = String.format(
+					"Hora: %s\n"
+					+ "Usuario: %s\n"
+					+ "Comando: %s", 
+					time.format(formatter), user, cmd);
 			
 			System.out.println("---> " + cmd);
 			Platform.runLater(() -> 
 					Notifications
 						.create()
-						.title("PowerShell")
+						.title(monitor.getName())
 						.text(text)
 						.showInformation()
 				);
@@ -76,6 +80,7 @@ public class MonitoringApp extends Application {
 	public void stop() throws Exception {
 		monitor.requestStop();
 		super.stop();
+		Platform.exit();
 	}
 
 	public static void main(String[] args) {
