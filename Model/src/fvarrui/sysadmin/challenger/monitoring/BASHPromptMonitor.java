@@ -52,7 +52,6 @@ public class BASHPromptMonitor extends ShellMonitor {
 	}
 
 	private void parseLine(String line) {
-		System.out.println("linea: " + line);
 		
 		Matcher matcher = pattern.matcher(line);
 		if (matcher.find()) {
