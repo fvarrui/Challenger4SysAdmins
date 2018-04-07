@@ -7,7 +7,7 @@
 	<version>0.0.1</version>
 
 	<build>
-		<finalName>MonitoringApp</finalName>
+		<finalName>Challenger</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 		

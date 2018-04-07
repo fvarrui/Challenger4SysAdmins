@@ -30,6 +30,7 @@ public class BASHPromptMonitor extends ShellMonitor {
 			
 		System.out.println("ejecutando comando: " + command.getExecutable());
 		ExecutionResult result = command.execute(false);
+		System.out.println(result);
 		
 		if (result.getExitValue() != 0) {
 			System.err.println(result.getError());

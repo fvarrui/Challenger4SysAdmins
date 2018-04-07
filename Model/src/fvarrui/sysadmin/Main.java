@@ -27,8 +27,10 @@ import fvarrui.sysadmin.challenger.command.DOSCommand;
 import fvarrui.sysadmin.challenger.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.command.PSCommand;
 import fvarrui.sysadmin.challenger.monitoring.SysdigMonitor;
+import fvarrui.sysadmin.challenger.monitoring.BASHPromptMonitor;
 import fvarrui.sysadmin.challenger.monitoring.Monitor;
 import fvarrui.sysadmin.challenger.monitoring.PSEventMonitor;
+import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
 import fvarrui.sysadmin.challenger.test.CommandTest;
 import fvarrui.sysadmin.challenger.test.NotTest;
 import fvarrui.sysadmin.challenger.test.Test;
@@ -59,16 +61,16 @@ public class Main {
 //		Map<String, Object> vars = new HashMap<>();
 //		vars.put("TIMESTAMP", LocalDateTime.now().minusHours(2L).toString());
 
-		Command c = new BASHCommand("tail -n 0 -f /var/log/syslog");
-		
-		ExecutionResult result = c.execute(false);
+//		Command c = new BASHCommand("tail -n 0 -f /var/log/syslog");
+//		
+//		ExecutionResult result = c.execute(false);
 //		System.out.println(result);
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(result.getOutputStream()));
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			System.out.println(line);
-		}
+//
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(result.getOutputStream()));
+//		String line = null;
+//		while ((line = reader.readLine()) != null) {
+//			System.out.println(line);
+//		}
 		
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
@@ -113,18 +115,16 @@ public class Main {
 //		
 //		p.waitFor();
 
-		
-//		Monitor l = new BASHMonitor();
-		
-//		Monitor l = new PSMonitor();
-//		l.addListener((data) -> {
-//			System.out.println(String.format("%s (%s): %s", 
-//					data.get(PSMonitor.TIMESTAMP), 
-//					data.get(PSMonitor.USERNAME), 
-//					data.get(PSMonitor.COMMAND))
-//				);
-//		});
-//		l.start();
+			
+		Monitor l = new BASHPromptMonitor();
+		l.addListener((data) -> {
+			System.out.println(String.format("%s (%s): %s", 
+					data.get(ShellMonitor.TIMESTAMP), 
+					data.get(ShellMonitor.USERNAME), 
+					data.get(ShellMonitor.COMMAND))
+				);
+		});
+		l.start();
 		
 		
 		
