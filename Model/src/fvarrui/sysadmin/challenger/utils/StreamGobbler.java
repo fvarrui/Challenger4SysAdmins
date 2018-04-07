@@ -24,9 +24,10 @@ public class StreamGobbler extends Thread {
 		try {
 			stop = false;
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
-			String line = null;
-			while (((line = reader.readLine()) != null) && !stop) {
-				consumer.accept(line);
+			while (!stop) {
+				if (reader.ready()) {
+					consumer.accept(reader.readLine());
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
