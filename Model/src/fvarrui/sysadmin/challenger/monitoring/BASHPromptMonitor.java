@@ -15,7 +15,7 @@ import fvarrui.sysadmin.challenger.utils.StreamGobbler;
 
 public class BASHPromptMonitor extends ShellMonitor {
 	
-	private static final String TAIL_SYSLOG = "/usr/bin/tail -n 0 -f /var/log/syslog";
+	private static final String TAIL_SYSLOG = "tail -n 0 -f /var/log/syslog";
 	
 	// ejemplo: "Apr  7 01:23:45 ssv-pc Challenger4SysAdmins: username:pwd:oldpwd:tail -n 0 -f /var/log/syslog"
 	private Pattern pattern = Pattern.compile("^(\\w+)\\s+(\\d+) (\\d+:\\d+:\\d+) (.+) Challenger4SysAdmins: (.+):(.*):(.*):(.*)$");
@@ -29,25 +29,25 @@ public class BASHPromptMonitor extends ShellMonitor {
 	@Override
 	public void doWork() {
 			
-		System.out.println("ejecutando comando: " + command.getExecutable());
 		ExecutionResult result = command.execute(false);
-		System.out.println(result);
 		
 		if (result.getExitValue() != 0) {
 			System.err.println(result.getError());
 			return;
 		}
 		
-		Thread output = new Thread(new StreamGobbler(result.getOutputStream(), this::parseLine));
-		Thread error = new Thread(new StreamGobbler(result.getErrorStream(), System.err::println));
+		StreamGobbler output = new StreamGobbler(result.getOutputStream(), this::parseLine); 
+		StreamGobbler error = new StreamGobbler(result.getErrorStream(), System.err::println); 
 		
 		output.start();
 		error.start();
 		
-		while (!isStopped()) {}
+		while (!isStopped() && output.isAlive() && error.isAlive()) {
+			// no hace nada
+		}
 		
-		output.interrupt();
-		error.interrupt();
+		output.requestStop();
+		error.requestStop();
 
 	}
 
