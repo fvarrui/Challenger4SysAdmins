@@ -8,5 +8,5 @@ then
 	echo "La variable PROMPT_COMMAND ya existe en $bashrc"
 else
 	echo "Añadiendo variable PROMPT_COMMAND a $bashrc"
-	echo "export PROMPT_COMMAND='history -a && logger --tag Challenger4SysAdmins ""\$USER:\$PWD:\$OLDPWD:\$(tail -n 1 \$HISTFILE)""'" >> $bashrc
+	echo "export PROMPT_COMMAND='history -a && logger --tag Challenger4SysAdmins \"\$USER:\$PWD:\$OLDPWD:\$(tail -n 1 \$HISTFILE)\"'" >> $bashrc
 fi
