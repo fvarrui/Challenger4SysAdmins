@@ -8,13 +8,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fvarrui.sysadmin.challenger.command.BASHCommand;
 import fvarrui.sysadmin.challenger.command.Command;
 import fvarrui.sysadmin.challenger.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.utils.StreamGobbler;
 
 public class BASHPromptMonitor extends ShellMonitor {
 	
-	private static final String SYSDIG = "/usr/bin/tail -n 0 -f /var/log/syslog";
+	private static final String TAIL_SYSLOG = "/usr/bin/tail -n 0 -f /var/log/syslog";
 	
 	// ejemplo: "Apr  7 01:23:45 ssv-pc Challenger4SysAdmins: username:pwd:oldpwd:tail -n 0 -f /var/log/syslog"
 	private Pattern pattern = Pattern.compile("^(\\w+)\\s+(\\d+) (\\d+:\\d+:\\d+) (.+) Challenger4SysAdmins: (.+):(.+):(.+):(.*)$");
@@ -22,7 +23,7 @@ public class BASHPromptMonitor extends ShellMonitor {
 	
 	public BASHPromptMonitor() {
 		super("Bash Prompt Monitor");
-		this.command = new Command(SYSDIG);
+		this.command = new BASHCommand(TAIL_SYSLOG);
 	}
 	
 	@Override
