@@ -54,21 +54,22 @@ public class Main {
 
 //		Command c = new DOSCommand("wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>='${TIMESTAMP}']][EventID=4104]]\"") ;
 		
-		Command c = new PSCommand("Get-Date -UFormat \"%Y\"");
-		
-		Map<String, Object> vars = new HashMap<>();
-		vars.put("TIMESTAMP", LocalDateTime.now().minusHours(2L).toString());
-		
-		ExecutionResult result = c.execute(vars);
-		System.out.println(result);
+//		Command c = new PSCommand("Get-Date -UFormat \"%Y\"");
+//		
+//		Map<String, Object> vars = new HashMap<>();
+//		vars.put("TIMESTAMP", LocalDateTime.now().minusHours(2L).toString());
 
-//		BufferedReader reader = new BufferedReader(new InputStreamReader(result.getOutputStream()));
-//		String line = null;
-//		while ((line = reader.readLine()) != null) {
-//			System.out.println(line);
-//		}
+		Command c = new BASHCommand("tail -n 0 -f /var/log/syslog");
 		
-//		Command c = new BASHCommand("ping 8.8.8.8");
+		ExecutionResult result = c.execute(false);
+//		System.out.println(result);
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(result.getOutputStream()));
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+			System.out.println(line);
+		}
+		
 //		ExecutionResult result = c.execute(false); 
 //		System.out.println(result);
 		
