@@ -15,8 +15,10 @@ public class StreamGobbler extends Thread {
 	private Consumer<String> consumer;
 
 	public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
+		super();
 		this.inputStream = inputStream;
 		this.consumer = consumer;
+		setDaemon(true);
 	}
 
 	@Override

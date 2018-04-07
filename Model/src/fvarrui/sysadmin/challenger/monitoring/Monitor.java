@@ -12,6 +12,7 @@ public abstract class Monitor extends Thread {
 	public Monitor(String name) {
 		super(name);
 		listeners = new ArrayList<>();
+		setDaemon(true);
 	}
 
 	@Override
