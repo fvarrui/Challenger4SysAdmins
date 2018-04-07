@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang.SystemUtils;
 import org.controlsfx.control.Notifications;
 
+import fvarrui.sysadmin.challenger.monitoring.BASHPromptMonitor;
 import fvarrui.sysadmin.challenger.monitoring.PSEventMonitor;
 import fvarrui.sysadmin.challenger.monitoring.PSPromptMonitor;
 import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
@@ -43,7 +44,8 @@ public class MonitoringApp extends Application {
 //        	monitor = new PSEventMonitor();
         	monitor = new PSPromptMonitor();
         } else if (SystemUtils.IS_OS_LINUX) {
-        	monitor = new SysdigMonitor();        	
+//        	monitor = new SysdigMonitor();
+        	monitor = new BASHPromptMonitor();
         } else {
         	System.err.println("Sistema operativo no soportado");
         	Platform.exit();
