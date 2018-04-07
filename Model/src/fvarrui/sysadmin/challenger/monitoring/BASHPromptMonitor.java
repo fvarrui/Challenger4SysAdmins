@@ -16,7 +16,8 @@ public class BASHPromptMonitor extends ShellMonitor {
 	
 	private static final String SYSDIG = "/usr/bin/tail -n 0 -f /var/log/syslog";
 	
-	private Pattern pattern = Pattern.compile("^\\s*\\d+ (\\d{1,2}:\\d{1,2}:\\d{1,2}) (\\w+)\\) (.*)$");
+	// ejemplo: "Apr  7 01:23:45 ssv-pc Challenger4SysAdmins: username:pwd:oldpwd:tail -n 0 -f /var/log/syslog"
+	private Pattern pattern = Pattern.compile("^(\\w+)\\s+(\\d+) (\\d+:\\d+:\\d+) (.+) Challenger4SysAdmins: (.+):(.+):(.+):(.*)$");
 	private Command command;
 	
 	public BASHPromptMonitor() {
@@ -53,9 +54,14 @@ public class BASHPromptMonitor extends ShellMonitor {
 		
 		Matcher matcher = pattern.matcher(line);
 		if (matcher.find()) {
-			String time = matcher.group(1);
-			String username = matcher.group(2);
-			String command = matcher.group(3);
+//			String month = matcher.group(1);
+//			String day = matcher.group(2);
+			String time = matcher.group(3);
+//			String hostname = matcher.group(4);
+			String username = matcher.group(5);
+			String pwd = matcher.group(6);
+			String oldpwd = matcher.group(7);
+			String command = matcher.group(8);
 			
 			if (!getExcludedCommands().contains(command)) {
 			
@@ -65,6 +71,8 @@ public class BASHPromptMonitor extends ShellMonitor {
 				data.put(COMMAND, command);
 				data.put(USERNAME, username);
 				data.put(TIMESTAMP, timestamp);
+				data.put(PWD, pwd);
+				data.put(OLDPWD, oldpwd);
 				notifyAll(data);
 				
 			}
