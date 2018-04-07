@@ -7,6 +7,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.controlsfx.control.Notifications;
 
 import fvarrui.sysadmin.challenger.monitoring.PSEventMonitor;
+import fvarrui.sysadmin.challenger.monitoring.PSPromptMonitor;
 import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
 import fvarrui.sysadmin.challenger.monitoring.SysdigMonitor;
 import javafx.application.Application;
@@ -39,7 +40,8 @@ public class MonitoringApp extends Application {
         primaryStage.show();
 
         if (SystemUtils.IS_OS_WINDOWS) {
-        	monitor = new PSEventMonitor();
+//        	monitor = new PSEventMonitor();
+        	monitor = new PSPromptMonitor();
         } else if (SystemUtils.IS_OS_LINUX) {
         	monitor = new SysdigMonitor();        	
         } else {

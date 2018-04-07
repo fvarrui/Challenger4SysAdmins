@@ -32,7 +32,7 @@ public class PSEventMonitor extends ShellMonitor {
 	private String lastResolveUsernameCommand;
 	
 	public PSEventMonitor(long delay) {
-		super("PowerShell Monitor");
+		super("PowerShell Event Monitor");
 		this.delay = delay;
 		this.command = new DOSCommand(QUERY_EVENTS_CMD);
 		this.getExcludedCommands().add("prompt");

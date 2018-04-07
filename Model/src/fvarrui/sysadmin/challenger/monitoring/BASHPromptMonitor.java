@@ -1,131 +1,75 @@
 package fvarrui.sysadmin.challenger.monitoring;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import fvarrui.sysadmin.challenger.command.Command;
-import fvarrui.sysadmin.challenger.command.DOSCommand;
 import fvarrui.sysadmin.challenger.command.ExecutionResult;
-import fvarrui.sysadmin.challenger.command.PSCommand;
-import fvarrui.sysadmin.challenger.utils.Chronometer;
-import fvarrui.sysadmin.challenger.utils.DateTimeUtils;
-import fvarrui.sysadmin.challenger.utils.Sleep;
-import fvarrui.sysadmin.challenger.utils.XMLUtils;
+import fvarrui.sysadmin.challenger.utils.StreamGobbler;
 
 public class BASHPromptMonitor extends ShellMonitor {
 	
-	private static final long DELAY = 1000L;
-	private static final String QUERY_EVENTS_CMD = "wevtutil query-events \"Microsoft-Windows-PowerShell/Operational\" /q:\"*[System[TimeCreated[@SystemTime>'${TIME}']][EventID=4104]]\"";
+	private static final String SYSDIG = "/usr/bin/tail -n 0 -f /var/log/syslog";
 	
-	private long delay;
+	private Pattern pattern = Pattern.compile("^\\s*\\d+ (\\d{1,2}:\\d{1,2}:\\d{1,2}) (\\w+)\\) (.*)$");
 	private Command command;
 	
-	private Command resolveUsername = new PSCommand("(Get-LocalUser | Where SID -eq '${SID}').Name");
-	private String lastResolveUsernameCommand;
-	
-	public BASHPromptMonitor(long delay) {
-		super("PowerShell Monitor");
-		this.delay = delay;
-		this.command = new DOSCommand(QUERY_EVENTS_CMD);
-		this.getExcludedCommands().add("prompt");
-		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.OriginInfo }");
-		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.ErrorCategory_Message }"); 
-		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.PSMessageDetails }");
-		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $this.DisplayHint }");
-		this.getExcludedCommands().add("[Microsoft.Windows.PowerShell.Gui.Internal.HostTextWriter]::RegisterHost($host.ui)");
-		this.getExcludedCommands().add("filter more { $_ }");
-		this.getExcludedCommands().add("\n" + 
-			"function psEdit([Parameter(Mandatory=$true)]$filenames)\n" + 
-			"{\n" + 
-			"    foreach ($filename in $filenames)\n" + 
-			"    {\n" + 
-			"        dir $filename | where {!$_.PSIsContainer} | %{\n" + 
-			"            $psISE.CurrentPowerShellTab.Files.Add($_.FullName) > $null\n" + 
-			"        }\n" + 
-			"    }\n" + 
-			"}");
-		this.getExcludedCommands().add("$OutputEncoding = [System.Console]::OutputEncoding");
-		this.getExcludedCommands().add("ipmo ISE");
-		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $this.Exception.InnerException.PSMessageDetails }");
-		this.getExcludedCommands().add("$global:?");
-	}
-	
 	public BASHPromptMonitor() {
-		this(DELAY);
+		super("Bash Prompt Monitor");
+		this.command = new Command(SYSDIG);
 	}
-
-	/**
-	 * Implementa el trabajo realizado por el monitorizador
-	 */
+	
 	@Override
 	public void doWork() {
-		ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC);
-
-		Chronometer chrono = new Chronometer();
+			
+		System.out.println("ejecutando comando: " + command.getExecutable());
+		ExecutionResult result = command.execute(false);
 		
-		do {
+		if (result.getExitValue() != 0) {
+			System.err.println(result.getError());
+			return;
+		}
+		
+		Thread output = new Thread(new StreamGobbler(result.getOutputStream(), this::parseLine));
+		Thread error = new Thread(new StreamGobbler(result.getErrorStream(), System.err::println));
+		
+		output.start();
+		error.start();
+		
+		while (!isStopped()) {}
+		
+		output.interrupt();
+		error.interrupt();
 
-			chrono.init();
+	}
+
+	private void parseLine(String line) {
+		System.out.println("linea: " + line);
+		
+		Matcher matcher = pattern.matcher(line);
+		if (matcher.find()) {
+			String time = matcher.group(1);
+			String username = matcher.group(2);
+			String command = matcher.group(3);
 			
-			Map<String, Object> data = new HashMap<>();
-			data.put("TIME", dateTime.toString());
+			if (!getExcludedCommands().contains(command)) {
 			
-			ExecutionResult result = command.execute(data);
-			
-			if (!result.getOutput().isEmpty()) {
+				LocalDateTime timestamp = LocalDateTime.of(LocalDate.now(), LocalTime.parse(time));
 				
-				String xml = "<Events>" + result.getOutput() + "</Events>";
-				Document doc = XMLUtils.stringToDocument(xml);
-				NodeList nodes = doc.getElementsByTagName("Event");
-				for (int i = 0; i < nodes.getLength(); i++) {
-					Node node = nodes.item(i);
-					
-					String command = XMLUtils.searchText(node, "EventData/Data[@Name='ScriptBlockText']");
-					String userId = XMLUtils.searchAttribute(node, "System/Security", "UserID");
-					String xmlDateTime = XMLUtils.searchAttribute(node, "System/TimeCreated", "SystemTime");
-					ZonedDateTime timestamp = DateTimeUtils.xmlInstantToZonedDateTime(xmlDateTime);
-										
-					if (!getExcludedCommands().contains(command) && !command.equals(lastResolveUsernameCommand)) {
-						
-						String username = resolveUsername(userId);
-						
-						Map<String, Object> event = new HashMap<>();
-						event.put(COMMAND, command);
-						event.put(USERNAME, username);
-						event.put(TIMESTAMP, LocalDateTime.ofInstant(timestamp.toInstant(), ZoneId.systemDefault()));
-						
-						notifyAll(event);
-						
-					}
-					dateTime = timestamp;
-				}
+				Map<String, Object> data = new HashMap<>();
+				data.put(COMMAND, command);
+				data.put(USERNAME, username);
+				data.put(TIMESTAMP, timestamp);
+				notifyAll(data);
 				
 			}
 			
-			Sleep.millis(delay - chrono.stop());
-			
-		} while (!isStopped());
-	}
-	
-	/**
-	 * Traduce el ID de usuario (SID) en un nombre (username) 
-	 * @param sid Identificador del usuario
-	 * @return Nombre del usuario 
-	 */
-	private String resolveUsername(String sid) {
-		Map<String, Object> data = new HashMap<>();
-		data.put("SID", sid);
-		ExecutionResult usernameResult = resolveUsername.execute(data);
-		lastResolveUsernameCommand = usernameResult.getParams();
-		return usernameResult.getOutput();		
+		}
 	}
 
 }
