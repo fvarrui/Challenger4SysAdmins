@@ -2,11 +2,11 @@ package fvarrui.sysadmin.editor.components;
 
 import java.io.IOException;
 
-import fvarrui.sysadmin.challenger.test.AndTest;
-import fvarrui.sysadmin.challenger.test.CommandTest;
-import fvarrui.sysadmin.challenger.test.NotTest;
-import fvarrui.sysadmin.challenger.test.OrTest;
-import fvarrui.sysadmin.challenger.test.Test;
+import fvarrui.sysadmin.challenger.model.test.AndTest;
+import fvarrui.sysadmin.challenger.model.test.CommandTest;
+import fvarrui.sysadmin.challenger.model.test.NotTest;
+import fvarrui.sysadmin.challenger.model.test.OrTest;
+import fvarrui.sysadmin.challenger.model.test.Test;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;

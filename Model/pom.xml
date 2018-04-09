@@ -48,15 +48,11 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-		</dependency>
+			<groupId>fvarrui.sysadmin.challenger</groupId>
+			<artifactId>Common</artifactId>
+			<version>0.0.1</version>
+		</dependency>		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-exec</artifactId>

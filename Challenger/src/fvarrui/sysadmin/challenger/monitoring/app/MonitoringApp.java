@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang.SystemUtils;
 import org.controlsfx.control.Notifications;
 
-import fvarrui.sysadmin.challenger.monitoring.BASHPromptMonitor;
-import fvarrui.sysadmin.challenger.monitoring.PSEventMonitor;
-import fvarrui.sysadmin.challenger.monitoring.PSPromptMonitor;
 import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
-import fvarrui.sysadmin.challenger.monitoring.SysdigMonitor;
+import fvarrui.sysadmin.challenger.monitoring.linux.BASHPromptMonitor;
+import fvarrui.sysadmin.challenger.monitoring.linux.SysdigMonitor;
+import fvarrui.sysadmin.challenger.monitoring.windows.PSEventMonitor;
+import fvarrui.sysadmin.challenger.monitoring.windows.PSPromptMonitor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -80,7 +80,6 @@ public class MonitoringApp extends Application {
 	public void stop() throws Exception {
 		monitor.requestStop();
 		super.stop();
-		Platform.exit();
 	}
 
 	public static void main(String[] args) {

@@ -1,6 +1,6 @@
 package fvarrui.sysadmin.editor.components.tree;
 
-import fvarrui.sysadmin.challenger.command.Command;
+import fvarrui.sysadmin.challenger.model.command.Command;
 import javafx.event.Event;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;

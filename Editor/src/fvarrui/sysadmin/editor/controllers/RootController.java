@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fvarrui.sysadmin.challenger.Challenge;
-import fvarrui.sysadmin.challenger.Goal;
-import fvarrui.sysadmin.challenger.command.Command;
-import fvarrui.sysadmin.challenger.test.Test;
+import fvarrui.sysadmin.challenger.model.Challenge;
+import fvarrui.sysadmin.challenger.model.Goal;
+import fvarrui.sysadmin.challenger.model.command.Command;
+import fvarrui.sysadmin.challenger.model.test.Test;
 import fvarrui.sysadmin.editor.application.EditorApp;
 import fvarrui.sysadmin.editor.components.DialogBuilder;
 import javafx.beans.property.ObjectProperty;

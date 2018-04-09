@@ -1,9 +1,9 @@
 package fvarrui.sysadmin.editor.components.tree;
 
-import fvarrui.sysadmin.challenger.Challenge;
-import fvarrui.sysadmin.challenger.Goal;
-import fvarrui.sysadmin.challenger.command.Command;
-import fvarrui.sysadmin.challenger.test.Test;
+import fvarrui.sysadmin.challenger.model.Challenge;
+import fvarrui.sysadmin.challenger.model.Goal;
+import fvarrui.sysadmin.challenger.model.command.Command;
+import fvarrui.sysadmin.challenger.model.test.Test;
 import javafx.scene.control.TreeCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
