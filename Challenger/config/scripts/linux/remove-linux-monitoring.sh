@@ -6,10 +6,11 @@ patron="^export PROMPT_COMMAND=.*$"
 bashrc=/etc/bash.bashrc
 
 # elimina la variable PROMPT_COMMAND a la configuración global de la BASH (afecta a todos los usuarios) para que se registre en la tubería el último comando ejecutado
-if grep -q $patron $bashrc
+if grep -q "$patron" $bashrc
 then
 	echo "1) Eliminando la variable PROMPT_COMMAND de $bashrc"
 	sed -i "/$patron/d" $bashrc
+	set -i "/^echo.*Challenger4SysAdmins.*$/d" $bashrc
 else
 	echo "1) La variable PROMPT_COMMAND no existe en $bashrc"
 fi
