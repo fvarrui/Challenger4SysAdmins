@@ -12,7 +12,7 @@ then
 else
 	echo "Añadiendo variable PROMPT_COMMAND a $bashrc"
 	echo "export PROMPT_COMMAND='history -a && logger --tag Challenger4SysAdmins \"bash:\$USER:\$PWD:\$OLDPWD:\$(tail -n 1 \$HISTFILE)\"'" >> $bashrc
-	echo "echo -e \"Este interprete de comandos esta siendo monitorizado por Challenger4SysAdmins\n\""
+	echo "echo -e \"Este interprete de comandos esta siendo monitorizado por Challenger4SysAdmins\n\"" >> $bashrc
 fi
 
 echo -e "\nProceso completado"
