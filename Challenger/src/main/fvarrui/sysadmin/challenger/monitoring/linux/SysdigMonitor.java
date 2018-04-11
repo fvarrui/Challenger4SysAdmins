@@ -9,28 +9,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fvarrui.sysadmin.challenger.common.utils.StreamGobbler;
-import fvarrui.sysadmin.challenger.model.command.BASHCommand;
 import fvarrui.sysadmin.challenger.model.command.Command;
 import fvarrui.sysadmin.challenger.model.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
 
-public class BASHPromptMonitor extends ShellMonitor {
+public class SysdigMonitor extends ShellMonitor {
 	
-	private static final String TAIL_SYSLOG = "tail -n 0 -f /var/log/syslog";
+	private static final String SYSDIG = "/usr/bin/sysdig -c spy_users --unbuffered";
 	
-	// ejemplo: "Apr  7 01:23:45 ssv-pc Challenger4SysAdmins: username:pwd:oldpwd:tail -n 0 -f /var/log/syslog"
-	private Pattern pattern = Pattern.compile("^(\\w+)\\s+(\\d+) (\\d+:\\d+:\\d+) (.+) Challenger4SysAdmins: (.+):([^:]*):([^:]*)?:(.*)$");
-	
+	private Pattern pattern = Pattern.compile("^\\s*\\d+ (\\d{1,2}:\\d{1,2}:\\d{1,2}) (\\w+)\\) (.*)$");
 	private Command command;
 	
-	public BASHPromptMonitor() {
-		super("Bash Prompt Monitor");
-		this.command = new BASHCommand(TAIL_SYSLOG);
+	public SysdigMonitor() {
+		super("SysdigMonitor");
+		this.command = new Command(SYSDIG);
 	}
 	
 	@Override
 	public void doWork() {
 			
+		System.out.println("ejecutando comando: " + command.getExecutable());
 		ExecutionResult result = command.execute(false);
 		
 		if (result.getExitValue() != 0) {
@@ -38,33 +36,27 @@ public class BASHPromptMonitor extends ShellMonitor {
 			return;
 		}
 		
-		StreamGobbler output = new StreamGobbler(result.getOutputStream(), this::parseLine); 
-		StreamGobbler error = new StreamGobbler(result.getErrorStream(), System.err::println); 
+		Thread output = new Thread(new StreamGobbler(result.getOutputStream(), this::parseLine));
+		Thread error = new Thread(new StreamGobbler(result.getErrorStream(), System.err::println));
 		
 		output.start();
 		error.start();
 		
-		while (!isStopped() && output.isAlive() && error.isAlive()) {
-			// no hace nada
-		}
+		while (!isStopped()) {}
 		
-		output.requestStop();
-		error.requestStop();
+		output.interrupt();
+		error.interrupt();
 
 	}
 
 	private void parseLine(String line) {
+		System.out.println("linea: " + line);
 		
 		Matcher matcher = pattern.matcher(line);
 		if (matcher.find()) {
-//			String month = matcher.group(1);
-//			String day = matcher.group(2);
-			String time = matcher.group(3);
-//			String hostname = matcher.group(4);
-			String username = matcher.group(5);
-			String pwd = matcher.group(6);
-			String oldpwd = matcher.group(7);
-			String command = matcher.group(8);
+			String time = matcher.group(1);
+			String username = matcher.group(2);
+			String command = matcher.group(3);
 			
 			if (!getExcludedCommands().contains(command)) {
 			
@@ -74,8 +66,6 @@ public class BASHPromptMonitor extends ShellMonitor {
 				data.put(COMMAND, command);
 				data.put(USERNAME, username);
 				data.put(TIMESTAMP, timestamp);
-				data.put(PWD, pwd);
-				data.put(OLDPWD, oldpwd);
 				notifyAll(data);
 				
 			}

@@ -19,7 +19,6 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
-import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
@@ -45,8 +44,6 @@ import javafx.collections.ObservableList;
 @XmlType
 @XmlSeeAlso(value = { BASHCommand.class, DOSCommand.class, PSCommand.class })
 public class Command {
-	
-	private static final long WATCHDOG_TIMEOUT = 5000L;
 	
 	private StringProperty executable;
 	private ListProperty<String> arguments;
@@ -136,8 +133,6 @@ public class Command {
 			result.setParams(StringUtils.join(cmdLine.getArguments(), " "));
 			result.setExecutedCommand(cmdLine.getExecutable() + " " + result.getParams());
 			
-			ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
-
 			DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler() {
 				private void update(int exitValue) {
 					result.setExitValue(exitValue);
@@ -156,9 +151,6 @@ public class Command {
 				public void onProcessFailed(ExecuteException e) {
 					super.onProcessFailed(e);
 					update(getExitValue());
-					if (watchdog.killedProcess()) {
-						result.setError("Proceso eliminado por el perro guardián al transcurrir más de " + WATCHDOG_TIMEOUT + "ms");
-					}
 				}
 			};
 			
@@ -169,13 +161,11 @@ public class Command {
 
 			result.setOutputStream(new PipedInputStream(output));
 			result.setErrorStream(new PipedInputStream(error));
-			
-			
+
 			Executor executor = new DefaultExecutor();
 			executor.setStreamHandler(streamHandler);
-			executor.setWatchdog(watchdog);
 			executor.execute(cmdLine, handler);
-			
+
 			if (waitFor) {
 				handler.waitFor();
 			}

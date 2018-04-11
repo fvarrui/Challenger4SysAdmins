@@ -24,7 +24,7 @@ function RemovePSProfile() {
     # elimina el origen de eventos, si está registrado
 	if ([System.Diagnostics.EventLog]::SourceExists($source)) {
 		Remove-EventLog -Source $source
-	}    
+	}  
     
     # elimina el perfil de powershell
    	Remove-Item $PSHOME\Profile.ps1

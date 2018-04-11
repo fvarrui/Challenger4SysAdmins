@@ -26,7 +26,7 @@ public class DOSCommand extends Command {
 	 * @param command comando
 	 */
 	public DOSCommand(String command) {
-		super(CMD, "/c", command);
+		super(CMD, "/d", "/c", command);
 	}
 
 }
