@@ -10,6 +10,7 @@ set COMMAND=
 set /P COMMAND=!CD!^>
 if "!COMMAND!" == "" goto loop
 call !COMMAND!
+set COMMAND=%COMMAND:"=\"%
 eventcreate /id 1 /L Application /T Information /SO Challenger4SysAdmins /D "cmd:!USERNAME!:'!CD!':'!OLDPWD!':!COMMAND!" > nul
 goto loop
 
