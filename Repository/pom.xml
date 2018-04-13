@@ -1,22 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>fvarrui.sysadmin.challenger</groupId>
+	<parent>
+		<groupId>fvarrui.sysadmin.challenger</groupId>
+		<artifactId>Challenger4SysAdmins</artifactId>
+		<version>0.0.1</version>
+	</parent>
 	<artifactId>Repository</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+
 	<repositories>
 		<repository>
 			<id>objectdb</id>
@@ -24,11 +16,12 @@
 			<url>http://m2.objectdb.com</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
 		<dependency>
-			<groupId>fvarrui.sysadmin.challenger</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>Model</artifactId>
-			<version>0.0.1</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.objectdb</groupId>
@@ -46,4 +39,5 @@
 			<version>1.1</version>
 		</dependency>
 	</dependencies>
+
 </project>

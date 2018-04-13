@@ -2,36 +2,27 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>fvarrui.sysadmin.challenger</groupId>
+	<parent>
+		<groupId>fvarrui.sysadmin.challenger</groupId>
+		<artifactId>Challenger4SysAdmins</artifactId>
+		<version>0.0.1</version>
+	</parent>
 	<artifactId>Challenger</artifactId>
-	<version>0.0.1</version>
 
 	<build>
 		<finalName>Challenger</finalName>
-		<sourceDirectory>src/main</sourceDirectory>
 		<plugins>
-		
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			
 			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>8.8.0</version>
+				<version>8.6.0</version>
 				<configuration>
-					<!-- <bundler>windows.app</bundler> -->
 					<mainClass>fvarrui.sysadmin.challenger.monitoring.app.MonitoringApp</mainClass>
 					<vendor>Fran Vargas</vendor>
-			        <bundleArguments>
-			            <licenseFile>LICENSE.txt</licenseFile>
-			        </bundleArguments>
-        			<verbose>true</verbose>		
+					<bundleArguments>
+						<licenseFile>LICENSE.txt</licenseFile>
+					</bundleArguments>
+					<verbose>true</verbose>
 				</configuration>
 				<executions>
 					<execution>
@@ -50,25 +41,25 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
 	<dependencies>
 		<dependency>
-			<groupId>fvarrui.sysadmin.challenger</groupId>
-			<artifactId>Common</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>fvarrui.sysadmin.challenger</groupId>
-			<artifactId>Model</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
 			<version>8.40.14</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>Common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>Model</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
