@@ -15,14 +15,22 @@
 			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>8.6.0</version>
+				<version>8.8.0</version>
 				<configuration>
 					<mainClass>fvarrui.sysadmin.challenger.monitoring.app.MonitoringApp</mainClass>
 					<vendor>Fran Vargas</vendor>
 					<bundleArguments>
+						<title>Challenger4SysAdmins</title>
+						<description>Retador de administradores de sistemas</description>
 						<licenseFile>LICENSE.txt</licenseFile>
 					</bundleArguments>
+					<additionalAppResources>src/main/additionalAppResources</additionalAppResources>
 					<verbose>true</verbose>
+					<needMenu>true</needMenu>
+					<needShortcut>true</needShortcut>
+					<nativeReleaseVersion>${project.version}</nativeReleaseVersion>
+					<allPermissions>true</allPermissions>
+					<systemWide>true</systemWide>
 				</configuration>
 				<executions>
 					<execution>

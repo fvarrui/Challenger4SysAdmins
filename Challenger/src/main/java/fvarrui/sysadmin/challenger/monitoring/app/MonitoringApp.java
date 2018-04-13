@@ -13,6 +13,7 @@ import fvarrui.sysadmin.challenger.monitoring.windows.WindowsShellMonitor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -32,6 +33,10 @@ public class MonitoringApp extends Application {
         Scene scene = new Scene(root, 0, 0);
         scene.setFill(Color.TRANSPARENT);
         
+        primaryStage.setTitle("Challenger Monitoring Test");
+		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-16x16.png").toExternalForm()));
+		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-24x24.png").toExternalForm()));
+		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-32x32.png").toExternalForm()));        
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.setWidth(0);
