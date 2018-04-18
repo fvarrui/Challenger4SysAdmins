@@ -8,6 +8,24 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>Challenger</artifactId>
+	
+	<properties>
+		<installer.bundler>all</installer.bundler>		
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<installer.bundler>exe</installer.bundler>
+			</properties>
+		</profile>
+	</profiles>
 
 	<build>
 		<finalName>Challenger</finalName>
@@ -17,6 +35,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>8.8.0</version>
 				<configuration>
+					<bundler>${installer.bundler}</bundler>
 					<mainClass>fvarrui.sysadmin.challenger.monitoring.app.MonitoringApp</mainClass>
 					<vendor>Fran Vargas</vendor>
 					<bundleArguments>

@@ -18,7 +18,7 @@ public class PSCommand extends Command {
 	}
 
 	public PSCommand(String cmdlet) {
-		super(PS, cmdlet);
+		super(PS, "-NoProfile", "-WindowStyle", "Hidden", "-ExecutionPolicy", "Bypass", "-Command", cmdlet);
 	}
 
 }
