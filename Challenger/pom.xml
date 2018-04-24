@@ -8,12 +8,14 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>Challenger</artifactId>
-	
+
 	<properties>
-		<installer.bundler>all</installer.bundler>		
+		<installer.bundler>all</installer.bundler>
 	</properties>
 
 	<profiles>
+		<!-- Perfil para que en Windows sólo genere instalador .EXE con InnoSetup 
+			y no genere el instalador .MSI con WIX. -->
 		<profile>
 			<id>windows</id>
 			<activation>
@@ -37,7 +39,6 @@
 				<configuration>
 					<bundler>${installer.bundler}</bundler>
 					<mainClass>fvarrui.sysadmin.challenger.monitoring.app.MonitoringApp</mainClass>
-					<vendor>Fran Vargas</vendor>
 					<bundleArguments>
 						<title>Challenger4SysAdmins</title>
 						<description>Retador de administradores de sistemas</description>
@@ -79,8 +80,18 @@
 			<version>8.40.14</version>
 		</dependency>
 		<dependency>
+			<groupId>com.jfoenix</groupId>
+			<artifactId>jfoenix</artifactId>
+			<version>8.0.3</version>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>Common</artifactId>
+			<artifactId>CommonFX</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>CommonUtils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

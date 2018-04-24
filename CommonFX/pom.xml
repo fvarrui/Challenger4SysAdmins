@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>fvarrui.sysadmin.challenger</groupId>
+		<artifactId>Challenger4SysAdmins</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	
+	<artifactId>CommonFX</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-all</artifactId>
+			<version>0.32.18</version>
+		</dependency>
+	</dependencies>
+
+</project>

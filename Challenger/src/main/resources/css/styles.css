@@ -1,6 +1,16 @@
 .root {
-	-fx-font-family: arial;
+/* -fx-font-family: tahoma; */
 }
 .title {
-	-fx-font-size: 14pt;
+	-fx-font-size: 13pt;	
+	-fx-font-weight: bold;
+}
+.background {
+	-fx-background-color: white;
+}
+.split-pane {
+	-fx-padding: 1 0 0 0;
+}
+.split-pane:horizontal > .split-pane-divider {
+	-fx-padding: 0px 1px 0px 0px;
 }

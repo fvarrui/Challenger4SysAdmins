@@ -8,6 +8,11 @@
 	<version>0.0.1</version>
 	<packaging>pom</packaging>
 
+	<organization>
+		<name>Fran Vargas</name>
+		<url>http://github.com/fvarrui</url>
+	</organization>
+
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -15,7 +20,8 @@
 	
 	<modules>
 		<module>Challenger</module>
-		<module>Common</module>
+		<module>CommonUtils</module>
+		<module>CommonFX</module>
 		<module>Editor</module>
 		<module>Model</module>
 		<module>Repository</module>

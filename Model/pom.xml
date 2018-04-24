@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>Common</artifactId>
+			<artifactId>CommonUtils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

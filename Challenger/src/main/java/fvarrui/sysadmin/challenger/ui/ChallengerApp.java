@@ -15,7 +15,7 @@ public class ChallengerApp extends Application {
 		mainController = new MainController();
 		
 		primaryStage.setTitle("Challenger");
-		primaryStage.setScene(new Scene(mainController.getView(), 640, 480));
+		primaryStage.setScene(new Scene(mainController.getRoot(), 640, 480));
 		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-16x16.png").toExternalForm()));
 		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-24x24.png").toExternalForm()));
 		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-32x32.png").toExternalForm()));

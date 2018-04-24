@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXListView;
+
+import fvarrui.sysadmin.challenger.common.ui.markdown.MarkdownView;
 import fvarrui.sysadmin.challenger.model.Challenge;
+import fvarrui.sysadmin.challenger.model.Goal;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -21,7 +25,13 @@ public class MainController implements Initializable {
 	// view
 	
 	@FXML
-	private BorderPane view;
+	private MarkdownView challengeView, goalView;
+	
+	@FXML
+	private JFXListView<Goal> goalsList;
+	
+	@FXML
+	private BorderPane root;
 	
 	public MainController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
@@ -36,10 +46,13 @@ public class MainController implements Initializable {
 	}
 
 	private void onChallengeChanged(Challenge ov, Challenge nv) {
+		challengeView.markdownProperty().bind(nv.descriptionProperty());
+		goalsList.itemsProperty().bind(nv.goalsProperty());
+		
 	}
 
-	public BorderPane getView() {
-		return view;
+	public BorderPane getRoot() {
+		return root;
 	}
 	
 }
