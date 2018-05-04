@@ -3,7 +3,7 @@ package fvarrui.sysadmin.challenger.model.command;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Clase modelo representa un comando de Power Shell.
+ * Clase modelo representa un comando de PowerShell.
  * @author Fran Vargas
  * @version 1.0
  *
@@ -18,7 +18,7 @@ public class PSCommand extends Command {
 	}
 
 	public PSCommand(String cmdlet) {
-		super(PS, "-NoProfile", "-WindowStyle", "Hidden", "-ExecutionPolicy", "Bypass", "-Command", cmdlet);
+		super(PS, "-NoProfile", "-WindowStyle", "Hidden", "-Command", cmdlet);
 	}
 
 }

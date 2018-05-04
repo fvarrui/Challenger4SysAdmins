@@ -24,6 +24,7 @@ public class MarkdownView extends BorderPane {
 		super();
 		
 		this.webView = new WebView();
+		this.webView.setContextMenuEnabled(false);
 		
 		this.engine = webView.getEngine();
 

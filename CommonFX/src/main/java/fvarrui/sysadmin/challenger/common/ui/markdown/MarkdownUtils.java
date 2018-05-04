@@ -18,7 +18,7 @@ import com.vladsch.flexmark.util.options.MutableDataSet;
 
 public class MarkdownUtils {
 
-	private static final String TEMPLATE = 
+	private static final String TEMPLATE_BEGIN = 
 			"<html>" + "\n" + 
 				"<head>" + "\n" + 
 					"<script type='text/javascript' src='" + MarkdownUtils.class.getResource("/markdown/js/markdown.js") + "'></script>" + "\n" + 
@@ -26,19 +26,29 @@ public class MarkdownUtils {
 					"<link rel='stylesheet' href='" + MarkdownUtils.class.getResource("/markdown/css/markdown.css") + "' type='text/css'>" + "\n" + 
 					"<link rel='stylesheet' href='" + MarkdownUtils.class.getResource("/markdown/css/admonition.css") + "' type='text/css'>" + "\n" + 
 				"</head>" + "\n" + 
-				"<body>%s</body>" + "\n" + 
+				"<body>";
+
+	private static final String TEMPLATE_END = 
+				"</body>" + "\n" + 
 			"</html>";
-	
+
 	private static Parser parser;
 	private static HtmlRenderer renderer;
 
 	static {
 		MutableDataSet options = new MutableDataSet();
 		options.setFrom(ParserEmulationProfile.KRAMDOWN);
-		options.set(Parser.EXTENSIONS,
-				Arrays.asList(AbbreviationExtension.create(), DefinitionExtension.create(), FootnoteExtension.create(),
-						TablesExtension.create(), TypographicExtension.create(), StrikethroughExtension.create(),
-						AdmonitionExtension.create(), EmojiExtension.create()));
+		options.set(Parser.EXTENSIONS, Arrays.asList(
+				AbbreviationExtension.create(), 
+				DefinitionExtension.create(), 
+				FootnoteExtension.create(),
+				TablesExtension.create(), 
+				TypographicExtension.create(), 
+				StrikethroughExtension.create(),
+				AdmonitionExtension.create(), 
+				EmojiExtension.create()
+				)
+			);
 		options.set(EmojiExtension.ROOT_IMAGE_PATH, "" + MarkdownUtils.class.getResource("/markdown/emojis/"));
 		parser = Parser.builder(options).build();
 		renderer = HtmlRenderer.builder(options).build();
@@ -47,8 +57,7 @@ public class MarkdownUtils {
 	public static String render(String markdown) {
 		Node document = parser.parse(markdown);
 		String body = renderer.render(document);
-		String html = String.format(TEMPLATE, body);
-		return html;
+		return TEMPLATE_BEGIN + body + TEMPLATE_END;
 	}
 
 }

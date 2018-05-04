@@ -7,10 +7,12 @@ import javafx.stage.Stage;
 
 public class ChallengerApp extends Application {
 	
+	private static Stage primaryStage;
 	private MainController mainController;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		ChallengerApp.primaryStage = primaryStage;
 		
 		mainController = new MainController();
 		
@@ -21,6 +23,10 @@ public class ChallengerApp extends Application {
 		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-32x32.png").toExternalForm()));
 		primaryStage.show();
 		
+	}
+	
+	public static Stage getPrimaryStage() {
+		return primaryStage;
 	}
 
 	public static void main(String[] args) {

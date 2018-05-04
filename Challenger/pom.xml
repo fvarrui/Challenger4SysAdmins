@@ -38,7 +38,7 @@
 				<version>8.8.0</version>
 				<configuration>
 					<bundler>${installer.bundler}</bundler>
-					<mainClass>fvarrui.sysadmin.challenger.monitoring.app.MonitoringApp</mainClass>
+					<mainClass>fvarrui.sysadmin.challenger.ui.ChallengerApp</mainClass>
 					<bundleArguments>
 						<title>Challenger4SysAdmins</title>
 						<description>Retador de administradores de sistemas</description>

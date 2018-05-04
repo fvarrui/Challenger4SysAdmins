@@ -18,7 +18,7 @@ public class TestData {
 		
 		Goal objetivo1 = new Goal();
 		objetivo1.setName("Crear el directorio 'media'");
-		objetivo1.setDescription("# Crear directorio 'media' en tu directorio de usuario\n\n- Esto es una prueba\n\n- De MarkDown");
+		objetivo1.setDescription("## Crear directorio 'media' en tu directorio de usuario\n\n- Esto es una prueba\n- De MarkDown");
 		objetivo1.setTest(test1);
 
 		CommandTest test2 = new CommandTest();
@@ -27,12 +27,12 @@ public class TestData {
 		
 		Goal objetivo2 = new Goal();
 		objetivo2.setName("Crear el directorio 'peliculas'");
-		objetivo2.setDescription("# Crear directorio 'peliculas' dentro de 'media'\n\n- Esto es una prueba\n\n- De MarkDown");
+		objetivo2.setDescription("## Crear directorio 'peliculas' dentro de 'media'\n\n- Esto es una prueba\n- De MarkDown");
 		objetivo2.setTest(test2);
 		
 		Challenge reto = new Challenge();
 		reto.setName("Gestión de archivos y directorios desde PowerShell");
-		reto.setDescription("# El reto\n\nEl reto consiste en **crear una serie de archivos y directorios** desde el intérprete de comandos PowerShell.");
+		reto.setDescription("# El reto\n\nEl reto consiste en **crear una serie de archivos y directorios** desde el intérprete de comandos PowerShell. :smile:");
 		reto.getGoals().addAll(objetivo1, objetivo2);
 		
 		return reto;
