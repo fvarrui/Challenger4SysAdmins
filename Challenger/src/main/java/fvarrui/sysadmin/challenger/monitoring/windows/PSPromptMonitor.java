@@ -16,7 +16,7 @@ import fvarrui.sysadmin.challenger.common.utils.DateTimeUtils;
 import fvarrui.sysadmin.challenger.common.utils.Sleep;
 import fvarrui.sysadmin.challenger.common.utils.XMLUtils;
 import fvarrui.sysadmin.challenger.model.command.Command;
-import fvarrui.sysadmin.challenger.model.command.DOSCommand;
+import fvarrui.sysadmin.challenger.model.command.CMDCommand;
 import fvarrui.sysadmin.challenger.model.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
 
@@ -39,7 +39,7 @@ public class PSPromptMonitor extends ShellMonitor {
 	public PSPromptMonitor(long delay) {
 		super("PowerShell Prompt Monitor");
 		this.delay = delay;
-		this.command = new DOSCommand(QUERY_EVENTS_CMD);
+		this.command = new CMDCommand(QUERY_EVENTS_CMD);
 		getExcludedCommands().add("");
 	}
 	

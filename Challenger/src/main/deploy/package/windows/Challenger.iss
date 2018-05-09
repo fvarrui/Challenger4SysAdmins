@@ -1,7 +1,7 @@
 ;This file will be executed next to the application bundle image
 ;I.e. current directory will contain folder Challenger with application files
 
-#define APP_VERSION "0.0.1"
+#define APP_VERSION "0.1.0"
 
 [Setup]
 AppId={{fvarrui.sysadmin.challenger.monitoring.app}}

@@ -1,5 +1,7 @@
 package fvarrui.sysadmin.challenger.model.test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -49,6 +51,26 @@ public abstract class TestGroup extends Test {
 	@XmlElementWrapper(name = "tests")
 	public ObservableList<Test> getTests() {
 		return this.testsProperty().get();
+	}
+	
+	@Override
+	public void reset() {
+		super.reset();
+		tests.stream().forEach(t -> t.reset());
+	}
+	
+	public List<Test> getTestByClass(Class<? extends Test> clazz) {
+		List<Test> tests = new ArrayList<>();
+		for (Test test : getTests()) {
+			if (clazz.isInstance(test)) {
+				tests.add(test);
+			}
+			else if (test instanceof TestGroup) {
+				TestGroup group = (TestGroup) test;
+				tests.addAll(group.getTestByClass(clazz));
+			}
+		}
+		return tests;
 	}
 
 }

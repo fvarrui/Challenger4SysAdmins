@@ -16,7 +16,7 @@ import fvarrui.sysadmin.challenger.common.utils.DateTimeUtils;
 import fvarrui.sysadmin.challenger.common.utils.Sleep;
 import fvarrui.sysadmin.challenger.common.utils.XMLUtils;
 import fvarrui.sysadmin.challenger.model.command.Command;
-import fvarrui.sysadmin.challenger.model.command.DOSCommand;
+import fvarrui.sysadmin.challenger.model.command.CMDCommand;
 import fvarrui.sysadmin.challenger.model.command.ExecutionResult;
 import fvarrui.sysadmin.challenger.model.command.PSCommand;
 import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
@@ -35,7 +35,7 @@ public class PSEventMonitor extends ShellMonitor {
 	public PSEventMonitor(long delay) {
 		super("PowerShell Event Monitor");
 		this.delay = delay;
-		this.command = new DOSCommand(QUERY_EVENTS_CMD);
+		this.command = new CMDCommand(QUERY_EVENTS_CMD);
 		this.getExcludedCommands().add("prompt");
 		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.OriginInfo }");
 		this.getExcludedCommands().add("{ Set-StrictMode -Version 1; $_.ErrorCategory_Message }"); 

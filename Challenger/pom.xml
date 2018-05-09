@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>fvarrui.sysadmin.challenger</groupId>
 		<artifactId>Challenger4SysAdmins</artifactId>
-		<version>0.0.1</version>
+		<version>0.1.0</version>
 	</parent>
 	<artifactId>Challenger</artifactId>
 
@@ -32,6 +32,29 @@
 	<build>
 		<finalName>Challenger</finalName>
 		<plugins>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>copy-config</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/src/main/additionalAppResources/config</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/config</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		
 			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
@@ -74,6 +97,11 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>de.jensd</groupId>
+			<artifactId>fontawesomefx</artifactId>
+			<version>8.9</version>
+		</dependency>
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>

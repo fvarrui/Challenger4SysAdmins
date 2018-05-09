@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
@@ -30,6 +31,9 @@ public class SettingsController implements Initializable {
 	@FXML
 	private BorderPane root;
 
+	@FXML
+	private Label osLabel;
+	
 	@FXML
 	private JFXToggleButton enableShellMonitoringToggleButton;
 
@@ -65,14 +69,19 @@ public class SettingsController implements Initializable {
 	private void onSettingsChanged(Settings oldSettings, Settings newSettings) {
 		if (oldSettings != null) {
 			enableShellMonitoringToggleButton.selectedProperty().unbindBidirectional(newSettings.enableShellMonitoringProperty());
+			osLabel.textProperty().unbind();
 		}
 		if (newSettings != null) {
 			enableShellMonitoringToggleButton.selectedProperty().bindBidirectional(newSettings.enableShellMonitoringProperty());
+			osLabel.textProperty().bind(newSettings.osProperty());
 		} 
 	}
 
 	public void showPopOver(Node owner) {
-		popOver.show(owner);
+		if (!popOver.isShowing())
+			popOver.show(owner);
+		else
+			popOver.hide();
 	}
 
 	public final ObjectProperty<Settings> settingsProperty() {

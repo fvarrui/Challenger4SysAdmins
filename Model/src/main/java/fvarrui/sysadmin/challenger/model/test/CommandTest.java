@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import fvarrui.sysadmin.challenger.model.command.Command;
+import fvarrui.sysadmin.challenger.model.command.ExecutionResult;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleMapProperty;
@@ -52,7 +53,8 @@ public class CommandTest extends Test {
 
 	@Override
 	public Boolean verify() {
-		verified.set(getCommand().execute(data).getExitValue() == SUCCESS_EXIT_CODE);
+		ExecutionResult result = getCommand().execute(data);
+		verified.set(result.getExitValue() == SUCCESS_EXIT_CODE);
 		return isVerified();
 	}
 

@@ -41,7 +41,7 @@ import javafx.collections.ObservableList;
  * 
  */
 @XmlType
-@XmlSeeAlso(value = { BASHCommand.class, DOSCommand.class, PSCommand.class })
+@XmlSeeAlso(value = { BASHCommand.class, CMDCommand.class, PSCommand.class })
 public class Command {
 	
 	private StringProperty executable;

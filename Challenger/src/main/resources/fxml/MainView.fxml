@@ -3,14 +3,13 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import fvarrui.sysadmin.challenger.common.ui.markdown.MarkdownView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -26,29 +25,45 @@
 			<right>
 				<HBox spacing="5.0" BorderPane.alignment="CENTER">
 					<children>
-						<JFXButton fx:id="openButton" contentDisplay="GRAPHIC_ONLY" onAction="#onOpenAction" ripplerFill="BLACK">
+						<JFXButton fx:id="startButton" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0" onAction="#onStartAction" ripplerFill="BLACK">
+							<tooltip>
+								<Tooltip text="Iniciar reto" />
+							</tooltip>
 							<graphic>
-								<ImageView pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@../images/open-24x24.png" />
-									</image>
-								</ImageView>
+								<FontAwesomeIconView glyphName="PLAY" size="24" />
 							</graphic>
+						</JFXButton>
+						<JFXButton fx:id="pauseButton" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0" onAction="#onPauseAction" ripplerFill="BLACK">
+							<tooltip>
+								<Tooltip text="Pausar reto" />
+							</tooltip>
+							<graphic>
+								<FontAwesomeIconView glyphName="PAUSE" size="24" />
+							</graphic>
+						</JFXButton>
+						<JFXButton fx:id="restartButton" contentDisplay="GRAPHIC_ONLY" layoutX="50.0" layoutY="10.0" onAction="#onRestartAction" ripplerFill="BLACK">
+							<tooltip>
+								<Tooltip text="Reiniciar reto" />
+							</tooltip>
+							<graphic>
+								<FontAwesomeIconView glyphName="REFRESH" size="24" />
+							</graphic>
+						</JFXButton>
+						<JFXButton fx:id="openButton" contentDisplay="GRAPHIC_ONLY" onAction="#onOpenAction" ripplerFill="BLACK">
 							<tooltip>
 								<Tooltip text="Cargar un reto" />
 							</tooltip>
+							<graphic>
+								<FontAwesomeIconView glyphName="FOLDER_OPEN" size="24" />
+							</graphic>
 						</JFXButton>
 						<JFXButton fx:id="settingsButton" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0" onMouseClicked="#onSettingsClicked" ripplerFill="BLACK">
-							<graphic>
-								<ImageView pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@../images/settings-24x24.png" />
-									</image>
-								</ImageView>
-							</graphic>
 							<tooltip>
 								<Tooltip text="Configuración" />
 							</tooltip>
+							<graphic>
+								<FontAwesomeIconView glyphName="GEAR" size="24" />
+							</graphic>
 						</JFXButton>
 					</children>
 				</HBox>

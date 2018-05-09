@@ -92,6 +92,10 @@ public abstract class Test {
 		return getName();
 	}
 	
+	public void reset() {
+		verified.set(false);
+	}
+	
 	public abstract Boolean verify();
 	
 }

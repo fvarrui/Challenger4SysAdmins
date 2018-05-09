@@ -12,7 +12,7 @@ public class Main {
 
 		Monitor l = new WindowsShellMonitor();
 		l.setDaemon(false);
-		l.addListener((data) -> {
+		l.addListener((monitor, data) -> {
 			System.out.println(String.format("%s shell=%s username=%s pwd=%s oldpwd=%s command=%s", 
 					data.get(ShellMonitor.TIMESTAMP).toString(),
 					data.get(ShellMonitor.SHELL),

@@ -45,7 +45,7 @@ public abstract class Monitor extends Thread {
 	protected void notifyAll(Map<String, Object> data) {
 		new Thread(() -> {
 			for (MonitorListener listener : listeners) {
-				listener.notify(data);
+				listener.notify(this, data);
 			}
 		}).start();
 	}

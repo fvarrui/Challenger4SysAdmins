@@ -53,7 +53,7 @@ public class MonitoringApp extends Application {
         	Platform.exit();
         }
         
-		monitor.addListener(data -> {
+		monitor.addListener((shellMonitor, data) -> {
 			String cmd = StringUtils.abbreviate("" + data.get(ShellMonitor.COMMAND), 50);
 			String user = "" + data.get(ShellMonitor.USERNAME);
 			LocalDateTime time = (LocalDateTime) data.get(ShellMonitor.TIMESTAMP);
@@ -74,7 +74,7 @@ public class MonitoringApp extends Application {
 			Platform.runLater(() -> 
 					Notifications
 						.create()
-						.title(monitor.getName())
+						.title(shellMonitor.getName())
 						.text(text)
 						.showInformation()
 				);

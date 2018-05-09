@@ -107,8 +107,12 @@ public class Challenge {
 	public final boolean isAchieved() {
 		return this.achievedProperty().get();
 	}
+	
+	public void reset() {
+		this.goals.stream().forEach(g -> g.reset());		
+	}
 
-	private boolean verify() {
+	public boolean verify() {
 		this.achieved.set(goals.stream().allMatch(g -> g.verify()));
 		return isAchieved();
 	}
@@ -118,12 +122,10 @@ public class Challenge {
 	 * @throws InterruptedException si no se pudo empezar el reto
 	 */
 	public void start() throws InterruptedException {
-		System.out.println("Iniciando reto '" + getName() + "'");
 		do {
 			System.out.println(this.toString(0));
 			Thread.sleep(2000L);
 		} while (!verify());		
-		System.out.println("Reto alcanzado");
 		System.out.println(this.toString(0));
 	}
 
@@ -160,6 +162,5 @@ public class Challenge {
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		return (Challenge) unmarshaller.unmarshal(file);
 	}
-
 	
 }

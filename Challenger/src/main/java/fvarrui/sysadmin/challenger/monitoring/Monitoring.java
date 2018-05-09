@@ -1,65 +1,88 @@
 package fvarrui.sysadmin.challenger.monitoring;
 
-import java.io.File;
+import java.time.LocalDateTime;
 
 import org.apache.commons.lang.SystemUtils;
 
-import fvarrui.sysadmin.challenger.model.command.Command;
-import fvarrui.sysadmin.challenger.model.command.PSCommand;
-import fvarrui.sysadmin.challenger.model.command.PSScript;
+import fvarrui.sysadmin.challenger.model.test.ExecutedCommand;
+import fvarrui.sysadmin.challenger.monitoring.linux.LinuxConfig;
+import fvarrui.sysadmin.challenger.monitoring.linux.LinuxShellMonitor;
+import fvarrui.sysadmin.challenger.monitoring.mac.MacConfig;
+import fvarrui.sysadmin.challenger.monitoring.windows.WindowsConfig;
+import fvarrui.sysadmin.challenger.monitoring.windows.WindowsShellMonitor;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 
 public class Monitoring {
 	
-	private static boolean testWindows() {
-		Command testMonitoring = new PSScript(new File("config\\scripts\\windows\\test-windows-monitoring.ps1"));
-        return testMonitoring.execute().getExitValue() == 0;
-	}
-
-	private static void enableWindows() {
-//		File script = new File("config\\scripts\\windows\\config-windows-monitoring.ps1");
-//		Command enableMonitoring = new PSCommand("Start-Process -FilePath powershell -Verb RunAs -ArgumentList \"-File '" + script.getAbsolutePath() + "'\"");
-		Command enableMonitoring = new PSCommand("Start-Process -FilePath cmd.exe -ArgumentList \"/d\",\"/c\",\"$PWD\\config\\scripts\\windows\\config-windows-monitoring.cmd\" -Verb RunAs");
-        enableMonitoring.execute();
+	private static ListProperty<ExecutedCommand> COMMANDS = new SimpleListProperty<>(FXCollections.observableArrayList());
+	private static final Config CONFIG = newConfig();
+	private static ShellMonitor MONITOR;
+	
+	private static Config newConfig() {
+		if (SystemUtils.IS_OS_WINDOWS) return new WindowsConfig();
+		if (SystemUtils.IS_OS_LINUX) return new LinuxConfig();
+		if (SystemUtils.IS_OS_MAC_OSX) return new MacConfig();
+		return null;
 	}
 	
-	private static void disableWindows() {
-		Command disableMonitoring = new PSCommand("Start-Process -FilePath cmd.exe -ArgumentList \"/d\",\"/c\",\"$PWD\\config\\scripts\\windows\\remove-windows-monitoring.cmd\" -Verb RunAs");
-        disableMonitoring.execute();
+	private static ShellMonitor newMonitor() {
+		ShellMonitor shellMonitor = null;
+		if (SystemUtils.IS_OS_WINDOWS) shellMonitor = new WindowsShellMonitor();
+		if (SystemUtils.IS_OS_LINUX) shellMonitor = new LinuxShellMonitor();
+		if (SystemUtils.IS_OS_MAC_OSX) shellMonitor = null; // TODO comprobar si el monitor de Linux vale en MacOSX		
+		return shellMonitor;
 	}
 	
 	public static boolean test() {
-		System.out.println("Comprobando monitorización de intérpretes de comandos...");
-		if (SystemUtils.IS_OS_WINDOWS && testWindows()) {
-	        System.out.println("Monitorización habilitada en Windows");
-	        return true;
-		} else if (SystemUtils.IS_OS_LINUX) {
-			// TODO habilitar monitorizacion en linux
-			System.err.println("Funcionalidad aún no disponible");
-			return false;
+		System.out.print("Comprobando estado de la monitorización de intérpretes de comandos ... ");		
+		boolean enabled = CONFIG.test();
+		if (enabled) {
+	        System.out.println("[Habilitada]");
+		} else {
+	        System.out.println("[Deshabilitada]");
 		}
-		return false;
+		return enabled;
+
 	}
 	
 	public static void enable() {
-		System.out.println("Habilitando monitorización de intérpretes de comandos...");
-		if (SystemUtils.IS_OS_WINDOWS) {
-			enableWindows();
-	        System.out.println("Monitorización habilitada");
-		} else if (SystemUtils.IS_OS_LINUX) {
-			// TODO habilitar monitorizacion en linux
-			System.err.println("Funcionalidad aún no disponible");
-		}
+		System.out.print("Habilitando monitorización de intérpretes de comandos ... ");		
+		CONFIG.enable();
+		System.out.println("[Completado]");		
 	}
 
 	public static void disable() {
-		System.out.println("Deshabilitando monitorización de intérpretes de comandos...");
-		if (SystemUtils.IS_OS_WINDOWS) {
-			disableWindows();
-	        System.out.println("Monitorización deshabilitada");
-		} else if (SystemUtils.IS_OS_LINUX) {
-			// TODO deshabilitar monitorizacion en linux
-			System.err.println("Funcionalidad aún no disponible");
+		System.out.print("Deshabilitando monitorización de intérpretes de comandos ... ");		
+		CONFIG.disable();
+		System.out.println("[Completado]");		
+	}
+	
+	public static void start() {
+		stop();
+		MONITOR = newMonitor();
+		MONITOR.addListener((monitor, data) -> {
+			ExecutedCommand cmd = new ExecutedCommand();
+			cmd.setShell((String) data.get(ShellMonitor.SHELL));
+			cmd.setCommand((String) data.get(ShellMonitor.COMMAND));
+			cmd.setUsername((String) data.get(ShellMonitor.USERNAME));
+			cmd.setTimestamp((LocalDateTime) data.get(ShellMonitor.TIMESTAMP));
+			cmd.setPwd((String) data.get(ShellMonitor.PWD));
+			cmd.setOldPwd((String) data.get(ShellMonitor.OLDPWD));
+			COMMANDS.add(cmd);
+		});
+		MONITOR.start();
+	}
+	
+	public static void stop() {
+		if (MONITOR != null && MONITOR.isAlive()) {
+			MONITOR.requestStop();
 		}
+	}
+
+	public static ListProperty<ExecutedCommand> getExecutedCommands() {
+		return COMMANDS;
 	}
 
 }

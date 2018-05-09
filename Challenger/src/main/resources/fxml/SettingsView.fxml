@@ -8,26 +8,22 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity"
-	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-	xmlns="http://javafx.com/javafx/8.0.111"
-	xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
 	<center>
-		<GridPane hgap="5.0" BorderPane.alignment="CENTER">
+		<GridPane hgap="5.0" vgap="5.0" BorderPane.alignment="CENTER">
 			<columnConstraints>
 				<ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-				<ColumnConstraints halignment="CENTER"
-					hgrow="NEVER" minWidth="10.0" />
+				<ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="10.0" />
 			</columnConstraints>
 			<rowConstraints>
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
-				<Label text="Monitorizar intérpretes de comandos" />
-				<JFXToggleButton
-					fx:id="enableShellMonitoringToggleButton"
-					contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="1" />
+	            <Label text="Sistema operativo:" />
+	            <Label fx:id="osLabel" text="-" GridPane.columnIndex="1" />
+				<Label text="Monitorizar intérpretes de comandos:" GridPane.rowIndex="1" />
+				<JFXToggleButton fx:id="enableShellMonitoringToggleButton" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 			</children>
 		</GridPane>
 	</center>
