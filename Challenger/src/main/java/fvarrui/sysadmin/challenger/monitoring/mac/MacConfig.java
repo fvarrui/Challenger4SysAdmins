@@ -11,15 +11,15 @@ public class MacConfig implements Config {
 	}
 
 	@Override
-	public void enable() {
+	public boolean enable() {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override
-	public void disable() {
+	public boolean disable() {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 }

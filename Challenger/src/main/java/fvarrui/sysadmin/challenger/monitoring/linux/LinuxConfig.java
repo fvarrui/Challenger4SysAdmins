@@ -10,26 +10,15 @@ public class LinuxConfig implements Config {
 	private static final File LINUX_SCRIPT = new File("config/config-linux-monitoring.sh");
 	
 	public boolean test() {
-		System.out.print("Comprobando monitorización de intérpretes de comandos en GNU/Linux ... ");
-		boolean enabled = new BASHScript(LINUX_SCRIPT, "--test").execute().getExitValue() == 0;
-		if (enabled) {
-	        System.out.println("[Habilitada]");
-		} else {
-	        System.out.println("[Deshabilitada]");
-		}
-		return enabled;
+		return new BASHScript(LINUX_SCRIPT, "--test").execute().getExitValue() == 0;
 	}
 	
-	public void enable() {
-		System.out.print("Habilitando monitorización de intérpretes de comandos en GNU/Linux ... ");
-		new BASHScript(true, LINUX_SCRIPT, "--enable").execute();
-		System.out.println("[Completado]");
+	public boolean enable() {
+		return new BASHScript(true, LINUX_SCRIPT, "--enable").execute().getExitValue() == 0;
 	}
 	
-	public void disable() {
-		System.out.print("Deshabilitando monitorización de intérpretes de comandos en GNU/Linux ... ");
-		new BASHScript(true, LINUX_SCRIPT, "--disable").execute();
-		System.out.println("[Completado]");
+	public boolean disable() {
+		return new BASHScript(true, LINUX_SCRIPT, "--disable").execute().getExitValue() == 0;
 	}
 
 }

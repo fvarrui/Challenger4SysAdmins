@@ -2,6 +2,8 @@ package fvarrui.sysadmin.challenger.ui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -23,6 +25,15 @@ public class ChallengerApp extends Application {
 		primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo-32x32.png").toExternalForm()));
 		primaryStage.show();
 		
+	}
+
+	public static void error(String title, String header, String content) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.initOwner(getPrimaryStage());
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.showAndWait();
 	}
 	
 	public static Stage getPrimaryStage() {

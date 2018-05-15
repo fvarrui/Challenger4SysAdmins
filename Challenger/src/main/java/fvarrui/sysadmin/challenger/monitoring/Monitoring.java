@@ -47,16 +47,24 @@ public class Monitoring {
 
 	}
 	
-	public static void enable() {
+	public static boolean enable() {
 		System.out.print("Habilitando monitorización de intérpretes de comandos ... ");		
-		CONFIG.enable();
-		System.out.println("[Completado]");		
+		boolean success = CONFIG.enable();
+		if (success)
+			System.out.println("[Completado]");
+		else
+			System.out.println("[Error]");
+		return success;
 	}
 
-	public static void disable() {
+	public static boolean disable() {
 		System.out.print("Deshabilitando monitorización de intérpretes de comandos ... ");		
-		CONFIG.disable();
-		System.out.println("[Completado]");		
+		boolean success = CONFIG.disable();
+		if (success)
+			System.out.println("[Completado]");
+		else
+			System.out.println("[Error]");
+		return success;
 	}
 	
 	public static void start() {

@@ -9,6 +9,8 @@ import org.controlsfx.control.PopOver.ArrowLocation;
 
 import com.jfoenix.controls.JFXToggleButton;
 
+import fvarrui.sysadmin.challenger.monitoring.Monitoring;
+import fvarrui.sysadmin.challenger.ui.ChallengerApp;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -57,13 +59,32 @@ public class SettingsController implements Initializable {
 		popOver.setHeaderAlwaysVisible(true);
 		popOver.setDetachable(false);
 		popOver.setCornerRadius(2);
-		popOver.setAutoHide(false);
+		popOver.setAutoHide(true);
 		popOver.setAutoFix(false);
 		popOver.setFadeInDuration(Duration.millis(1));
 		popOver.setFadeOutDuration(Duration.millis(1));
 
 		settings.addListener((o, ov, nv) -> onSettingsChanged(ov, nv));
+		
+		enableShellMonitoringToggleButton.setOnAction(e -> onEnableShellMonitoringAction());
 
+	}
+
+	private void onEnableShellMonitoringAction() {
+		boolean value = enableShellMonitoringToggleButton.selectedProperty().get();
+		if (value) {
+			boolean result = Monitoring.enable();
+			if (!result) {
+				enableShellMonitoringToggleButton.selectedProperty().set(!value);				
+				ChallengerApp.error("Challenger", "Habilitar monitorización", "No fue posible habilitar la monitorización de intérpretes de comandos.");
+			}
+		} else {
+			boolean result = Monitoring.disable();
+			if (!result) {
+				enableShellMonitoringToggleButton.selectedProperty().set(!value);				
+				ChallengerApp.error("Challenger", "Deshabilitar monitorización", "No fue posible deshabilitar la monitorización de intérpretes de comandos.");
+			}
+		}
 	}
 
 	private void onSettingsChanged(Settings oldSettings, Settings newSettings) {

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import fvarrui.sysadmin.challenger.common.ui.markdown.MarkdownView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -12,6 +9,9 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ListView?>
 
 <BorderPane fx:id="root" prefHeight="480.0" prefWidth="640.0" styleClass="background" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
 	<top>
@@ -71,24 +71,24 @@
 		</BorderPane>
 	</top>
 	<center>
-		<JFXTabPane BorderPane.alignment="CENTER">
+		<TabPane fx:id="tabPane" BorderPane.alignment="CENTER">
 			<tabs>
-				<Tab text="Reto">
+				<Tab fx:id="challengeTab" text="Reto" closable="false">
 					<content>
-						<MarkdownView fx:id="challengeView" />
+						<WebView fx:id="challengeView" />
 					</content>
 				</Tab>
-				<Tab text="Objetivos">
+				<Tab fx:id="goalsTab" text="Objetivos" closable="false">
 					<content>
 						<SplitPane dividerPositions="0.35">
 							<items>
-								<JFXListView fx:id="goalsList" />
-								<MarkdownView fx:id="goalView" />
+								<ListView fx:id="goalsList" />
+								<WebView fx:id="goalView" />
 							</items>
 						</SplitPane>
 					</content>
 				</Tab>
 			</tabs>
-		</JFXTabPane>
+		</TabPane>
 	</center>
 </BorderPane>

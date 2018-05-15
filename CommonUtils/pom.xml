@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>fvarrui.sysadmin.challenger</groupId>
 		<artifactId>Challenger4SysAdmins</artifactId>
-		<version>0.1.0</version>
+		<version>0.1.1</version>
 	</parent>
 	<artifactId>CommonUtils</artifactId>
 
@@ -19,6 +19,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-all</artifactId>
+			<version>0.32.18</version>
 		</dependency>
 	</dependencies>
 

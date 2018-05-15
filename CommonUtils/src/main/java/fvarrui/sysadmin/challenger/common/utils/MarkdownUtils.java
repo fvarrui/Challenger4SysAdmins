@@ -1,6 +1,11 @@
-package fvarrui.sysadmin.challenger.common.ui.markdown;
+package fvarrui.sysadmin.challenger.common.utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
+
+import org.apache.commons.io.FileUtils;
 
 import com.vladsch.flexmark.ast.Node;
 import com.vladsch.flexmark.ext.abbreviation.AbbreviationExtension;
@@ -21,10 +26,10 @@ public class MarkdownUtils {
 	private static final String TEMPLATE_BEGIN = 
 			"<html>" + "\n" + 
 				"<head>" + "\n" + 
-					"<script type='text/javascript' src='" + MarkdownUtils.class.getResource("/markdown/js/markdown.js") + "'></script>" + "\n" + 
-					"<script type='text/javascript' src='" + MarkdownUtils.class.getResource("/markdown/js/admonition.js") + "'></script>" + "\n" + 
-					"<link rel='stylesheet' href='" + MarkdownUtils.class.getResource("/markdown/css/markdown.css") + "' type='text/css'>" + "\n" + 
-					"<link rel='stylesheet' href='" + MarkdownUtils.class.getResource("/markdown/css/admonition.css") + "' type='text/css'>" + "\n" + 
+					"<script>" + ResourceUtils.readResource("/markdown/js/markdown.js") + "</script>" + "\n" + 
+					"<script>" + ResourceUtils.readResource("/markdown/js/admonition.js") + "</script>" + "\n" + 
+					"<style>" + ResourceUtils.readResource("/markdown/css/markdown.css") + "</style>" + "\n" + 
+					"<style>" + ResourceUtils.readResource("/markdown/css/admonition.css") + "</style>" + "\n" + 
 				"</head>" + "\n" + 
 				"<body>";
 
@@ -49,7 +54,7 @@ public class MarkdownUtils {
 				EmojiExtension.create()
 				)
 			);
-		options.set(EmojiExtension.ROOT_IMAGE_PATH, "" + MarkdownUtils.class.getResource("/markdown/emojis/"));
+		options.set(EmojiExtension.ROOT_IMAGE_PATH, MarkdownUtils.class.getResource("/markdown/emojis/").toString());
 		parser = Parser.builder(options).build();
 		renderer = HtmlRenderer.builder(options).build();
 	}
@@ -57,7 +62,20 @@ public class MarkdownUtils {
 	public static String render(String markdown) {
 		Node document = parser.parse(markdown);
 		String body = renderer.render(document);
-		return TEMPLATE_BEGIN + body + TEMPLATE_END;
+		String html = TEMPLATE_BEGIN + body + TEMPLATE_END;
+		return html;
+	}
+	
+	public static String renderToUrl(String markdown) {
+		try {
+			File temp = File.createTempFile("challenger-", ".html");
+			String html = render(markdown);
+			FileUtils.write(temp, html, Charset.defaultCharset());
+			return temp.toURI().toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

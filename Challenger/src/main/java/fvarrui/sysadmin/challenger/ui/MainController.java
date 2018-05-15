@@ -6,22 +6,23 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.SystemUtils;
+import org.controlsfx.control.Notifications;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
 
-import fvarrui.sysadmin.challenger.common.ui.markdown.MarkdownView;
+import fvarrui.sysadmin.challenger.common.utils.MarkdownUtils;
 import fvarrui.sysadmin.challenger.model.Challenge;
 import fvarrui.sysadmin.challenger.model.Goal;
-import fvarrui.sysadmin.challenger.model.test.ExecutedCommand;
 import fvarrui.sysadmin.challenger.monitoring.Monitoring;
 import fvarrui.sysadmin.challenger.ui.settings.Settings;
 import fvarrui.sysadmin.challenger.ui.settings.SettingsController;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ListChangeListener.Change;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,22 +31,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MainController implements Initializable {
 	
-//	private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-
 	// controllers
 
 	private SettingsController settingsController;
 
 	// model
 
-	private ChallengeTask task;
+	private ChallengeTask challengeTask;
+	
+	private StringProperty challengeDescription = new SimpleStringProperty(this, "challengeDescription");
+	private StringProperty goalDescription = new SimpleStringProperty(this, "goalDescription");
 	
 	private BooleanProperty running = new SimpleBooleanProperty(this, "running", false);
 	private BooleanProperty paused = new SimpleBooleanProperty(this, "paused", false);
@@ -62,10 +68,16 @@ public class MainController implements Initializable {
 	private Label titleLabel;
 
 	@FXML
-	private MarkdownView challengeView, goalView;
+	private WebView challengeView, goalView;
 
 	@FXML
-	private JFXListView<Goal> goalsList;
+	private ListView<Goal> goalsList;
+	
+	@FXML
+	private TabPane tabPane;
+	
+	@FXML
+	private Tab challengeTab, goalsTab;
 
 	@FXML
 	private JFXButton startButton, pauseButton, restartButton, openButton, settingsButton;
@@ -89,59 +101,97 @@ public class MainController implements Initializable {
 		settings.get().setEnableShellMonitoring(Monitoring.test());
 		settings.get().setOs(String.format("%s (%s)", SystemUtils.OS_NAME, SystemUtils.OS_VERSION));
 		
-		settings.get().enableShellMonitoringProperty().addListener((o, ov, nv) -> {
-			if (nv) {
-				Monitoring.enable();
-			} else {
-				Monitoring.disable();
-			}
-		});
-		
 		selectedGoal.bind(goalsList.getSelectionModel().selectedItemProperty());
 		selectedGoal.addListener((o, ov, nv) -> onGoalSelectionChanged(ov, nv));
 
 		challenge.addListener((o, ov, nv) -> onChallengeChanged(ov, nv));
-		challenge.set(TestData.getTest2()); // TODO prbar distintos test codigicados
 		
 		startButton.disableProperty().bind(challenge.isNull().or(running));
 		pauseButton.disableProperty().bind(challenge.isNull().or(running.not()));
 		restartButton.disableProperty().bind(challenge.isNull());
-	
-		Monitoring.getExecutedCommands().addListener((Change<? extends ExecutedCommand> c) -> {
-			while (c.next()) {
-				for (ExecutedCommand cmd : c.getAddedSubList()) {
-					System.out.println("--------------------------> " + cmd.getCommand());
-				}
-			}			
+		
+		goalsList.setCellFactory((ListView<Goal> lv) -> new GoalListCell());
+		
+		challengeDescription.addListener((o, ov, nv) -> {
+			if (nv != null) {
+				System.out.println("nueva descripción de reto");
+				Platform.runLater(() -> challengeView.getEngine().loadContent(MarkdownUtils.render(nv)));
+			}
 		});
 		
+		goalDescription.addListener((o, ov, nv) -> {
+			if (nv != null) {
+				System.out.println("nueva descripción de objetivo");
+				Platform.runLater(() -> goalView.getEngine().loadContent(MarkdownUtils.render(nv)));
+			}
+		});
+		
+		challenge.set(TestData.getDefaultChallenge()); // TODO probar distintos test codificados
 	}
 
 	private void onGoalSelectionChanged(Goal ov, Goal nv) {
 		if (ov != null) {
-			goalView.markdownProperty().unbind();
+			System.out.println("desbindeando objetivo " + ov.getName());
+			goalDescription.unbind();
 		}
 		if (nv != null) {
-			goalView.markdownProperty().bind(nv.descriptionProperty());
+			System.out.println("bindeando objetivo " + nv.getName());
+			goalDescription.bind(nv.descriptionProperty());
 		}
 	}
 
 	private void onChallengeChanged(Challenge ov, Challenge nv) {
 		if (ov != null) {
+			System.out.println("desbindeando challenge " + ov.getName());
+			challengeDescription.unbind();
+			goalDescription.unbind();
 			titleLabel.textProperty().unbind();
-			challengeView.markdownProperty().unbind();
 			goalsList.itemsProperty().unbind();
-			if (task != null && task.isRunning()) {
-				task.stop();
+			if (challengeTask != null && challengeTask.isRunning()) {
+				challengeTask.stop();
 			}
-			task = null;
+			challengeTask = null;
 		}
 		if (nv != null) {
+			System.out.println("bindeando challenge " + nv.getName());
+
+			tabPane.getSelectionModel().select(challengeTab);
+			
+			challengeDescription.bind(nv.descriptionProperty());			
 			titleLabel.textProperty().bind(nv.nameProperty());
-			challengeView.markdownProperty().bind(nv.descriptionProperty());
 			goalsList.itemsProperty().bind(nv.goalsProperty());
 			goalsList.getSelectionModel().selectFirst();
+			
+			// poner listener a los achieved de todos los goals, para mostrar notificación y enfocar el siguiente objetivo
+			for (int i = 0; i < nv.getGoals().size(); i++) {
+				Goal currentGoal = nv.getGoals().get(i);
+				final Goal nextGoal = (i < nv.getGoals().size() - 1) ? nv.getGoals().get(i + 1) : null;
+				currentGoal.achievedProperty().addListener((ob, oldv, newv) -> {
+					if (newv) onGoalAchieved(currentGoal, nextGoal);
+				});
+			}
+			
 		}
+	}
+
+	private void onGoalAchieved(Goal currentGoal, Goal nextGoal) {
+		String message;
+		if (nextGoal != null) {
+			goalsList.getSelectionModel().select(nextGoal);
+			message = "¡Buen trabajo! Has cumplido el objetivo '" + currentGoal.getName() + "'.\nVe al Challenger a consultar tu nuevo objetivo.";
+		} else {
+			goalsList.getSelectionModel().clearSelection();
+			message = "¡Enhorabuena! Has cumplido el último objetivo y has completado el reto";
+		}
+		Platform.runLater(() -> {
+			Notifications
+				.create()
+				.title("Objetivo completado")
+				.text(message)
+				.showInformation();
+			tabPane.getSelectionModel().select(goalsTab);
+			goalsList.requestFocus();
+		});
 	}
 
 	@FXML
@@ -149,23 +199,27 @@ public class MainController implements Initializable {
 		
 		// si se "pausó" el reto, no se retea antes de volver a iniciarlo
 		if (paused.get()) {
+			System.out.println("Reanudando reto");
 			challenge.get().reset();
+		} else {
+			System.out.println("Iniciando reto");
 		}
 		
+		// cambia a la pestaña de objetivos
+		tabPane.getSelectionModel().select(goalsTab);
+		
 		// se crea una tarea para ejecutar el reto en segundo plano
-		task = new ChallengeTask(challenge.get());
+		challengeTask = new ChallengeTask(challenge.get());
 		
 		// se pone un listener al estado de la tarea para cambiar la propiedad "running" y controlar el estado de los botones
-		task.stateProperty().addListener((o, ov, nv) -> {
-			running.set(nv.equals(State.RUNNING));
+		challengeTask.stateProperty().addListener((o, ov, nv) -> {
+			running.set(nv == State.RUNNING);
 		});
 		
-		task.setOnSucceeded(v -> {
+		challengeTask.setOnSucceeded(v -> {
 			Boolean result = (Boolean) v.getSource().getValue();
 
 			if (result) {
-				
-				challenge.get().reset();
 				
 				Alert mensaje = new Alert(AlertType.INFORMATION);
 				mensaje.initOwner(ChallengerApp.getPrimaryStage());
@@ -173,6 +227,8 @@ public class MainController implements Initializable {
 				mensaje.setHeaderText("¡Reto completado!");
 				mensaje.setContentText(String.format("Enhorabuena, has completado el reto '%s'.", challenge.get().getName()));
 				mensaje.showAndWait();
+				
+				challenge.get().reset();
 				
 			}
 			
@@ -182,7 +238,7 @@ public class MainController implements Initializable {
 		paused.set(false);
 		
 		// se lanza la tarea 
-		Thread thread = new Thread(task);
+		Thread thread = new Thread(challengeTask);
 		thread.setDaemon(true); // como demonio, para que finalice la aplicación si éste el único hilo que queda vivo
 		thread.start();
 
@@ -193,7 +249,7 @@ public class MainController implements Initializable {
 	private void onPauseAction(ActionEvent e) {
 		System.out.println("Pausando reto");
 		paused.set(true);
-		task.stop();
+		challengeTask.stop();
 		
 		Monitoring.stop();
 	}
@@ -223,7 +279,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void onSettingsClicked(MouseEvent e) {
-		// se muestar el popup con las opciones
+		// se muestra el popup con las opciones
 		settingsController.showPopOver(settingsButton);
 	}
 

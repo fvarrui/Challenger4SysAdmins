@@ -25,7 +25,7 @@ import javafx.beans.property.StringProperty;
  *
  */
 @XmlType
-@XmlSeeAlso(value = { CommandTest.class, TestGroup.class, NotTest.class })
+@XmlSeeAlso(value = { CommandTest.class, TestGroup.class, NotTest.class, ShellTest.class })
 public abstract class Test {
 
 	private StringProperty name;

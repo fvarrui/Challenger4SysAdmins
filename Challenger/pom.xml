@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>fvarrui.sysadmin.challenger</groupId>
 		<artifactId>Challenger4SysAdmins</artifactId>
-		<version>0.1.0</version>
+		<version>0.1.1</version>
 	</parent>
 	<artifactId>Challenger</artifactId>
 
@@ -111,11 +111,6 @@
 			<groupId>com.jfoenix</groupId>
 			<artifactId>jfoenix</artifactId>
 			<version>8.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>CommonFX</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

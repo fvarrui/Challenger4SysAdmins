@@ -16,6 +16,7 @@ function enable-monitoring() {
 		echo "echo -e \"Este interprete de comandos esta siendo monitorizado por Challenger4SysAdmins\n\"" >> $bashrc
 	fi
 	echo -e "\nProceso completado"
+	exit 0
 }
 
 # Elimina la variable PROMPT_COMMAND de la configuración global de la BASH (afectando a todos los usuarios) 
@@ -31,8 +32,8 @@ function disable-monitoring() {
 	else
 		echo "- La variable PROMPT_COMMAND no existe en $bashrc"
 	fi
-
 	echo -e "\nProceso completado"
+	exit 0
 }
 
 # Comprueba si existe la variable PROMPT_COMMAND en el fichero /etc/bash.bashrc

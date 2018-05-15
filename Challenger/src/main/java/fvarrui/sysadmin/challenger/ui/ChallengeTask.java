@@ -32,7 +32,7 @@ public class ChallengeTask extends Task<Boolean> {
 				Thread.sleep(1000L);
 			}
 			
-			currentGoal.removeSubscription(Monitoring.getExecutedCommands());
+			currentGoal.removeSubscription();
 			
 			goalIndex++;
 		}

@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.StringUtils;
@@ -104,6 +105,7 @@ public class Challenge {
 		return this.achieved.getReadOnlyProperty();
 	}
 
+	@XmlTransient
 	public final boolean isAchieved() {
 		return this.achievedProperty().get();
 	}
@@ -115,18 +117,6 @@ public class Challenge {
 	public boolean verify() {
 		this.achieved.set(goals.stream().allMatch(g -> g.verify()));
 		return isAchieved();
-	}
-
-	/**
-	 * Metodo que se mantine a la escucha de que el reto sea completado correctamente
-	 * @throws InterruptedException si no se pudo empezar el reto
-	 */
-	public void start() throws InterruptedException {
-		do {
-			System.out.println(this.toString(0));
-			Thread.sleep(2000L);
-		} while (!verify());		
-		System.out.println(this.toString(0));
 	}
 
 	public String toString(int spaces) {

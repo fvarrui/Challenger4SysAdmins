@@ -10,6 +10,13 @@ import fvarrui.sysadmin.challenger.model.test.CommandTest;
 import fvarrui.sysadmin.challenger.model.test.ShellTest;
 
 public class TestData {
+
+	public static Challenge getDefaultChallenge() {
+		Challenge reto = new Challenge();
+		reto.setName("Sin reto");
+		reto.setDescription("Pulse el botón de la carpeta para cargar un reto.");
+		return reto;
+	}
 	
 	public static Challenge getTest1() {
 		
@@ -72,7 +79,8 @@ public class TestData {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		getTest1().save(new File("test.challenge"));
+		getTest1().save(new File("challenges/test1.challenge"));
+		getTest2().save(new File("challenges/test2.challenge"));
 	}
 
 }

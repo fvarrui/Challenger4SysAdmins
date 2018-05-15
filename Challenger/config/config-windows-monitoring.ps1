@@ -169,11 +169,14 @@ If ($Disable) {
     Remove-EventSource
     Disable-CmdAudit
     Disable-PSAudit
+    exit 0
 }
 
 If ($Enable) {
     New-EventSource
     Enable-CmdAudit
     Enable-PSAudit
+    exit 0
 }
 
+exit 1

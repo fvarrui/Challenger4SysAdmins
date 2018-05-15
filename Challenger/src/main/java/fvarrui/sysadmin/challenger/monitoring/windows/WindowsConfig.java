@@ -13,12 +13,12 @@ public class WindowsConfig implements Config {
 		return new PSScript(WINDOWS_SCRIPT, "-Test").execute().getExitValue() == 0;
 	}
 	
-	public void enable() {
-		new PSScript(true, WINDOWS_SCRIPT, "-Enable").execute();
+	public boolean enable() {
+		return new PSScript(true, WINDOWS_SCRIPT, "-Enable").execute().getExitValue() == 0;
 	}
 	
-	public void disable() {
-		new PSScript(true, WINDOWS_SCRIPT, "-Disable").execute();
+	public boolean disable() {
+		return new PSScript(true, WINDOWS_SCRIPT, "-Disable").execute().getExitValue() == 0;
 	}
 
 }

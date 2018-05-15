@@ -15,6 +15,7 @@ import fvarrui.sysadmin.challenger.model.test.ExecutedCommand;
 import fvarrui.sysadmin.challenger.model.test.ShellTest;
 import fvarrui.sysadmin.challenger.model.test.Test;
 import fvarrui.sysadmin.challenger.model.test.TestGroup;
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -37,6 +38,7 @@ public class Goal {
 	
 	private ListChangeListener<ExecutedCommand> listener;
 	private List<Test> shellTests;
+	private ListProperty<ExecutedCommand> executedCommands;
 
 	private StringProperty name;
 	private StringProperty description;
@@ -167,23 +169,25 @@ public class Goal {
 	}
 
 	public void subscribeTo(ListProperty<ExecutedCommand> executedCommands) {
-		shellTests = getTestByClass(ShellTest.class);
-		listener = (Change<? extends ExecutedCommand> c) -> {
+		this.executedCommands = executedCommands;
+		this.shellTests = getTestByClass(ShellTest.class);
+		this.listener = (Change<? extends ExecutedCommand> c) -> {
 			while (c.next()) {
 				for (ExecutedCommand cmd : c.getAddedSubList()) {
 					notifyAllTests(cmd);
 				}
 			}
 		};
-		executedCommands.addListener(listener);
+		this.executedCommands.addListener(listener);
 	}
 	
 	private void notifyAllTests(ExecutedCommand cmd) {
-		shellTests.stream().forEach(t -> ((ShellTest) t).notify(cmd));
+		Platform.runLater(() -> this.shellTests.stream().forEach(t -> ((ShellTest) t).commandExecuted(cmd)));
 	}
 
-	public void removeSubscription(ListProperty<ExecutedCommand> executedCommands) {
+	public void removeSubscription() {
 		executedCommands.removeListener(listener);
+		executedCommands = null;
 	}
 
 }

@@ -3,7 +3,7 @@ package fvarrui.sysadmin.challenger.monitoring;
 public interface Config {
 	
 	public boolean test();
-	public void enable();
-	public void disable();
+	public boolean enable();
+	public boolean disable();
 
 }
