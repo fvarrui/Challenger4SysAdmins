@@ -1,4 +1,4 @@
-package fvarrui.sysadmin.challenger.ui;
+package fvarrui.sysadmin.challenger.ui.challenge;
 
 import fvarrui.sysadmin.challenger.model.Challenge;
 import fvarrui.sysadmin.challenger.model.Goal;

@@ -1,5 +1,5 @@
 .title {
-	-fx-font-size: 13pt;	
+	-fx-font-size: 18pt;	
 	-fx-font-weight: bold;
 }
 .background {
@@ -12,13 +12,12 @@
 	-fx-padding: 0px 1px 0px 0px;
 }
 
-
 .tab-pane {
 	-fx-padding: 0px;
 }
 
 .tab-pane *.tab-header-area *.tab-header-background {
-  -fx-background-color: black;
+  -fx-background-color: #202340;
 }
 
 .tab .tab-label {
@@ -32,6 +31,8 @@
 	-fx-background-color: transparent;
 	-fx-background-insets: 0.0;
 	-fx-background-radius: 0.0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .tab:selected .tab-label {
@@ -41,10 +42,14 @@
 .tab:selected {
 	-fx-background-color: white;
 	-fx-border-width: 4px 0px 0px 0px; 	
-	-fx-border-color: lightgreen  ;	
+	-fx-border-color: #0a84ff;	
 }
-			
-.tab-pane:focused *.control-buttons-tab {
-	-fx-background-color: red;	
+
+#openButton #folderIcon {
+	-glyph-name: "FOLDER"; 
+}
+
+#openButton:hover #folderIcon {
+	-glyph-name: "FOLDER_OPEN"; 
 }
 

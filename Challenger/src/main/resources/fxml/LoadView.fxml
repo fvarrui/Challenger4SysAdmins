@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="root" prefHeight="480.0" prefWidth="640.0" styleClass="background" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<center>
+				<VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
+					<children>
+						<Label styleClass="title" text="Challenger4SysAdmins" />
+						<JFXButton fx:id="openButton" contentDisplay="GRAPHIC_ONLY" onAction="#onOpenAction">
+							<graphic>
+								<FontAwesomeIconView fx:id="folderIcon" glyphName="FOLDER" size="64" />
+							</graphic>
+						</JFXButton>
+						<Label text="Pulsa sobre la carpeta para comenzar tu reto." />
+					</children>
+				</VBox>
+			</center>
+		</BorderPane>
+		<HBox alignment="TOP_RIGHT" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+			<children>
+				<JFXButton fx:id="settingsButton" contentDisplay="GRAPHIC_ONLY" onAction="#onSettingsAction" ripplerFill="BLACK">
+					<tooltip>
+						<Tooltip text="Configuración" />
+					</tooltip>
+					<graphic>
+						<FontAwesomeIconView glyphName="GEAR" size="24" />
+					</graphic>
+				</JFXButton>
+			</children>
+		</HBox>
+	</children>
+</AnchorPane>

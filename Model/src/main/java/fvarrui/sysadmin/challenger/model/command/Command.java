@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -119,15 +120,19 @@ public class Command {
 		
 		try {
 
-			result.setExecutionTime(LocalDateTime.now());
-
 			final Chronometer chrono = new Chronometer();
+
+			result.setExecutionTime(LocalDateTime.now());
+			
+			Map<String, Object> fullData = new HashMap<>();
+			fullData.putAll(System.getenv());
+			fullData.putAll(data);
 			
 			CommandLine cmdLine = new CommandLine(getExecutable());
 			for (String argument : getArguments()) {
 				cmdLine.addArgument(argument, false);
 			}
-			cmdLine.setSubstitutionMap(data);
+			cmdLine.setSubstitutionMap(fullData);
 			
 			result.setParams(StringUtils.join(cmdLine.getArguments(), " "));
 			result.setExecutedCommand(cmdLine.getExecutable() + " " + result.getParams());

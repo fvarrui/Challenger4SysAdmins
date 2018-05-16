@@ -4,7 +4,7 @@ import fvarrui.sysadmin.challenger.monitoring.Monitor;
 import fvarrui.sysadmin.challenger.monitoring.ShellMonitor;
 import fvarrui.sysadmin.challenger.monitoring.windows.WindowsShellMonitor;
 
-public class Main {
+public class ShellMonitoringTest {
 
 	private static void test() throws Exception {
 		

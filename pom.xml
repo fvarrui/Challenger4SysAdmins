@@ -5,7 +5,7 @@
 	
 	<groupId>fvarrui.sysadmin.challenger</groupId>
 	<artifactId>Challenger4SysAdmins</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<packaging>pom</packaging>
 
 	<organization>
